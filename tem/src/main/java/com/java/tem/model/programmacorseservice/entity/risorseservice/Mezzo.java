@@ -1,8 +1,14 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.java.tem.model.programmacorseservice.entity.Corsa;
 
 @Entity
 @Table(name = "Mezzo")
@@ -13,6 +19,15 @@ public class Mezzo extends Risorsa {
 	private int capienza;
 	private String tipo;
 	
+	@ManyToMany(mappedBy = "mezzi")
+	private Set<Corsa> corse = new HashSet<>();
+	
+	public Set<Corsa> getCorse() {
+		return corse;
+	}
+	public void setCorse(Set<Corsa> corse) {
+		this.corse = corse;
+	}
 	public long getId() {
 		return id;
 	}
