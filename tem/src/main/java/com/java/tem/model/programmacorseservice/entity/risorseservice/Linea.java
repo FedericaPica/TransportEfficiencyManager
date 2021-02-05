@@ -14,13 +14,13 @@ import com.java.tem.model.programmacorseservice.entity.Corsa;
 public class Linea extends Risorsa {
 	
 	@Id
-	private long id;
+	private Long id;
 	
 	private String nome;
 	private String partenza;
 	private String destinazione;
 	
-	@OneToMany(mappedBy = "corsa")
+	@OneToMany(mappedBy = "linea")
 	private Set<Corsa> corse;
 	
 	public long getId() {

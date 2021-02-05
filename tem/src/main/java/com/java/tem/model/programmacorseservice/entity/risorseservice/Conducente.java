@@ -15,7 +15,7 @@ import com.java.tem.model.programmacorseservice.entity.Corsa;
 public class Conducente extends Risorsa {
 	
 	@Id
-	private long id;
+	private Long id;
 	
 	private String nome;
 	private String cognome;

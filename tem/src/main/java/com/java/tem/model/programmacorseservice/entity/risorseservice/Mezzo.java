@@ -14,7 +14,7 @@ import com.java.tem.model.programmacorseservice.entity.Corsa;
 @Table(name = "Mezzo")
 public class Mezzo extends Risorsa {
 	@Id
-	private long id;
+	private Long id;
 	private String targa;
 	private int capienza;
 	private String tipo;
