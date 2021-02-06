@@ -2,7 +2,6 @@ package com.java.tem;
 
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
     
-   @Bean
+  @Bean
    public DaoAuthenticationProvider authenticationProvider() {
-       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
        authProvider.setUserDetailsService(userDetailsService());
        authProvider.setPasswordEncoder(passwordEncoder());
         
