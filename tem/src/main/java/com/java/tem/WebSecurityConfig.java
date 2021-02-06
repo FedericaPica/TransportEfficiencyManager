@@ -26,12 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
    public UserDetailsService userDetailsService() {
     return new AccountService();
-   }
+  }
     
-   @Bean
+  @Bean
    public BCryptPasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder();
-   }
+    return new BCryptPasswordEncoder();
+  }
     
    @Bean
    public DaoAuthenticationProvider authenticationProvider() {
