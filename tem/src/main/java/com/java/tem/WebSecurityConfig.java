@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    private DataSource dataSource;
     
   @Bean
-   public UserDetailsService userDetailsService() {
+  public UserDetailsService userDetailsService() {
     return new AccountService();
   }
     
@@ -30,7 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
     
+  /** Returns the authentication provider.
+
+   * @return authProvider: DaoAuthenticationProvider
+   */
   @Bean
+  
    public DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
     authProvider.setUserDetailsService(userDetailsService());
