@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+@Component
 public class AccountService implements UserDetailsService {
 
   @Autowired
@@ -21,4 +23,9 @@ public class AccountService implements UserDetailsService {
 	        return new CustomUserDetails(user, user.getProfilo(), user.getDettaglio());
 	    }
 	 
+	    public Utente getUserByUsername(String usernameString) throws UsernameNotFoundException {
+	    	Utente user = userRepo.findByEmail(usernameString);
+	    	return user;
+	    	
+	    }
 }

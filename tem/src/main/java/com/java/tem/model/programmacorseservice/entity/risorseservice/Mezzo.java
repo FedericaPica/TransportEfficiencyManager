@@ -1,11 +1,14 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
+import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -20,8 +23,20 @@ public class Mezzo extends Risorsa {
 
   @ManyToMany(mappedBy = "mezzi")
   private Set<Corsa> corse = new HashSet<>();
+  
+  @ManyToOne
+  @JoinColumn(name = "azienda_id", nullable = false)
+  private Utente azienda;
 
-  public Set<Corsa> getCorse() {
+  public Utente getAzienda() {
+	return azienda;
+}
+
+public void setAzienda(Utente azienda) {
+	this.azienda = azienda;
+}
+
+public Set<Corsa> getCorse() {
     return corse;
   }
   

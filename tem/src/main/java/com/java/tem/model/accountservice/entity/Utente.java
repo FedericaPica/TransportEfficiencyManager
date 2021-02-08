@@ -1,5 +1,7 @@
 package com.java.tem.model.accountservice.entity;
  
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
+
+import antlr.collections.List;
 
 @Entity
 @Table(name = "azienda")
@@ -36,6 +45,40 @@ public class Utente {
 	@JoinColumn(name = "id_dettaglio", referencedColumnName = "id")
 	private DettaglioUtente dettaglio;
 	
+	@OneToMany(mappedBy = "azienda")
+	private Set<Conducente> conducenti;
+	
+	@OneToMany(mappedBy = "azienda")
+	private Set<Mezzo> mezzi;
+	
+	@OneToMany(mappedBy = "azienda")
+	private Set<Linea> linee;
+	
+	
+	public Set<Conducente> getConducenti() {
+		return conducenti;
+	}
+
+	public void setConducenti(Set<Conducente> conducenti) {
+		this.conducenti = conducenti;
+	}
+
+	public Set<Mezzo> getMezzi() {
+		return mezzi;
+	}
+
+	public void setMezzi(Set<Mezzo> mezzi) {
+		this.mezzi = mezzi;
+	}
+
+	public Set<Linea> getLinee() {
+		return linee;
+	}
+
+	public void setLinee(Set<Linea> linee) {
+		this.linee = linee;
+	}
+
 	public Profilo getProfilo() {
 		return profilo;
 	}

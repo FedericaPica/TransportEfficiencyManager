@@ -1,9 +1,12 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
+import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,8 +22,28 @@ public class Linea extends Risorsa {
   
   @OneToMany(mappedBy = "linea")
   private Set<Corsa> corse;
+
+  @ManyToOne
+  @JoinColumn(name = "azienda_id", nullable = false)
+  private Utente azienda;
   
-  public long getId() {
+  public Set<Corsa> getCorse() {
+	return corse;
+}
+
+public void setCorse(Set<Corsa> corse) {
+	this.corse = corse;
+}
+
+public Utente getAzienda() {
+	return azienda;
+}
+
+public void setAzienda(Utente azienda) {
+	this.azienda = azienda;
+}
+
+public long getId() {
     return id;
   }
   

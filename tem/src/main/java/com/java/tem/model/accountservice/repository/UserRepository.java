@@ -8,6 +8,6 @@ import com.java.tem.model.accountservice.entity.Utente;
 
 @Repository
 public interface UserRepository extends JpaRepository<Utente, Long> {
-	  @Query("SELECT u FROM Utente u WHERE u.email = ?1")
-	    public Utente findByEmail(String email);
+  @Query("SELECT u FROM Utente u WHERE u.email = ?1")
+  public Utente findByEmail(String email);
 }
