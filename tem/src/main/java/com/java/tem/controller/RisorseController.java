@@ -8,9 +8,7 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Risorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
-
 import javax.lang.model.element.ModuleElement;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,54 +30,53 @@ public class RisorseController<T> {
 
   @GetMapping("/risorse")
   public String homeRisorse() {
-	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	if (!(authentication instanceof AnonymousAuthenticationToken))
-	      return "risorse/risorse-index";
-
-	  return "errors/login-required.html";
-    
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      return "risorse/risorse-index";
+    }
+    return "errors/login-required.html";
+     
   }
-  
   @GetMapping("/risorse/add/conducente")
   public String addConducente(Model model) {
-	  model.addAttribute("conducente", new Conducente());
-	  return "risorse/insert-conducente";
+    model.addAttribute("conducente", new Conducente());
+    return "risorse/insert-conducente";
   }
   
   @GetMapping("/risorse/add/mezzo")
   public String addMezzo(Model model) {
-	  model.addAttribute("mezzo", new Mezzo());
-	  return "risorse/insert-mezzo";
+    model.addAttribute("mezzo", new Mezzo());
+    return "risorse/insert-mezzo";
   }
   
   @GetMapping("/risorse/add/linea")
   public String addLinea(Model model) {
-	  model.addAttribute("linea", new Linea());
-	  return "risorse/insert-linea";
+    model.addAttribute("linea", new Linea());
+    return "risorse/insert-linea";
   }
   
   
   @PostMapping("/risorse/submit")
   public String processConducente(T model) {
-	  if(AccountUtilities.isAuthenticated()) {
-		  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	      String currentUserName = authentication.getName();
-	      Utente utente = accountService.getUserByUsername(currentUserName);
+    if (AccountUtilities.isAuthenticated()) {
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      String currentUserName = authentication.getName();
+      Utente utente = accountService.getUserByUsername(currentUserName);
 
-		  if(model instanceof Mezzo) {
-			  Mezzo mezzo = (Mezzo) model;
-			  // risorseService.addMezzo(mezzo);
-		  } else if(model instanceof Linea) {
-			  Linea linea = (Linea) model;
-			  // risorseService.addLinea(linea);
-		  } else {
-			  Conducente conducente = (Conducente) model;
-			  conducente.setAzienda(utente);
-			  risorseService.addConducente(conducente);
-		  }
-		  return "insert-success";
-	  }
-	  return "error/login-required";
+      if (model instanceof Mezzo) {
+        Mezzo mezzo = (Mezzo) model;
+        // risorseService.addMezzo(mezzo);
+      } else if (model instanceof Linea) {
+        Linea linea = (Linea) model;
+        // risorseService.addLinea(linea);
+      } else {
+        Conducente conducente = (Conducente) model;
+        conducente.setAzienda(utente);
+        risorseService.addConducente(conducente);
+      }
+      return "insert-success";
+    }
+    return "error/login-required";
   }
   
   /*@GetMapping("/risorsa/conducente/edit/{id}")
