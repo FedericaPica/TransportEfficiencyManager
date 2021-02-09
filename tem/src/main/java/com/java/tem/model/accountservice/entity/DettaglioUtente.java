@@ -11,104 +11,104 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Dettaglio_Utente")
 public class DettaglioUtente {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "denominazione", nullable = false, length = 20)
-	private String denominazione;
-	
-	@Column(name = "partitaIVA", nullable = false, length = 11)
-	private String partitaIVA;
 
-	@Column(name = "telefono", nullable = false, length = 10)
-	private String telefono;
-	
-	@Column(name = "fax", nullable = false, length = 10)
-	private String fax;
-	
-	@Column(name = "indirizzo", nullable = false, length = 25)
-	private String indirizzo;
-	
-	@Column(name = "cap", nullable = false, length = 10)
-	private String cap;
-	
-	@Column(name = "citta", nullable = false, length = 30)
-	private String citta;
-	
-	@OneToOne(mappedBy = "dettaglio")
-	private Utente utente;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	public Long getId() {
-		return id;
-	}
+  @Column(name = "denominazione", nullable = false, length = 20)
+  private String denominazione;
+ 
+  @Column(name = "partitaIVA", nullable = false, length = 11)
+  private String partitaIVA;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  @Column(name = "telefono", nullable = false, length = 10)
+  private String telefono;
 
-	public String getDenominazione() {
-		return denominazione;
-	}
+  @Column(name = "fax", nullable = false, length = 10)
+  private String fax;
 
-	public void setDenominazione(String denominazione) {
-		this.denominazione = denominazione;
-	}
+  @Column(name = "indirizzo", nullable = false, length = 25)
+  private String indirizzo;
 
-	public String getPartitaIVA() {
-		return partitaIVA;
-	}
+  @Column(name = "cap", nullable = false, length = 10)
+  private String cap;
 
-	public void setPartitaIVA(String partitaIVA) {
-		this.partitaIVA = partitaIVA;
-	}
+  @Column(name = "citta", nullable = false, length = 30)
+  private String citta;
 
-	public String getTelefono() {
-		return telefono;
-	}
+  @OneToOne(mappedBy = "dettaglio")
+  private Utente utente;
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public String getFax() {
-		return fax;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
+  public String getDenominazione() {
+    return denominazione;
+  }
 
-	public String getIndirizzo() {
-		return indirizzo;
-	}
+  public void setDenominazione(String denominazione) {
+    this.denominazione = denominazione;
+  }
 
-	public void setIndirizzo(String indirizzo) {
-		this.indirizzo = indirizzo;
-	}
+  public String getPartitaIVA() {
+    return partitaIVA;
+  }
 
-	public String getCap() {
-		return cap;
-	}
+  public void setPartitaIVA(String partitaIVA) {
+    this.partitaIVA = partitaIVA;
+  }
 
-	public void setCap(String cap) {
-		this.cap = cap;
-	}
+  public String getTelefono() {
+    return telefono;
+  }
 
-	public String getCitta() {
-		return citta;
-	}
+  public void setTelefono(String telefono) {
+    this.telefono = telefono;
+  }
 
-	public void setCitta(String citta) {
-		this.citta = citta;
-	}
+  public String getFax() {
+    return fax;
+  }
 
-	public Utente getUtente() {
-		return utente;
-	}
+  public void setFax(String fax) {
+    this.fax = fax;
+  }
 
-	public void setUtente(Utente utente) {
-		this.utente = utente;
-	}
+  public String getIndirizzo() {
+    return indirizzo;
+  }
+
+  public void setIndirizzo(String indirizzo) {
+    this.indirizzo = indirizzo;
+  }
+  
+  public String getCap() {
+    return cap;
+  }
+
+  public void setCap(String cap) {
+    this.cap = cap;
+  }
+
+  public String getCitta() {
+    return citta;
+  }
+
+  public void setCitta(String citta) {
+    this.citta = citta;
+  }
+
+  public Utente getUtente() {
+    return utente;
+  }
+
+  public void setUtente(Utente utente) {
+    this.utente = utente;
+  }
 }
