@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public final class AccountUtilities {
-	public AccountUtilities() {
+  public AccountUtilities() {
 		
-	}
+  }
 	
 	// Deprecated in favour of Authentication.isAuthenticated()
 	public static Boolean isAuthenticated() {
