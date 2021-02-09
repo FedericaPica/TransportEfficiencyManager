@@ -29,14 +29,14 @@ public class Mezzo extends Risorsa {
   private Utente azienda;
 
   public Utente getAzienda() {
-	return azienda;
-}
+    return azienda;
+  }
 
-public void setAzienda(Utente azienda) {
-	this.azienda = azienda;
-}
+  public void setAzienda(Utente azienda) {
+    this.azienda = azienda;
+  }
 
-public Set<Corsa> getCorse() {
+  public Set<Corsa> getCorse() {
     return corse;
   }
   
