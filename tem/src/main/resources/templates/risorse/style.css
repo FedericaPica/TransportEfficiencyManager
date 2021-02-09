@@ -1,7 +1,7 @@
 body {
   background-color: rgb(63, 63, 63);
   font-family: sans-serif;
-  color: white; 
+  color: blue; 
 }
 
 a:link {
@@ -198,69 +198,4 @@ img {
 		width: 100%;
 		text-align: center;
 	}
-	
-	.id::before {
-		content: "ID: ";
-	}
-	
-	.nome::before {
-		content: "Nome: ";
-	}
-	
-	.descrizione::before {
-		content: "Descrizione: ";
-	}
-	
-	.iva::before {
-		content: "IVA: ";
-	}
-	
-	.prezzo::before {
-		content: "Prezzo: ";
-	}
-	
-	.quantita::before {
-		content: "Quantità: "
-	}
-	
-	.importo::before {
-		content:"Importo: "	
-	}
-	
-	.via::before {
-		content: "Via: ";
-	}
-	
-	.citta::before {
-		content: "Città: ";
-	}
-	
-	.cap::before {
-		content: "CAP: ";
-	}
-	
-	.civico::before {
-		content: "Numero Civico: ";
-	}
-	
-	.provincia::before {
-		content: "Provincia: ";
-	}
-	
-	.data::before {
-		content: "Data: ";
-	}
-	
-	.prodotto::before {
-		content: "ID Prodotto: ";
-	}
-	
-	.utente::before {
-		content: "ID Utente: ";
-	}
-	
-	.categoria::before {
-		content: "Categoria: ";
-	}
-	
 }
