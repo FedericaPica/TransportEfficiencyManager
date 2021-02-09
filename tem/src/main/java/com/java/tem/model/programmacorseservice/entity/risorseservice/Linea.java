@@ -28,22 +28,22 @@ public class Linea extends Risorsa {
   private Utente azienda;
   
   public Set<Corsa> getCorse() {
-	return corse;
-}
+    return corse;
+  }
 
-public void setCorse(Set<Corsa> corse) {
-	this.corse = corse;
-}
+  public void setCorse(Set<Corsa> corse) {
+    this.corse = corse;
+  }
 
-public Utente getAzienda() {
-	return azienda;
-}
+  public Utente getAzienda() {
+    return azienda;
+  }
 
-public void setAzienda(Utente azienda) {
-	this.azienda = azienda;
-}
+  public void setAzienda(Utente azienda) {
+    this.azienda = azienda;
+  }
 
-public long getId() {
+  public long getId() {
     return id;
   }
   

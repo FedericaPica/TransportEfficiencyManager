@@ -3,8 +3,6 @@ package com.java.tem.model.programmacorseservice.entity.risorseservice;
 import com.java.tem.model.programmacorseservice.repository.ConducenteRepository;
 import com.java.tem.model.programmacorseservice.repository.LineaRepository;
 import com.java.tem.model.programmacorseservice.repository.MezzoRepository;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,14 +23,13 @@ public class RisorseService<T>  {
   }
   
   public void addRisorsa(T risorsa) {
-	  
-	  if(risorsa instanceof Mezzo) {
-		  mezzoRepository.save((Mezzo) risorsa);
-	  } else if(risorsa instanceof Linea) {
-		  lineaRepository.save((Linea) risorsa);
-	  } else {
-		  conducenteRepository.save((Conducente) risorsa);
-	  }
+    if (risorsa instanceof Mezzo) {
+      mezzoRepository.save((Mezzo) risorsa);
+    } else if (risorsa instanceof Linea) {
+      lineaRepository.save((Linea) risorsa);
+    } else {
+      conducenteRepository.save((Conducente) risorsa);
+    }
   }
   
   public void addMezzo(Mezzo mezzo) {
