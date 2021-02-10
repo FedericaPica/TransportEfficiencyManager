@@ -1,22 +1,23 @@
 body {
-  background-color: #808080;
+  background-color: #ffffff;
   font-family: sans-serif;
   color: blue; 
 }
 
 a:link {
-	color: #7FFFD0;
+	color: #21abcd;
 }
 
 a:visited {
-	color: #7FFFD0;
+	color: #cc0000;
 }
 
 h1 {
-  color: white;
+  color: #007fff;
   margin-top: 20px;
   padding: 0;
 }
+
 table {
 	border: thick; 
 }
@@ -125,20 +126,6 @@ img {
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
-}
-
-#nuovaRecensione {
-	padding: 1%;
-	border: double;
-	border-radius: 5px;
-}
-
-#commento {
-	margin: 1%;
-}
-
-#hello {
-	color: #008B8B;
 }
 
 .footer { 
