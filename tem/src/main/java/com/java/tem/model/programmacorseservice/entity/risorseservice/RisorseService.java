@@ -55,6 +55,41 @@ public class RisorseService<T>  {
     return conducenti;
   }
   
+  
+  public Optional<Conducente> getConducente(Long id) {
+    return conducenteRepository.findById(id);
+  }
+
+  /** Simply returns a list of Linea elements.
+
+   * @return linee  List set of linea. 
+   *
+   */
+  public List<Linea> getLinea() {
+    List<Linea> linee = new ArrayList<Linea>();
+    lineaRepository.findAll().forEach(linee::add);
+    return linee;
+  }
+  
+  public Optional<Linea> getLinea(Long id) {
+    return lineaRepository.findById(id);
+  }
+ 
+  /** Simply returns a list of Mezzo elements.
+
+   * @return mezzi  List set of mezzo. 
+   *
+   */
+  public List<Mezzo> getMezzo() {
+    List<Mezzo> mezzi = new ArrayList<Mezzo>();
+    mezzoRepository.findAll().forEach(mezzi::add);
+    return mezzi;
+  }
+
+  public Optional<Mezzo> getMezzo(Long id) {
+    return mezzoRepository.findById(id);
+  }
+  
   public void updateMezzo(Mezzo mezzo) {
     mezzoRepository.save(mezzo);
   }
@@ -65,18 +100,6 @@ public class RisorseService<T>  {
   
   public void updateConducente(Conducente conducente) {
     conducenteRepository.save(conducente);
-  }
-  
-  public Optional<Mezzo> getMezzo(Long id) {
-    return mezzoRepository.findById(id);
-  }
-  
-  public Optional<Linea> getLinea(Long id) {
-    return lineaRepository.findById(id);
-  }
-  
-  public Optional<Conducente> getConducente(Long id) {
-    return conducenteRepository.findById(id);
   }
   
   public void deleteMezzo(Mezzo mezzo) {

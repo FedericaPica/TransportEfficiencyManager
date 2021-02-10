@@ -1,6 +1,7 @@
 package com.java.tem.model.accountservice.entity;
  
 import antlr.collections.List;
+import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
@@ -16,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "azienda")
@@ -51,6 +51,9 @@ public class Utente {
 
   @OneToMany(mappedBy = "azienda")
   private Set<Linea> linee;
+  
+  @OneToMany(mappedBy = "azienda")
+  private Set<DatiCorsa> datiCorse;
 
 
   public Set<Conducente> getConducenti() {
