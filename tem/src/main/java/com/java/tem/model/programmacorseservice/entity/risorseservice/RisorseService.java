@@ -6,11 +6,13 @@ import com.java.tem.model.programmacorseservice.repository.MezzoRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.aspectj.weaver.patterns.IfPointcut.IfFalsePointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RisorseService<T>  {
+public class RisorseService  {
   @Autowired
   ConducenteRepository conducenteRepository;
   @Autowired
@@ -22,21 +24,13 @@ public class RisorseService<T>  {
   
   }
   
-  public void addRisorsa(T risorsa) {
-    if (risorsa instanceof Mezzo) {
-      mezzoRepository.save((Mezzo) risorsa);
-    } else if (risorsa instanceof Linea) {
-      lineaRepository.save((Linea) risorsa);
-    } else {
-      conducenteRepository.save((Conducente) risorsa);
-    }
-  }
-  
   public void addMezzo(Mezzo mezzo) {
     mezzoRepository.save(mezzo);
   }
  
-  public void addConducente(Conducente conducente) {
+  public void addConducente(Conducente conducente) throws Exception {
+	  if (conducente.getCodiceFiscale().length() != 16)
+		  throw new Exception(); // ToDo
     conducenteRepository.save(conducente);
   }
   
@@ -113,4 +107,5 @@ public class RisorseService<T>  {
   public void deleteConducente(Conducente conducente) {
     conducenteRepository.delete(conducente);
   }
+  
 }

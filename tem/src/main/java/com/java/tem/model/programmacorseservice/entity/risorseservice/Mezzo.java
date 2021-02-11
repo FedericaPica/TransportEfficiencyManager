@@ -5,6 +5,8 @@ import com.java.tem.model.programmacorseservice.entity.Corsa;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -16,6 +18,7 @@ import javax.persistence.Table;
 @Table(name = "Mezzo")
 public class Mezzo extends Risorsa {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String targa;
   private int capienza;
@@ -44,11 +47,11 @@ public class Mezzo extends Risorsa {
     this.corse = corse;
   }
   
-  public long getId() {
+  public Long getId() {
     return id;
   }
   
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
   

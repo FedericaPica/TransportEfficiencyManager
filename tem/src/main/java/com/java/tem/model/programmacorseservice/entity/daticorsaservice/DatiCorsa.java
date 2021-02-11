@@ -3,6 +3,8 @@ package com.java.tem.model.programmacorseservice.entity.daticorsaservice;
 import com.java.tem.model.accountservice.entity.Utente;
 import java.sql.Time;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 public class DatiCorsa {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String lineaCorsa;
   private Time orarioCorsa;
@@ -25,7 +28,15 @@ public class DatiCorsa {
   @JoinColumn(name = "azienda_id", nullable = false)
   private Utente azienda;
   
-  public String getLineaCorsa() {
+  public Utente getAzienda() {
+	return azienda;
+}
+
+public void setAzienda(Utente azienda) {
+	this.azienda = azienda;
+}
+
+public String getLineaCorsa() {
     return lineaCorsa;
   }
   

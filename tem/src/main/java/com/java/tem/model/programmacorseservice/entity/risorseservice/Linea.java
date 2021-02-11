@@ -4,17 +4,23 @@ import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name = "Linea")
+@DynamicUpdate
 public class Linea extends Risorsa {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String nome;
   private String partenza;
@@ -43,7 +49,7 @@ public class Linea extends Risorsa {
     this.azienda = azienda;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
   
