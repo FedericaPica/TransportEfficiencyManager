@@ -6,6 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Update User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
@@ -16,7 +17,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="col-md-8">
-                    <form action="#" th:action="@{/risorse/update/mezzo/{id}(id=${mezzo.id})}" th:object="${mezzo}" method="post">
+                    <form action="#" th:action="@{/risorse/submit/mezzo}" th:object="${mezzo}" method="post">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="capienza" class="col-form-label">Capienza</label> <input type="number" th:field="${mezzo.capienza}" class="form-control" id="capienza" placeholder="Capienza"> <span th:if="${#fields.hasErrors('capienza')}" th:errors="*{capienza}" class="text-danger"></span>

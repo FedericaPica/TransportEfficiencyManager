@@ -40,9 +40,9 @@ public class RisorseController {
   public String homeRisorse() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (!(authentication instanceof AnonymousAuthenticationToken)) {
-      return "risorse/risorse-index";
+      return "risorse-index";
     }
-    return "errors/login-required.html";
+    return "login-required";
      
   }
   @GetMapping("/risorse/add/conducente")
@@ -50,19 +50,19 @@ public class RisorseController {
     model.addAttribute("conducente", new Conducente());
     String method = "/risorse/submit/conducente";
     model.addAttribute("method", method);
-    return "risorse/insert-conducente";
+    return "insert-conducente";
   }
   
   @GetMapping("/risorse/add/mezzo")
   public String addMezzo(Model model) {
     model.addAttribute("mezzo", new Mezzo());
-    return "risorse/insert-mezzo";
+    return "insert-mezzo";
   }
   
   @GetMapping("/risorse/add/linea")
   public String addLinea(Model model) {
     model.addAttribute("linea", new Linea());
-    return "risorse/insert-linea";
+    return "insert-linea";
   }
   
   
@@ -81,7 +81,7 @@ public class RisorseController {
 
       return "insert-success";
     }
-    return "errors/login-required";
+    return "login-required";
   }
   
   @PostMapping("/risorse/submit/linea")
@@ -95,7 +95,7 @@ public class RisorseController {
 
       return "insert-success";
     }
-    return "errors/login-required";
+    return "login-required";
   }
   
   @PostMapping("/risorse/submit/mezzo")
@@ -109,7 +109,7 @@ public class RisorseController {
 
       return "insert-success";
     }
-    return "errors/login-required";
+    return "login-required";
   }
   
   @GetMapping("/risorse/conducente/edit/{id}")
@@ -121,7 +121,7 @@ public class RisorseController {
           .orElseThrow(() -> new IllegalArgumentException("Invalid Conducente Id:" + id));
       
     model.addAttribute("conducente", conducente);
-    return "risorse/edit-conducente";
+    return "edit-conducente";
   }
   
   @GetMapping("/risorse/linea/edit/{id}")
@@ -132,7 +132,7 @@ public class RisorseController {
           .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
       
     model.addAttribute("linea", linea);
-    return "risorse/edit-linea";
+    return "edit-linea";
   }
   
   @GetMapping("/risorse/mezzo/edit/{id}")
@@ -143,7 +143,7 @@ public class RisorseController {
           .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
       
     model.addAttribute("mezzo", mezzo);
-    return "risorse/edit-mezzo";
+    return "edit-mezzo";
   }
   
   @PostMapping("risorse/update/conducente/{id}")

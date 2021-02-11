@@ -29,7 +29,7 @@ public class DatiCorsaController {
 	  public String addDatiCorsa(Model model) {
 	    model.addAttribute("datiCorsa", new DatiCorsa());
 
-	    return "daticorsa/insert-daticorsa";
+	    return "insert-daticorsa";
 	  }
 	
 	
@@ -46,7 +46,7 @@ public class DatiCorsaController {
 	      
 	      return "index";
 	    } else {
-	    	return "errors/login-required";
+	    	return "login-required";
 	    }
 	}
 }
