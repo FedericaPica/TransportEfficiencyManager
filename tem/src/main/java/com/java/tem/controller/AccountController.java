@@ -71,4 +71,9 @@ public class AccountController {
     public String logout() {
     return "index";
   }
+  
+  @GetMapping("/login")
+  public String login() {
+  return "login";
+}
 }
