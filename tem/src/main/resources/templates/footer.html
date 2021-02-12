@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="style.css">
+<head>
+ <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}"> 
+ 
+<meta charset="ISO-8859-1">
+<title>Footer</title>
+</head>
+<body>
+<div class="footer fixed-footer" th:fragment="footer">
+
+    <div class="dueColonne">
+    <br>
+    <br>
+    <h2>Contatti</h2>
+    <p>E-mail</p>
+    <p>Newsletter</p>
+    <p>Tel.082345690</p>
+    <br>
+    <br>
+    <h2>Servizio Clienti</h2>
+    <p>Contattaci via mail</p>
+    <p>Chiamaci</p>
+    <p>Scrivici su Whatsapp</p>
+  
+     </div>
+      <a href="https://www.facebook.com/"><img id="icon" src="img/icon1.png" th:src="@{/img/icon1.png}" alt="facebook" style="width:25px;height:25px;"><br></img></a>
+      <img id="icon" src="img/icon2.png" th:src="@{/img/icon2.png}" alt="whatsapp" style="width:25px;height:25px;"></img>
+      <a href="https://www.instagram.com/"><img id="icon" src="img/icon3.png" th:src="@{/img/icon3.png}" alt="instagram" style="width:25px;height:25px;"></img></a>
+ <br> <br> &copy;2021  | Transport-Efficiency-Manager.it   
+</div>
+</div>
+</body>
+</html>

@@ -2,12 +2,17 @@
 
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+
 </head>
 <body>
 
-<nav th:fragment="header">
-    <img id="logo" src="img/logo.png" th:src="@{/img/logo.png}" alt="logo"></img>
-</nav>
+<div class="header fixed-header" th:fragment="header">
+ <a  href="/">
+    <img id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img>
+ </a>
+</div>
+
 
 </body>
 </html>

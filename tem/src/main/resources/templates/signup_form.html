@@ -8,97 +8,81 @@
 	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-	<nav th:replace="/header :: header"><p>Prova</p></nav>
-	<div class="container text-center">
-		<div>
-			<h1>Registrazione utente</h1>
-		</div>
+	<div class="sfondo">
+	<img src=src="img/sfondo.jpg" th:src="@{/img/sfondo.jpg}" alt="sfondo"></img>
+	<a href="/" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+	<div class="introduzione">
+		<div class="container">
+			<h1 style="font-family:Segoe UI Light; font-size:22px;">Registrazione utente</h1>
 		<form th:action="@{/process_register}" 
 			method="post" style="max-width: 600px; margin: 0 auto;">
-		<div class="m-3">
-			<div class="form-group row">
-				<label class="col-4 col-form-label">E-mail: </label>
-				<div class="col-8">
-					<input type="email" th:field="${user.email}" class="form-control" required />
+		<div>
+			<div >
+				<label for="email" >E-mail:</label>
+				<input type="email" th:field="${user.email}" id="email" required placeholder="Inserisci la tua mail"/>
 				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Password: </label>
-				<div class="col-8">
-					<input type="password" th:field="${user.password}" class="form-control" 
+			<div >
+				<label>Password:</label>
+					<input type="password" th:field="${user.password}" class="form-control"placeholder="Scegli una password.." 
 							required minlength="6" maxlength="10"/>
 				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Username: </label>
-				<div class="col-8">
-					<input type="text" th:field="${user.username}" class="form-control" 
+			<div >
+				<label>Username:</label>
+					<input type="text" th:field="${user.username}" class="form-control" placeholder="Crea uno username" 
 							required minlength="2" maxlength="20" />
 				</div>
-			</div>
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Denominazione aziendale: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.denominazione}" class="form-control" 
+			<div >
+				<label class="col1">Denominazione aziendale: </label>
+					<input type="text" th:field="${dettaglioUtente.denominazione}" class="form-control" placeholder="Inserisci la denominazione aziendale" 
 							required minlength="2" maxlength="20"/>
-				</div>
-			</div>
+		</div>	
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Partita IVA: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.partitaIVA}" class="form-control" 
+			<div>
+				<label class="col1">Partita IVA:</label>
+					<input type="text" th:field="${dettaglioUtente.partitaIVA}" class="form-control" placeholder="Inserisci il numero di P.IVA"
 							required minlength="2" maxlength="20" />
 				</div>
-			</div>
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Numero di telefono: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.telefono}" class="form-control" 
+			<div >
+				<label class="col1">Numero di telefono: </label>
+					<input type="text" th:field="${dettaglioUtente.telefono}" class="form-control" placeholder="Inserisci un recapito telefonico"
 							required minlength="2" maxlength="20" />
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Fax: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.fax}" class="form-control" 
+		</div>
+			<div>
+				<label class="col1">Fax: </label>
+						<input type="text" th:field="${dettaglioUtente.fax}" class="form-control" placeholder="Numero di fax"
 							required minlength="2" maxlength="20" />
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Indirizzo: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.indirizzo}" class="form-control" 
-							required minlength="2" maxlength="20" />
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Cap: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.cap}" class="form-control" 
-							required minlength="2" maxlength="20" />
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Citt&agrave;: </label>
-				<div class="col-8">
-					<input type="text" th:field="${dettaglioUtente.citta}" class="form-control" 
-							required minlength="2" maxlength="20" />
-				</div>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-primary">Conferma</button> 
+				<label class="col1">Indirizzo: </label>
+					<input type="text" th:field="${dettaglioUtente.indirizzo}" class="form-control" placeholder="Inserisci un indirizzo"
+							required minlength="2" maxlength="20" />
+			</div>
+			
+			
+			<div class="row">
+				<label class="col1">Cap: </label>
+						<input type="text" th:field="${dettaglioUtente.cap}" class="form-control" placeholder="Codice postale"
+							required minlength="2" maxlength="20" />
+				</div>
+			
+			<div class="row">
+				<label class="col1">Citt&agrave;: </label>
+						<input type="text" th:field="${dettaglioUtente.citta}" class="form-control" placeholder="Inserisci la citt&agrave;"
+							required minlength="2" maxlength="20" />
+				</div>
+
+			<div>
+				<button type="submit" class="button3">Conferma</button> 
 			</div>
 		</div>
 		</form>
 	</div>
+	
+	</div>
+	
+	
+    
 </body>
 </html>
