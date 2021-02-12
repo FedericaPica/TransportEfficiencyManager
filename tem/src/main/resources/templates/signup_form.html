@@ -13,7 +13,8 @@
 	<a href="/" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
 	<div class="introduzione">
 		<div class="container">
-			<h1 style="font-family:Segoe UI Light; font-size:22px;">Registrazione utente</h1>
+			<h1 style="font-family:Segoe UI Light; font-size:26px;">Registrazione utente</h1>
+			<br>
 		<form th:action="@{/process_register}" 
 			method="post" style="max-width: 600px; margin: 0 auto;">
 		<div>
@@ -33,7 +34,7 @@
 				</div>
 			
 			<div >
-				<label class="col1">Denominazione aziendale: </label>
+				<label class="col1">Nome azienda: </label>
 					<input type="text" th:field="${dettaglioUtente.denominazione}" class="form-control" placeholder="Inserisci la denominazione aziendale" 
 							required minlength="2" maxlength="20"/>
 		</div>	
@@ -45,7 +46,7 @@
 				</div>
 			
 			<div >
-				<label class="col1">Numero di telefono: </label>
+				<label class="col1">Telefono: </label>
 					<input type="text" th:field="${dettaglioUtente.telefono}" class="form-control" placeholder="Inserisci un recapito telefonico"
 							required minlength="2" maxlength="20" />
 		</div>
@@ -62,7 +63,7 @@
 			
 			
 			<div class="row">
-				<label class="col1">Cap: </label>
+				<label class="col1">CAP: </label>
 						<input type="text" th:field="${dettaglioUtente.cap}" class="form-control" placeholder="Codice postale"
 							required minlength="2" maxlength="20" />
 				</div>
