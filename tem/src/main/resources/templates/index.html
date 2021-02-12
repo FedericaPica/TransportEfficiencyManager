@@ -4,18 +4,27 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Transport Efficiency Manager</title>
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}"> 
     
 </head>
 <body>
-	<nav th:replace="/header :: header"><p>Prova</p></nav>
-    <div class="container text-center">
-        <h1>Benvenuto su Transport Efficiency Manager</h1>
-        <h3><a href="/users">Lista degli utenti</a></h3>
-        <h3><a href="/register">Registrati</a></h3>
-        <h3><a href="/login">Accedi</a></h3>
-    </div>
-     
+ 
+	<div class="parent">
+	<div class="sfondo">
+	<img src=src="img/sfondo.jpg" th:src="@{/img/sfondo.jpg}" alt="sfondo"></img>
+	<div class="introduzione">
+	<span class="testo"><span style="margin-left:163px;">Benvenuto su <br></span><span class="titolo">Transport Efficiency</span><span class="manager"> Manager<br></span>
+	Genera un programma di corse pi&uacute; efficiente per la tua azienda.<br></span>
+	<span>
+	      <button class="button1"><a href="/login">Accedi</a></button>
+	      <button class="button2"><a href="/register">Registra la tua azienda</a></button>
+	</span>
+
+	</div>	
+	 <a  href="/"><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+	</div>
+	
+	<nav th:replace="/footer :: footer"><p>Prova</p></nav>
+    
 </body>
 </html>
