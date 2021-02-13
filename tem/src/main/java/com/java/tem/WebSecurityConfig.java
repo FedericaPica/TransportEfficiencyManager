@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .defaultSuccessUrl("/users")
             .permitAll()
         .and()
+        .cors().and().csrf().disable()
         .logout().logoutSuccessUrl("/").permitAll();
   }
 
