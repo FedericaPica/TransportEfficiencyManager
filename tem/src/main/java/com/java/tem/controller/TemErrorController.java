@@ -27,7 +27,7 @@ public class TemErrorController implements ErrorController {
       }
     }
     
-    return "errors/error.html";
+    return "error.html";
   }
   
   @Override
