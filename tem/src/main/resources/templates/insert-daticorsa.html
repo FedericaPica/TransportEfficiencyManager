@@ -1,70 +1,163 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="ISO-8859-1">
-	<title>Inserisci Dati Corsa - Transport Efficiency Manager</title>
-	<link rel="stylesheet" href="style.css">
-	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
-</head>
-<body>
-	<div class="container text-center">
-		<div>
-			<h1>Inserisci Dati Corsa</h1>
-		</div>
-		<form th:action="@{/daticorsa/submit}" 
-			method="post" style="max-width: 600px; margin: 0 auto;">
-		<div class="m-3">
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Linea corsa: </label>
-				<div class="col-8">
-					<input type="text" th:field="${datiCorsa.lineaCorsa}" class="form-control" required />
+<html>
+<title>Inserisci risorse</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 170px;background: #005ce6;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+<body class="w3-black">
+<a href="/" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <!-- Avatar image in top left corner -->
+   
+  <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-hover-black" >
+    <i><img src"img/home.png" th:src="@{/img/home.png}" alt="home" style="width:55px;height:55px;"/></i>
+    <p>HOME</p>
+  </a>
+  <a href="/risorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black" >
+       <i><img src"img/bus.png" th:src="@{/img/bus.png}" alt="bus" style="width:55px;height:55px;"/></i>
+    <p>INSERISCI RISORSE</p>
+  </a>
+  <a href="/daticorsa/add" class="w3-bar-item w3-button w3-padding-large w3-black">
+    <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
+    <p>INSERISCI DATI CORSE</p>
+  </a>
+  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i><img src"img/programma.png" th:src="@{/img/programma.png}" alt="calendar" style="width:55px;height:55px;"/></i>
+    <p>GENERA PROGRAMMA</p>
+  </a>
+  <a href="/logout" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i><img src"img/logout.png" th:src="@{/img/logout.png}" alt="calendar" style="width:55px;height:55px;"/></i>
+    <p>ESCI</p>
+  </a>
+</nav>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+    <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
+    <a href="/daticorsa/add" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI DATI CORSE</a>
+    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Inserimento <span class="w3-jumbo" style="color:#ff6600">dati corsa</span> </p></span></h1>
+  </header>
+
+  <!-- form section-->
+
+ <div class="formRisorsa">
+        
+                  <form th:action="@{/daticorsa/submit}"method="post" style="max-width: 600px; margin: 0 auto;" > 
+                     <div class="m-3">
+			<div>
+				<div>
+					<input type="text" th:field="${datiCorsa.lineaCorsa}" style="  border-bottom: 1px solid #ff6600;" required placeholder="Lined della corsa" onclick="this.value=''"/>
 				</div>
 			</div>
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Orario corsa: </label>
-				<div class="col-8">
-					<input type="time" th:field="${datiCorsa.orarioCorsa}" class="form-control" 
-							required />
+			<div>
+				<div >
+					<input type="text" th:field="${datiCorsa.orarioCorsa}" placeholder="Orario corsa" style="  border-bottom: 1px solid #ff6600;"
+						onclick="this.value=''"required />
 				</div>
 			</div>
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Numero posti: </label>
-				<div class="col-8">
-					<input type="number" th:field="${datiCorsa.numeroPosti}" class="form-control" 
+			<div>
+				<div >
+					<input type="text" th:field="${datiCorsa.numeroPosti}" placeholder="Numero di posti disponibili" style="  border-bottom: 1px solid #ff6600;"
+						onclick="this.value=''"	required/>
+				</div>
+			</div>
+			
+			<div>
+				<div >
+					<input type="text" th:field="${datiCorsa.passeggeriSaliti}"  placeholder="Numero di passeggeri saliti" onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
 							required/>
 				</div>
 			</div>
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Passeggeri saliti: </label>
-				<div class="col-8">
-					<input type="number" th:field="${datiCorsa.passeggeriSaliti}" class="form-control" 
+			<div>
+				<div>
+					<input type="text" th:field="${datiCorsa.passeggeriNonSaliti}"  class="fields" placeholder="Numero di passeggeri non saliti" onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
 							required/>
 				</div>
 			</div>
 			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Passeggeri non saliti: </label>
-				<div class="col-8">
-					<input type="number" th:field="${datiCorsa.passeggeriNonSaliti}" class="form-control" 
+			<div >
+				<input type="text" th:field="${datiCorsa.traffico}" placeholder="Traffico" style="  border-bottom: 1px solid #ff6600;" onclick="this.value=''"
 							required/>
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-4 col-form-label">Traffico: </label>
-				
 			</div>
 			
 			
 			<div>
-				<button type="submit" class="btn btn-primary">Inserisci dati corsa</button> 
-			</div>
-		</div>
-		</form>
-	</div>
+                    
+		
+                                <button type="submit" class="submit3" ><b>Conferma<b></b></button>
+                            </div>
+                    
+                        </div>
+                    </form>
+                </div>
+   
+
+
+  <!-- Contact Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+    <h2 class="w3-text-light-grey">Contattaci</h2>
+    <hr style="width:200px" class="w3-opacity">
+
+    <div class="w3-section">
+      <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Salerno, IT</p>
+      <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Telefono: +39 082587650</p>
+      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: TransportEfficiencyManager@gmail.com</p>
+    </div><br>
+    <p>Inviaci una mail per richiedere ulteriori informazioni.</p>
+
+    <form action="/action_page.php" target="_blank">
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Nome" required name="Name"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Oggetto" required name="Subject"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Messaggio" required name="Message"></p>
+      <p>
+        <button class="w3-button w3-light-grey w3-padding-large" type="submit">
+          <i class="fa fa-paper-plane"></i> INVIA
+        </button>
+      </p>
+    </form>
+  <!-- End Contact Section -->
+  </div>
+  
+    <!-- Footer -->
+  <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <!-- End footer -->
+  </footer>
+
+<!-- END PAGE CONTENT -->
+</div>
+
 </body>
 </html>

@@ -79,7 +79,7 @@ public class RisorseController {
     	  
       }
 
-      return "insert-success";
+      return "insert-success-conducente";
     }
     return "login-required";
   }
@@ -93,7 +93,7 @@ public class RisorseController {
       linea.setAzienda(utente);
       this.risorseService.addLinea(linea);
 
-      return "insert-success";
+      return "insert-success-linea";
     }
     return "login-required";
   }

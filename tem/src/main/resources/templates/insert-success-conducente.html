@@ -58,33 +58,18 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
   <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
-    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Inserimento <span class="w3-jumbo" style="color:#336699;">linea</span> </p></span></h1>
+    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Inserimento <span class="w3-jumbo" style="color:#0066ff;">conducente</span> </p></span></h1>
+ <h2>L'inserimento è avvenuto con successo!</h2>
   </header>
 
-  <!-- form section-->
+<div class="retun animazione1" style="text-align:center;">
+         <a href="/risorse/conducente/edit/{id}"class="color2"><h3>Modifica conducente inserito <br></h3></a>
+         <a href="/risorse/add/conducente" class="color2"><h3>Inserisci un altro conducente<br></h3></a>
+          <a href="/risorse" class="color2"><h3>Torna alla selezione delle risorse</h3></a>
+         
+</div>
 
- <div class="formRisorsa">
-        
-                    <form action="#" th:action="@{/risorse/submit/linea}" th:object="${linea}" method="post">
-                        <div>
-                            <div class="form-group col-md-6">
-                                <input type="text" th:field="${linea.nome}" class="form-control" id="nome" placeholder="Nome"> <span th:if="${#fields.hasErrors('nome')}" th:errors="nome" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-md-8">
-                                <input type="text" th:field="${linea.partenza}" class="form-control" id="partenza" placeholder="Partenza"> <span th:if="${#fields.hasErrors('partenza')}" th:errors="partenza" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-md-8">
-                           <input type="text" th:field="${linea.destinazione}" class="form-control" id="destinazione" placeholder="Destinazione"> <span th:if="${#fields.hasErrors('destinazione')}" th:errors="destinazione" class="text-danger"></span>
-                            </div>
-                            
 
-                            <div>
-                                <button type="submit" class="submit" ><b>Conferma<b></b></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-   
 
 
   <!-- Contact Section -->

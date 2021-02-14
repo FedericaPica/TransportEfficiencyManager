@@ -3,6 +3,20 @@ html,body {
   padding: 0;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+[contenteditable="true"]:focus {
+    outline: none;
+}
+
+*:focus {
+    outline: none;
+}
 .button1 {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   background-color: #00ccff;
@@ -127,7 +141,6 @@ a:hover {
   position: relative;
   top: 0;
   left: 0;
-
 }
 
 .logo{
@@ -170,24 +183,30 @@ input {
 
 
 .button3 {
-  background-color: #f4511e;
+  background: #ff6633;
   border: none;
-  color: white;
+  color:#4d1300;
   padding: 5px 20px;
   text-align: center;
   font-size: 18px;
   margin: 0px 0px;
-  opacity: 2;
-  transition: 0.3s;
+  opacity: 0,5;
+  position:relative;
   display: inline-block;
-  text-decoration: none;
   cursor: pointer;
   margin-top: 55px;
   margin-left:190px;
-  position:relative;
+  transition:0,2s;
   border-radius:25px;
   font-family: Segoe UI Light;
   font-weight:bold;
+}
+
+.button3:hover{
+	box-shadow: 0 12px 16px 0 rgba(0, 14, 23, 1),0 17px 50px 0 rgba(0, 14, 23, 1);
+	background:#f4511e;
+	transition:0,2s;
+	color:white;
 }
 
 .container {
@@ -206,19 +225,23 @@ input {
 input[type=text], input[type=password], input[type=email]{
   margin: 4px 0 2px 0;
   border: none;
-  background: #f1f1f1;
+  background: #f2f2f2;
+  transition: width 0.2s ease-in-out;
+  border: 2px solid #4CAF50;
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=email] {
-  background-color: #ddd;
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+  background-color: #d1d1d1;
   outline: none;
+  width: 100%;
+  border:1px solid rgba(1, 0, 15, 0.7);
 }
 
 input[type=text], input[type=password],input[type=email],select, textarea {
   width: 50%;
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 20px;
 
 }
 
@@ -230,10 +253,50 @@ label {
   color: white;
   font-family: calibri;
   font-size: 20px;
+  text-shadow: 2px 2px 9px black;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.container2{
+  border-radius: 8px;
+  background-color: rgba(1, 0, 15, 0.7);
+  padding: 20px;
+  padding-top: 5px;
+  padding-left: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  box-shadow: 5px 5px 5px black;
+}
+
+.button4{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color: #00ccff;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  font-size: 18px;
+  margin: opx 0px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left:200px;
+  position:relative;
+  border-radius:25px;
+  font-family: Segoe UI Light;
+  font-weight:bold;
+	
+}
+
+.button4:hover{
+	opacity:1;
 }
 
 

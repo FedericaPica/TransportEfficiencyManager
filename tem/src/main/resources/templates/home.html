@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Inserisci risorse</title>
+<title>Transport Efficiency Manager</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
@@ -22,11 +22,11 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
   <!-- Avatar image in top left corner -->
    
-  <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-hover-black" >
+  <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-black">
     <i><img src"img/home.png" th:src="@{/img/home.png}" alt="home" style="width:55px;height:55px;"/></i>
     <p>HOME</p>
   </a>
-  <a href="/risorse" class="w3-bar-item w3-button w3-padding-large w3-black" >
+  <a href="/risorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
        <i><img src"img/bus.png" th:src="@{/img/bus.png}" alt="bus" style="width:55px;height:55px;"/></i>
     <p>INSERISCI RISORSE</p>
   </a>
@@ -58,33 +58,18 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
   <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
-    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Inserimento <span class="w3-jumbo" style="color:#336699;">linea</span> </p></span></h1>
+    <h1 class="w3-jumbo"><span class="w3-hide-small"><p>Benvenuto <span class="w3-jumbo"style="color:#cc0000;"><b>[[${#request.userPrincipal.principal.fullName}]]</b></span></span></h1>
+    <h5>Questa è la tua area personale.</h5>
   </header>
 
-  <!-- form section-->
-
- <div class="formRisorsa">
-        
-                    <form action="#" th:action="@{/risorse/submit/linea}" th:object="${linea}" method="post">
-                        <div>
-                            <div class="form-group col-md-6">
-                                <input type="text" th:field="${linea.nome}" class="form-control" id="nome" placeholder="Nome"> <span th:if="${#fields.hasErrors('nome')}" th:errors="nome" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-md-8">
-                                <input type="text" th:field="${linea.partenza}" class="form-control" id="partenza" placeholder="Partenza"> <span th:if="${#fields.hasErrors('partenza')}" th:errors="partenza" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-md-8">
-                           <input type="text" th:field="${linea.destinazione}" class="form-control" id="destinazione" placeholder="Destinazione"> <span th:if="${#fields.hasErrors('destinazione')}" th:errors="destinazione" class="text-danger"></span>
-                            </div>
-                            
-
-                            <div>
-                                <button type="submit" class="submit" ><b>Conferma<b></b></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-   
+  <!-- About Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+    <h2 class="w3-text-light-grey">Come funziona</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Per poter generare un nuovo programma di corse è necessario che ogni azienda registri sulla piattaforma tutte le risorse presenti nel proprio asset. Per generare invece, un programma di corse sulla base di previsioni elaborate con l'ausilio dell'intelligenza artificiale,
+    ogni azienda deve raccogliere ed inserire i dati necessari alla formulazione della predizione, riferiti a corse già effettuate, in mancanza di tali informazioni non sarà possibile usufruire della <b>generazione automatica</b> del programma.<br>
+     Per poter compiere tutte queste operazioni è presente un menu di navigazione da consultare al lato.
+    </p>   
 
 
   <!-- Contact Section -->
@@ -129,3 +114,4 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 
 </body>
 </html>
+        

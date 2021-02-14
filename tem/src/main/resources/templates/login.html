@@ -5,24 +5,33 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
-    <title>Please sign in</title>
-    <nav th:replace="/header :: header"></nav>
+    <title>Login</title>
+
   </head>
   <body>
-
-     <div class="container">
+<div class="parent">	
+	<div class="sfondo">
+	<img src="img/sfondo.jpg" th:src="@{/img/sfondo.jpg}" alt="sfondo"></img>
+	
+	<div class="introduzione">
+     <div class="container2">
       <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h1 style="font-family:Segoe UI Light; font-size:26px; color:#f4511e; text-shadow: 3px 3px 8px #aa2e08;">Accesso</h1>
         <p>
-          <label for="username" class="sr-only">Username</label>
-          <input type="text" id="username" name="email" class="form-control" placeholder="Username" required="" autofocus="">
+          <label for="username">Email</label>
+          <input type="text" id="username" name="email" class="form-control" placeholder="Email" required="" autofocus="">
         </p>
         <p>
-          <label for="password" class="sr-only">Password</label>
+          <label for="password" >Password</label>
           <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
         </p>
-<input name="_csrf" type="hidden" value="5f4b0257-f1a2-4984-9752-19610cd7dd83">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Accedi</button>
+        <input name="_csrf" type="hidden" value="5f4b0257-f1a2-4984-9752-19610cd7dd83">
+        <button class="button4" type="submit">Accedi</button>
       </form>
 </div>
+</div>
+	<a href="/" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+	</div>
+	<nav th:replace="/footer :: footer"><p>Prova</p></nav>
+	</div>
 </body></html>

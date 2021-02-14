@@ -44,7 +44,7 @@ public class DatiCorsaController {
 	      this.datiCorsaService.addDatiCorsa(datiCorsa);
 	      
 	      
-	      return "index";
+	      return "dati-corsa-success";
 	    } else {
 	    	return "login-required";
 	    }

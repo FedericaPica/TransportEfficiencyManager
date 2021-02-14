@@ -8,12 +8,13 @@
 	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
+	<div class="parent">	
 	<div class="sfondo">
 	<img src="img/sfondo.jpg" th:src="@{/img/sfondo.jpg}" alt="sfondo"></img>
-	<a href="/" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+	
 	<div class="introduzione">
 		<div class="container">
-			<h1 style="font-family:Segoe UI Light; font-size:26px;">Registrazione utente</h1>
+			<h1 style="font-family:Segoe UI Light; font-size:26px; color:#1aa3ff; text-shadow: 3px 3px 8px #003d66; ">Registrazione azienda</h1>
 			<br>
 		<form th:action="@{/process_register}" 
 			method="post" style="max-width: 600px; margin: 0 auto;">
@@ -80,10 +81,11 @@
 		</div>
 		</form>
 	</div>
-	
 	</div>
-
-	
+	<a href="/" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+	</div>
+<nav th:replace="/footer :: footer"><p>Prova</p></nav>
+	</div>
     
 </body>
 </html>
