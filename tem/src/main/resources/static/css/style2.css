@@ -138,6 +138,7 @@ hr {
 	background-color:#4d94ff;
 	transition-duration: 0.4s;
     cursor: pointer;
+   
 		 
 }
 
@@ -145,6 +146,7 @@ hr {
 	background-color:#0066ff;
 	transition-duration: 0.4s;
     cursor: pointer;
+   
 		 
 }
 
@@ -152,6 +154,7 @@ hr {
 	background-color:#ff6600;
 	transition-duration: 0.4s;
     cursor: pointer;
+   
 		 
 }
 input[type=text], input[type=time], input[type=number]{
@@ -174,6 +177,7 @@ select:focus,
 textarea:focus,
 button:focus {
     outline: none;
+    
 }
 
 [contenteditable="true"]:focus {
