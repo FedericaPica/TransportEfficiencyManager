@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   	  http
         .authorizeRequests()
         .antMatchers("/users").authenticated()
+        .antMatchers("/home").authenticated()
         .anyRequest().permitAll()
         .and()
         .formLogin()
@@ -72,7 +73,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public void setDataSource(DataSource dataSource) {
     this.dataSource = dataSource;
   }
-    
-    
 }
 

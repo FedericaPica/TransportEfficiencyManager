@@ -67,7 +67,7 @@ public class RisorseController {
   
   
   @PostMapping("/risorse/submit/conducente")
-  public String processRisorsa(Conducente conducente) {
+  public String processRisorsa(Conducente conducente, Model model) {
     if (AccountUtilities.isAuthenticated()) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
@@ -75,6 +75,7 @@ public class RisorseController {
       conducente.setAzienda(utente);
       try {
     	  this.risorseService.addConducente(conducente);
+    	  model.addAttribute(conducente);
       } catch(Exception e) {
     	  
       }
@@ -85,13 +86,14 @@ public class RisorseController {
   }
   
   @PostMapping("/risorse/submit/linea")
-  public String processRisorsa(Linea linea) {
+  public String processRisorsa(Linea linea, Model model) {
     if (AccountUtilities.isAuthenticated()) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
       Utente utente = accountService.getUserByUsername(currentUserName);
       linea.setAzienda(utente);
       this.risorseService.addLinea(linea);
+      model.addAttribute(linea);
 
       return "insert-success-linea";
     }

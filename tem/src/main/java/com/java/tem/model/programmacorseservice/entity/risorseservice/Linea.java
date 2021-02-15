@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -22,8 +23,11 @@ public class Linea extends Risorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  @Size(min = 2)
   private String nome;
+  @Size(min = 2)
   private String partenza;
+  @Size(min = 2)
   private String destinazione;
   
   @OneToMany(mappedBy = "linea")

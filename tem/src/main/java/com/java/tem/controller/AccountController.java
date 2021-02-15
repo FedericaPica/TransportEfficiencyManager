@@ -9,17 +9,23 @@ import com.java.tem.model.accountservice.repository.UserRepository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class AccountController {
+public class AccountController implements WebMvcConfigurer {
  
   @Autowired
     private UserRepository userRepo;
@@ -45,9 +51,15 @@ public class AccountController {
   }
   
   @PostMapping("/process_register")
-    public String processRegister(Utente user, DettaglioUtente dettaglioUtente) {
+    public String processRegister(@ModelAttribute("user") @Valid Utente user, BindingResult bindingResult, @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente, BindingResult bindingResult2) throws Exception {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        
+    
+    if (bindingResult.hasErrors() || bindingResult2.hasErrors())
+    	return "signup_form"; 
+
+    //if(userRepo.findByEmail(user.getEmail()).getEmail().length() > 0)
+    //	throw new Exception("Utente già esistente.");
+    
     Profilo profilo = profiloRepository.findByRuolo("azienda");
     String encodedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encodedPassword);

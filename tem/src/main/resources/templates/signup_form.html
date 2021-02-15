@@ -22,44 +22,52 @@
 			<div >
 				<label for="email" >E-mail:</label>
 				<input type="email" th:field="${user.email}" id="email" required placeholder="Inserisci la tua mail"/>
-				</div>
+				<div class="testo" th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}"></div>
+			</div>
 			<div >
 				<label>Password:</label>
 					<input type="password" th:field="${user.password}" class="form-control"placeholder="Scegli una password.." 
 							required minlength="6" maxlength="10"/>
+					<div class="testo" th:if="${#fields.hasErrors('user.password')}" th:errors="${user.password}"></div>
 				</div>
 			<div >
 				<label>Username:</label>
 					<input type="text" th:field="${user.username}" class="form-control" placeholder="Crea uno username" 
 							required minlength="2" maxlength="20" />
+					<div class="testo" th:if="${#fields.hasErrors('user.username')}" th:errors="${user.username}"></div>
 				</div>
 			
 			<div >
 				<label class="col1">Nome azienda: </label>
 					<input type="text" th:field="${dettaglioUtente.denominazione}" class="form-control" placeholder="Inserisci la denominazione aziendale" 
 							required minlength="2" maxlength="20"/>
+					<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.denominazione')}" th:errors="${dettaglioUtente.denominazione}"></div>
 		</div>	
 			
 			<div>
 				<label class="col1">Partita IVA:</label>
 					<input type="text" th:field="${dettaglioUtente.partitaIVA}" class="form-control" placeholder="Inserisci il numero di P.IVA"
 							required minlength="2" maxlength="20" />
+					<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.partitaIVA')}" th:errors="${dettaglioUtente.partitaIVA}"></div>
 				</div>
 			
 			<div >
 				<label class="col1">Telefono: </label>
 					<input type="text" th:field="${dettaglioUtente.telefono}" class="form-control" placeholder="Inserisci un recapito telefonico"
 							required minlength="2" maxlength="20" />
+							<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.telefono')}" th:errors="${dettaglioUtente.telefono}"></div>
 		</div>
 			<div>
 				<label class="col1">Fax: </label>
 						<input type="text" th:field="${dettaglioUtente.fax}" class="form-control" placeholder="Numero di fax"
 							required minlength="2" maxlength="20" />
+							<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.fax')}" th:errors="${dettaglioUtente.fax}"></div>
 			</div>
 			<div>
 				<label class="col1">Indirizzo: </label>
 					<input type="text" th:field="${dettaglioUtente.indirizzo}" class="form-control" placeholder="Inserisci un indirizzo"
 							required minlength="2" maxlength="20" />
+							<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.indirizzo')}" th:errors="${dettaglioUtente.indirizzo}"></div>
 			</div>
 			
 			
@@ -67,12 +75,14 @@
 				<label class="col1">CAP: </label>
 						<input type="text" th:field="${dettaglioUtente.cap}" class="form-control" placeholder="Codice postale"
 							required minlength="2" maxlength="20" />
+							<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.cap')}" th:errors="${dettaglioUtente.cap}"></div>
 				</div>
 			
 			<div class="row">
 				<label class="col1">Citt&agrave;: </label>
 						<input type="text" th:field="${dettaglioUtente.citta}" class="form-control" placeholder="Inserisci la citt&agrave;"
 							required minlength="2" maxlength="20" />
+							<div class="testo" th:if="${#fields.hasErrors('dettaglioUtente.citta')}" th:errors="${dettaglioUtente.citta}"></div>
 				</div>
 
 			<div>
