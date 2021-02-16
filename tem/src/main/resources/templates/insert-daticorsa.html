@@ -64,12 +64,13 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <!-- form section-->
 
  <div class="formRisorsa">
-        
+    
                   <form th:action="@{/daticorsa/submit}"method="post" style="max-width: 600px; margin: 0 auto;" > 
                      <div class="m-3">
 			<div>
+			
 				<div>
-					<input type="text" th:field="${datiCorsa.lineaCorsa}" style="  border-bottom: 1px solid #ff6600;" required placeholder="Lined della corsa" onclick="this.value=''"/>
+					<input type="text" th:field='${datiCorsa.lineaCorsa}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Lined della corsa" onclick="this.value=''"/>
 				</div>
 			</div>
 			
@@ -96,8 +97,8 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 			
 			<div>
 				<div>
-					<input type="text" th:field="${datiCorsa.passeggeriNonSaliti}"  class="fields" placeholder="Numero di passeggeri non saliti" onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
-							required/>
+					<input type="text" th:field="${datiCorsa.passeggeriNonSaliti}" placeholder="Numero di passeggeri non saliti"  onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
+							required />
 				</div>
 			</div>
 			
