@@ -6,6 +6,14 @@
 <link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script>
+function popEdit(id) {
+	var windowFeatures = "top=10, left=10, width=600, height=600, status=no, menubar=no, toolbar=no scrollbars=no";
+	window.open("/risorse/conducente/edit/" + id, "Test", windowFeatures);
+}
+</script>
+
 <style>
 body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}
@@ -63,7 +71,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </header>
 
 <div class="retun animazione1" style="text-align:center;">
-         <a href="/risorse/conducente/edit/{id}"class="color2"><h3>Modifica conducente inserito <br></h3></a>
+         <a th:onclick="|popEdit(${conducente.id})|" class="color2"><h3>Modifica conducente inserito <br></h3></a>
          <a href="/risorse/add/conducente" class="color2"><h3>Inserisci un altro conducente<br></h3></a>
           <a href="/risorse" class="color2"><h3>Torna alla selezione delle risorse</h3></a>
          

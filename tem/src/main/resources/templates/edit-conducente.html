@@ -18,7 +18,8 @@
 			<div class="form-group row">
 				<label class="col-4 col-form-label">Nome: </label>
 				<div class="col-8">
-					<input type="text" th:field="${conducente.nome}" class="form-control" required />
+					<input type="text" th:field="${conducente.nome}" class="form-control" 
+					required minlength="2" maxlength="50" />
 				</div>
 			</div>
 			
@@ -26,7 +27,7 @@
 				<label class="col-4 col-form-label">Cognome: </label>
 				<div class="col-8">
 					<input type="text" th:field="${conducente.cognome}" class="form-control" 
-							required maxlength="40"/>
+							required minlength="2" maxlength="50"/>
 				</div>
 			</div>
 			
@@ -40,7 +41,7 @@
 			
 			
 			<div>
-				<button type="submit" class="btn btn-primary">Inserisci conducente</button> 
+				<button type="submit" class="btn btn-primary">Modifica conducente</button> 
 			</div>
 		</div>
 		</form>

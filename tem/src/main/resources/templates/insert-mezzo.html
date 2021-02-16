@@ -68,13 +68,13 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                     <form action="#" th:action="@{/risorse/submit/mezzo}" th:object="${mezzo}" method="post">
                         <div>
                             <div >
-                                <input type="text" th:field="${mezzo.capienza}" class="form-control" id="capienza" placeholder="Capienza"> <span th:if="${#fields.hasErrors('capienza')}" th:errors="*{capienza}" class="text-danger"></span>
+                                <input type="number" th:field="${mezzo.capienza}" class="form-control" id="capienza" placeholder="Capienza" required> <span th:if="${#fields.hasErrors('capienza')}" th:errors="*{capienza}" class="text-danger"></span>
                             </div>
                             <div >
-                                <input type="text" th:field="${mezzo.targa}" class="form-control" id="targa" placeholder="Targa"> <span th:if="${#fields.hasErrors('targa')}" th:errors="*{targa}" class="text-danger"></span>
+                                <input type="text" th:field="${mezzo.targa}" class="form-control" id="targa" placeholder="Targa" required minlength="7"> <span th:if="${#fields.hasErrors('targa')}" th:errors="*{targa}" class="text-danger"></span>
                             </div>
                             <div>
-                               <input type="text" th:field="${mezzo.tipo}" class="form-control" id="tipo" placeholder="Tipo"> <span th:if="${#fields.hasErrors('tipo')}" th:errors="tipo" class="text-danger"></span>
+                               <input type="text" th:field="${mezzo.tipo}" class="form-control" id="tipo" placeholder="Tipo" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('tipo')}" th:errors="tipo" class="text-danger"></span>
                             </div>
                             
 

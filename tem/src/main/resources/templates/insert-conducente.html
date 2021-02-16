@@ -69,14 +69,14 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                         <div>
                             
 				<div>
-					<input type="text" th:field="${conducente.nome}"  placeholder="Nome" required />
+					<input type="text" th:field="${conducente.nome}"  placeholder="Nome" required minlenght="2" maxlength="50" />
 				</div>
 				<div>
-					<input type="text" th:field="${conducente.cognome}"   placeholder="Cognome" required minlength="6" maxlength="10"/>
+					<input type="text" th:field="${conducente.cognome}"   placeholder="Cognome" required minlength="2" maxlength="50"/>
 				</div>
 				
 				<div>
-					<input type="text" th:field="${conducente.codiceFiscale}" s required minlength="2" maxlength="16" placeholder="Codice Fiscale"/>
+					<input type="text" th:field="${conducente.codiceFiscale}" s required minlength="16" maxlength="16" placeholder="Codice Fiscale"/>
 			</div>
 			</div>
                             
