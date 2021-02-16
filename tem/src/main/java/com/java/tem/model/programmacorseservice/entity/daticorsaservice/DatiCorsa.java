@@ -17,6 +17,8 @@ public class DatiCorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  
+  
   private String lineaCorsa;
   private Time orarioCorsa;
   private int numeroPosti;
@@ -29,14 +31,22 @@ public class DatiCorsa {
   private Utente azienda;
   
   public Utente getAzienda() {
-	return azienda;
+    return azienda;
 }
 
-public void setAzienda(Utente azienda) {
-	this.azienda = azienda;
-}
+  public Long getId() {
+    return id;
+  }
 
-public String getLineaCorsa() {
+  public void setId(Long id) {
+    this.id = id;
+  }
+	
+  public void setAzienda(Utente azienda) {
+    this.azienda = azienda;
+  }
+
+  public String getLineaCorsa() {
     return lineaCorsa;
   }
   

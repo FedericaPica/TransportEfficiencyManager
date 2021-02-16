@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html>
-<title>Inserisci risorse</title>
+<title>Lista risorse</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script>
-function popEdit(id) {
-	var windowFeatures = "top=10, left=10, width=600, height=600, status=no, menubar=no, toolbar=no scrollbars=no";
-	window.open("/daticorsa/edit/" + id, "Dati Corsa Edit", windowFeatures);
-}
-</script>
 <style>
 body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}
@@ -64,19 +58,58 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
   <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
-    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Inserimento <span class="w3-jumbo" style="color:#ff6600;">dati corsa</span> </p></span></h1>
- <h2>L'inserimento è avvenuto con successo!</h2>
+    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Lista <span class="w3-jumbo" style="color:#ff6600;">risorse</span> </p></span></h1>
   </header>
 
-<div class="retun animazione1" style="text-align:center;">
-		  <a th:onclick="|popEdit(${datiCorsa.id})|" class="color2"><h3>Modifica dati corsa appena inseriti<br></h3></a>
-          <a href="/home" class="color2"><h3>Torna alla home</h3></a>
-         
+<div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+
+<div class="w3-row">
+	<div class="w3-col m4 l4">
+	  <table class="w3-table w3-striped w3-bordered">
+	    <tr>
+	      <th>Nome</th>
+	      <th>Cognome</th>
+	      <th>Codice fiscale</th>
+	    </tr>
+	   <tr th:each="conducente: ${conducenti}">
+						<td th:text="${conducente.nome}">Nome</td>
+						<td th:text="${conducente.cognome}">Cognome</td>
+						<td th:text="${conducente.codiceFiscale}">Codice fiscale</td>
+		</tr>
+	  </table>
+    </div>
+    <div class="w3-col m6 l4">
+	  <table class="w3-table w3-striped w3-bordered">
+	    <tr>
+	      <th>Nome</th>
+	      <th>Partenza</th>
+	      <th>Destinazione</th>
+	    </tr>
+	   <tr th:each="linea: ${linee}">
+						<td th:text="${linea.nome}">Nome</td>
+						<td th:text="${linea.partenza}">Partenza</td>
+						<td th:text="${linea.destinazione}">Destinazione</td>
+		</tr>
+	  </table>
+    </div>
+    
+    <div class="w3-col m4 l3">
+	  <table class="w3-table w3-striped w3-bordered">
+	    <tr>
+	      <th>Targa</th>
+	      <th>Capienza</th>
+	      <th>Tipo</th>
+	    </tr>
+	   <tr th:each="mezzo: ${mezzi}">
+						<td th:text="${mezzo.targa}">Targa</td>
+						<td th:text="${mezzo.capienza}">Capienza</td>
+						<td th:text="${mezzo.tipo}">Tipo</td>
+		</tr>
+	  </table>
+    </div>
+ </div>
+  
 </div>
-
-
-
-
   <!-- Contact Section -->
   <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
     <h2 class="w3-text-light-grey">Contattaci</h2>

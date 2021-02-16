@@ -1,5 +1,6 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
+import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.repository.ConducenteRepository;
 import com.java.tem.model.programmacorseservice.repository.LineaRepository;
 import com.java.tem.model.programmacorseservice.repository.MezzoRepository;
@@ -45,10 +46,15 @@ public class RisorseService  {
    */
   public List<Conducente> getConducenti() {
     List<Conducente> conducenti = new ArrayList<Conducente>();
-    conducenteRepository.findAll().forEach(conducenti::add);
+    conducenti = conducenteRepository.findAll();
     return conducenti;
   }
   
+  public List<Conducente> getConducentiByAzienda(Utente utente) {
+	  List<Conducente> conducenti = new ArrayList<Conducente>();
+	  conducenti = conducenteRepository.findByAzienda(utente);
+	  return conducenti;
+  }
   
   public Optional<Conducente> getConducente(Long id) {
     return conducenteRepository.findById(id);
@@ -59,10 +65,16 @@ public class RisorseService  {
    * @return linee  List set of linea. 
    *
    */
-  public List<Linea> getLinea() {
+  public List<Linea> getLinee() {
     List<Linea> linee = new ArrayList<Linea>();
     lineaRepository.findAll().forEach(linee::add);
     return linee;
+  }
+  
+  public List<Linea> getLineeByAzienda(Utente utente) {
+	  List<Linea> linee = new ArrayList<Linea>();
+	  linee = lineaRepository.findByAzienda(utente);
+	  return linee;
   }
   
   public Optional<Linea> getLinea(Long id) {
@@ -74,12 +86,19 @@ public class RisorseService  {
    * @return mezzi  List set of mezzo. 
    *
    */
-  public List<Mezzo> getMezzo() {
+  public List<Mezzo> getMezzi() {
     List<Mezzo> mezzi = new ArrayList<Mezzo>();
     mezzoRepository.findAll().forEach(mezzi::add);
     return mezzi;
   }
 
+  public List<Mezzo> getMezziByAzienda(Utente utente) {
+	  List<Mezzo> mezzi = new ArrayList<Mezzo>();
+	  mezzi = mezzoRepository.findByAzienda(utente);
+	  return mezzi;
+  }
+  
+  
   public Optional<Mezzo> getMezzo(Long id) {
     return mezzoRepository.findById(id);
   }

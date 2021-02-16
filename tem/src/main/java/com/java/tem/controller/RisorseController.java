@@ -10,7 +10,10 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Risorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
 import com.sun.istack.Nullable;
 
+import java.util.List;
+
 import javax.lang.model.element.ModuleElement;
+import javax.validation.Valid;
 
 import org.aspectj.weaver.ast.Test;
 import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
@@ -23,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -65,6 +69,22 @@ public class RisorseController {
     return "insert-linea";
   }
   
+  @GetMapping("/risorse/list")
+  public String listRisorse(Model model) {
+	  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      String currentUserName = authentication.getName();
+      Utente utente = accountService.getUserByUsername(currentUserName);
+	  
+	  List<Mezzo> listMezzi = risorseService.getMezzi();
+	  List<Conducente> listConducenti = risorseService.getConducentiByAzienda(utente);
+	  List<Linea> listLinee = risorseService.getLinee();
+	  
+	  model.addAttribute("linee", listLinee);
+	  model.addAttribute("conducenti", listConducenti);
+	  model.addAttribute("mezzi", listMezzi);
+	  return "list-risorse"; 
+  }
+  
   
   @PostMapping("/risorse/submit/conducente")
   public String processRisorsa(Conducente conducente, Model model) {
@@ -86,8 +106,10 @@ public class RisorseController {
   }
   
   @PostMapping("/risorse/submit/linea")
-  public String processRisorsa(Linea linea, Model model) {
+  public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea, BindingResult bindingResult, Model model) {
     if (AccountUtilities.isAuthenticated()) {
+    	if (bindingResult.hasErrors())
+    		return "insert-linea";
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
       Utente utente = accountService.getUserByUsername(currentUserName);
@@ -101,8 +123,10 @@ public class RisorseController {
   }
   
   @PostMapping("/risorse/submit/mezzo")
-  public String processRisorsa(Mezzo mezzo) {
+  public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo, BindingResult bindingResult) {
     if (AccountUtilities.isAuthenticated()) {
+    	if (bindingResult.hasErrors())
+    	    	return "insert-mezzo";
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
       Utente utente = accountService.getUserByUsername(currentUserName);
@@ -153,7 +177,6 @@ public class RisorseController {
       BindingResult result,
       Model model) {
     if (result.hasErrors()) {
-      conducente.setId(id);
       return "edit-conducente";
     }
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -166,13 +189,11 @@ public class RisorseController {
   }
   
   @PostMapping("risorse/update/linea/{id}")
-  public String updateLinea(@PathVariable("id") Long id, Linea linea, 
+  public String updateLinea(@PathVariable("id") Long id, @ModelAttribute("linea") @Valid Linea linea, 
       BindingResult result,
       Model model) {
-    if (result.hasErrors()) {
-    	linea.setId(id);
-      return "edit-conducente";
-    }
+  	if (result.hasErrors())
+		return "edit-linea";
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
     Utente utente = accountService.getUserByUsername(currentUserName);
@@ -183,12 +204,12 @@ public class RisorseController {
   }
   
   @PostMapping("risorse/update/mezzo/{id}")
-  public String updateMezzo(@PathVariable("id") Long id, Mezzo mezzo, 
+  public String updateMezzo(@PathVariable("id") Long id, @ModelAttribute("mezzo") @Valid Mezzo mezzo, 
       BindingResult result,
       Model model) {
+	  
     if (result.hasErrors()) {
-    	mezzo.setId(id);
-      return "edit-conducente";
+      return "edit-mezzo";
     }
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();

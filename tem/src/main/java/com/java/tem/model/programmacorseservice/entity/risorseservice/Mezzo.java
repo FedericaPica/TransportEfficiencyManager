@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 
@@ -22,9 +24,12 @@ public class Mezzo extends Risorsa {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   
-  @Size(min = 7, max = 7)
+  @Size(min = 7, max = 10)
   private String targa;
+  @Min(2)
+  @Max(70)
   private int capienza;
+  @Size(min = 2, max = 50)
   private String tipo;
 
   @ManyToMany(mappedBy = "mezzi")

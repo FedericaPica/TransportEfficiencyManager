@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -22,8 +23,11 @@ public class Conducente extends Risorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+  @Size(min = 2, max = 50)
   private String nome;
+  @Size(min = 2, max = 50)
   private String cognome;
+  @Size(min = 16, max = 16)
   private String codiceFiscale;
   
   @ManyToMany(mappedBy = "conducenti")

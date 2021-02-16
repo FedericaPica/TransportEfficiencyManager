@@ -103,8 +103,10 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 			</div>
 			
 			<div >
-				<input type="text" th:field="${datiCorsa.traffico}" placeholder="Traffico" style="  border-bottom: 1px solid #ff6600;" onclick="this.value=''"
-							required/>
+				<label for="traffico-select">Traffico</label><select id="traffico-select" th:field="${datiCorsa.traffico}">
+				    <option th:value="'true'" th:text="Si"></option>
+				    <option th:value="'false'" th:text="No"></option>
+				</select>
 			</div>
 			
 			

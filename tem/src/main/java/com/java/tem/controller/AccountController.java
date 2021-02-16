@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.UserAlreadyExistsException;
 import com.java.tem.model.accountservice.entity.DettaglioUtente;
 import com.java.tem.model.accountservice.entity.Profilo;
 import com.java.tem.model.accountservice.entity.Utente;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,24 +53,27 @@ public class AccountController implements WebMvcConfigurer {
   }
   
   @PostMapping("/process_register")
-    public String processRegister(@ModelAttribute("user") @Valid Utente user, BindingResult bindingResult, @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente, BindingResult bindingResult2) throws Exception {
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public String processRegister(@ModelAttribute("user") @Valid Utente user, BindingResult bindingResult, @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente, BindingResult bindingResult2) throws UserAlreadyExistsException {
+    
     
     if (bindingResult.hasErrors() || bindingResult2.hasErrors())
-    	return "signup_form"; 
+    	return "signup_form";
 
-    //if(userRepo.findByEmail(user.getEmail()).getEmail().length() > 0)
-    //	throw new Exception("Utente già esistente.");
+    if(userRepo.checkUserExistanceByEmail(user.getEmail())) {
+    	throw new UserAlreadyExistsException("Utente già esistente.");
+    } else {
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	Profilo profilo = profiloRepository.findByRuolo("azienda");
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setProfilo(profilo);
+        DettaglioUtente savedDettaglioUtente = dettaglioUtenteRepo.save(dettaglioUtente);
+        user.setDettaglio(savedDettaglioUtente);
+        userRepo.save(user);
+            
+        return "register_success";
+    } 
     
-    Profilo profilo = profiloRepository.findByRuolo("azienda");
-    String encodedPassword = passwordEncoder.encode(user.getPassword());
-    user.setPassword(encodedPassword);
-    user.setProfilo(profilo);
-    DettaglioUtente savedDettaglioUtente = dettaglioUtenteRepo.save(dettaglioUtente);
-    user.setDettaglio(savedDettaglioUtente);
-    userRepo.save(user);
-        
-    return "register_success";
   }
   
   @GetMapping("/users")

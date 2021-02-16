@@ -23,11 +23,11 @@ public class Linea extends Risorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Size(min = 2)
+  @Size(min = 2, max = 50)
   private String nome;
-  @Size(min = 2)
+  @Size(min = 2, max = 50)
   private String partenza;
-  @Size(min = 2)
+  @Size(min = 2, max = 50)
   private String destinazione;
   
   @OneToMany(mappedBy = "linea")

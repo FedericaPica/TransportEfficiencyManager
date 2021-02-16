@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Modifica Dati Corsa- Transport Efficiency Manager</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div class="container text-center">
+		<div>
+			<h1>Modifica Dati Corsa</h1>
+		</div>
+		<form th:action="@{/daticorsa/update/{id}(id=${datiCorsa.id})}" 
+			method="post" style="max-width: 600px; margin: 0 auto;" > 
+                     <div class="m-3">
+			<div>
+			
+				<div>
+					<input type="text" th:field='${datiCorsa.lineaCorsa}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Lined della corsa" onclick="this.value=''"/>
+				</div>
+			</div>
+			
+			<div>
+				<div >
+					<input type="text" th:field="${datiCorsa.orarioCorsa}" placeholder="Orario corsa" style="  border-bottom: 1px solid #ff6600;"
+						onclick="this.value=''"required />
+				</div>
+			</div>
+			
+			<div>
+				<div >
+					<input type="text" th:field="${datiCorsa.numeroPosti}" placeholder="Numero di posti disponibili" style="  border-bottom: 1px solid #ff6600;"
+						onclick="this.value=''"	required/>
+				</div>
+			</div>
+			
+			<div>
+				<div >
+					<input type="text" th:field="${datiCorsa.passeggeriSaliti}"  placeholder="Numero di passeggeri saliti" onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
+							required/>
+				</div>
+			</div>
+			
+			<div>
+				<div>
+					<input type="text" th:field="${datiCorsa.passeggeriNonSaliti}" placeholder="Numero di passeggeri non saliti"  onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
+							required />
+				</div>
+			</div>
+			
+			<div >
+			<label for="traffico-select">Traffico</label>
+				<select th:field="${datiCorsa.traffico}" name="traffico-select">
+				    <option th:value="'true'" th:text="Si"></option>
+				    <option th:value="'false'" th:text="No"></option>
+				</select>
+			</div>
+			
+			
+			<div>
+                    
+		
+                                <button type="submit" class="submit3" ><b>Conferma<b></b></button>
+                            </div>
+                    
+                        </div>
+                    </form>
+	</div>
+</body>
+</html>

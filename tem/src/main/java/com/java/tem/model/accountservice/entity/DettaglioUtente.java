@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Dettaglio_Utente")
@@ -16,25 +19,32 @@ public class DettaglioUtente {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "denominazione", nullable = false, length = 20)
+  @Size(min = 2, max = 50)
+  @Column(name = "denominazione", nullable = false, length = 50)
   private String denominazione;
  
+  @Size(min = 11, max = 11)
   @Column(name = "partitaIVA", nullable = false, length = 11)
   private String partitaIVA;
 
-  @Column(name = "telefono", nullable = false, length = 10)
+  @Size(min = 8, max = 30)
+  @Column(name = "telefono", nullable = false, length = 30)
   private String telefono;
 
-  @Column(name = "fax", nullable = false, length = 10)
+  @Size(min = 4, max = 40)
+  @Column(name = "fax", nullable = false, length = 40)
   private String fax;
 
-  @Column(name = "indirizzo", nullable = false, length = 25)
+  @Size(min = 2, max = 50)
+  @Column(name = "indirizzo", nullable = false, length = 50)
   private String indirizzo;
-
+  
+  @Size(min = 5, max = 5)
   @Column(name = "cap", nullable = false, length = 10)
   private String cap;
 
-  @Column(name = "citta", nullable = false, length = 30)
+  @Size(min = 2, max = 50)
+  @Column(name = "citta", nullable = false, length = 50)
   private String citta;
 
   @OneToOne(mappedBy = "dettaglio")

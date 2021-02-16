@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.java.tem.exceptions.UserAlreadyExistsException;
+
 @ControllerAdvice
 public class ExceptionHandlingController {
 
-	@ResponseStatus(value = HttpStatus.CONFLICT)
-	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Utente già esistente")
+	@ExceptionHandler(UserAlreadyExistsException.class)
 	public void userAlreadyExists() {
-		// ToDo
-		System.out.println("Utente già esistente!");
+		
 	}
 	
 }

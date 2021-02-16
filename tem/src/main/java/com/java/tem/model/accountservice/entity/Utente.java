@@ -17,22 +17,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "azienda")
+@Table(name = "utente")
 public class Utente {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, unique = true, length = 45)
   @Size(min = 6, max = 45)
+  @Column(nullable = false, unique = true, length = 45)
   private String email;
 
-  @Column(name = "username", nullable = false, length = 20)
   @Size(min = 6, max = 20)
+  @Column(name = "username", nullable = false, length = 20, unique = true)  
   private String username;
 
   @Column(nullable = false, length = 64)
