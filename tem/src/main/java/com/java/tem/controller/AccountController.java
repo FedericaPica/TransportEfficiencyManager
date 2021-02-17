@@ -56,22 +56,22 @@ public class AccountController implements WebMvcConfigurer {
     public String processRegister(@ModelAttribute("user") @Valid Utente user, BindingResult bindingResult, @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente, BindingResult bindingResult2) throws UserAlreadyExistsException {
     
     
-    if (bindingResult.hasErrors() || bindingResult2.hasErrors())
-    	return "signup_form";
-
-    if(userRepo.checkUserExistanceByEmail(user.getEmail())) {
-    	throw new UserAlreadyExistsException("Utente già esistente.");
+    if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
+      return "signup_form";
+    }
+    if (userRepo.checkUserExistanceByEmail(user.getEmail())) {
+      throw new UserAlreadyExistsException("Utente già esistente.");
     } else {
-    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    	Profilo profilo = profiloRepository.findByRuolo("azienda");
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        user.setProfilo(profilo);
-        DettaglioUtente savedDettaglioUtente = dettaglioUtenteRepo.save(dettaglioUtente);
-        user.setDettaglio(savedDettaglioUtente);
-        userRepo.save(user);
+      BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+      Profilo profilo = profiloRepository.findByRuolo("azienda");
+      String encodedPassword = passwordEncoder.encode(user.getPassword());
+      user.setPassword(encodedPassword);
+      user.setProfilo(profilo);
+      DettaglioUtente savedDettaglioUtente = dettaglioUtenteRepo.save(dettaglioUtente);
+      user.setDettaglio(savedDettaglioUtente);
+      userRepo.save(user);
             
-        return "register_success";
+      return "register_success";
     } 
     
   }
@@ -91,11 +91,11 @@ public class AccountController implements WebMvcConfigurer {
   
   @GetMapping("/login")
   public String login() {
-  return "login";
-}
+    return "login";
+  }
   
   @GetMapping("/home")
   public String home() {
-  return "home";
-}
+    return "home";
+  }
 }
