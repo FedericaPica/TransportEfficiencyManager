@@ -9,12 +9,9 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Risorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
 import com.sun.istack.Nullable;
-
 import java.util.List;
-
 import javax.lang.model.element.ModuleElement;
 import javax.validation.Valid;
-
 import org.aspectj.weaver.ast.Test;
 import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,18 +68,16 @@ public class RisorseController {
   
   @GetMapping("/risorse/list")
   public String listRisorse(Model model) {
-	  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentUserName = authentication.getName();
-      Utente utente = accountService.getUserByUsername(currentUserName);
-	  
-	  List<Mezzo> listMezzi = risorseService.getMezzi();
-	  List<Conducente> listConducenti = risorseService.getConducentiByAzienda(utente);
-	  List<Linea> listLinee = risorseService.getLinee();
-	  
-	  model.addAttribute("linee", listLinee);
-	  model.addAttribute("conducenti", listConducenti);
-	  model.addAttribute("mezzi", listMezzi);
-	  return "list-risorse"; 
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUserName = authentication.getName();
+    Utente utente = accountService.getUserByUsername(currentUserName);
+    List<Mezzo> listMezzi = risorseService.getMezzi();
+    List<Conducente> listConducenti = risorseService.getConducentiByAzienda(utente);
+    List<Linea> listLinee = risorseService.getLinee();
+    model.addAttribute("linee", listLinee);
+    model.addAttribute("conducenti", listConducenti);
+    model.addAttribute("mezzi", listMezzi);
+    return "list-risorse"; 
   }
   
   
@@ -94,10 +89,10 @@ public class RisorseController {
       Utente utente = accountService.getUserByUsername(currentUserName);
       conducente.setAzienda(utente);
       try {
-    	  this.risorseService.addConducente(conducente);
-    	  model.addAttribute(conducente);
-      } catch(Exception e) {
-    	  
+        this.risorseService.addConducente(conducente);
+        model.addAttribute(conducente);
+      } catch (Exception e) {
+
       }
 
       return "insert-success-conducente";
@@ -106,10 +101,11 @@ public class RisorseController {
   }
   
   @PostMapping("/risorse/submit/linea")
-  public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea, BindingResult bindingResult, Model model) {
+public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea, BindingResult bindingResult, Model model) {
     if (AccountUtilities.isAuthenticated()) {
-    	if (bindingResult.hasErrors())
-    		return "insert-linea";
+      if (bindingResult.hasErrors()) {
+        return "insert-linea";
+      }
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
       Utente utente = accountService.getUserByUsername(currentUserName);
@@ -123,10 +119,11 @@ public class RisorseController {
   }
   
   @PostMapping("/risorse/submit/mezzo")
-  public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo, BindingResult bindingResult) {
+public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo, BindingResult bindingResult) {
     if (AccountUtilities.isAuthenticated()) {
-    	if (bindingResult.hasErrors())
-    	    	return "insert-mezzo";
+      if (bindingResult.hasErrors()) {
+        return "insert-mezzo";
+      }
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
       Utente utente = accountService.getUserByUsername(currentUserName);
@@ -189,11 +186,12 @@ public class RisorseController {
   }
   
   @PostMapping("risorse/update/linea/{id}")
-  public String updateLinea(@PathVariable("id") Long id, @ModelAttribute("linea") @Valid Linea linea, 
+public String updateLinea(@PathVariable("id") Long id, @ModelAttribute("linea") @Valid Linea linea, 
       BindingResult result,
       Model model) {
-  	if (result.hasErrors())
-		return "edit-linea";
+    if (result.hasErrors()) {
+      return "edit-linea";
+    }
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
     Utente utente = accountService.getUserByUsername(currentUserName);
@@ -204,10 +202,9 @@ public class RisorseController {
   }
   
   @PostMapping("risorse/update/mezzo/{id}")
-  public String updateMezzo(@PathVariable("id") Long id, @ModelAttribute("mezzo") @Valid Mezzo mezzo, 
+public String updateMezzo(@PathVariable("id") Long id, @ModelAttribute("mezzo") @Valid Mezzo mezzo, 
       BindingResult result,
       Model model) {
-	  
     if (result.hasErrors()) {
       return "edit-mezzo";
     }
