@@ -2,6 +2,34 @@
 /* W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */
+html, body{
+ font-family: Verdana, sans-serif;
+ font-size: 15px;
+ line-height: 1.5;
+ background-color: #01010e;
+}
+h1{
+	font-size:36px;
+	color: white;
+	text-align: center;
+	font-size: 60px;
+	font-family: 'Montserrat', sans-serif;
+}
+h2{
+	font-size:30px;
+}
+h3{
+	font-size:24px;
+}
+h4{
+	font-size: 20px;
+}
+h5{
+	font-size:18px;
+}
+h6{
+	font-size:16px;
+}
 .logo{
   position: absolute;
   top: 20px;
@@ -75,6 +103,16 @@ a.color2:hover{
   -o-animation: fadeIn ease 3.7s;
   -ms-animation: fadeIn ease 3.7s;
   cursor:pointer;
+}
+button {
+	background-color: #01010e; 
+ 	color: white; 
+    border: 2px solid #0066ff;
+    padding:7px;
+    margin-top: 100px;
+	margin-left:150px;
+	border-radius: 3px;
+	font: inherit;
 }
 .due:hover ~ hr {
   margin-left: 50%;
@@ -281,10 +319,9 @@ legend{color:inherit;display:table;max-width:100%;padding:0;white-space:normal}t
 [type=search]::-webkit-search-decoration{-webkit-appearance:none}
 ::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}
 /* End extract */
-html,body{font-family:Verdana,sans-serif;font-size:15px;line-height:1.5}html{overflow-x:hidden}
-h1{font-size:36px}h2{font-size:30px}h3{font-size:24px}h4{font-size:20px}h5{font-size:18px}h6{font-size:16px}
+html{overflow-x:hidden}
 .w3-serif{font-family:serif}.w3-sans-serif{font-family:sans-serif}.w3-cursive{font-family:cursive}.w3-monospace{font-family:monospace}
-h1,h2,h3,h4,h5,h6{font-family:"Segoe UI",Arial,sans-serif;font-weight:400;margin:10px 0}.w3-wide{letter-spacing:4px}
+.w3-wide{letter-spacing:4px}
 hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-image{max-width:100%;height:auto}img{vertical-align:middle}a{color:inherit}
 .w3-table,.w3-table-all{border-collapse:collapse;border-spacing:0;width:100%;display:table}.w3-table-all{border:1px solid #ccc}
