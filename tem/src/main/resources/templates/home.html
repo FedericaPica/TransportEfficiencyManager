@@ -23,15 +23,15 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <!-- Avatar image in top left corner -->
    
   <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-black">
-    <i><img src"img/home.png" th:src="@{/img/home.png}" alt="home" style="width:55px;height:55px;"/></i>
-    <p>HOME</p>
+    <i><img src"img/home.png" th:src="@{/img/user.png}" alt="user" style="width:40px;height:40px;"/></i>
+    <p>AREA UTENTE</p>
   </a>
   <a href="/risorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
        <i><img src"img/bus.png" th:src="@{/img/bus.png}" alt="bus" style="width:55px;height:55px;"/></i>
     <p>INSERISCI RISORSE</p>
   </a>
   <a href="/daticorsa/add" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
+    <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:70px;height:70px;"/></i>
     <p>INSERISCI DATI CORSE</p>
   </a>
   <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
@@ -68,10 +68,24 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <hr style="width:200px" class="w3-opacity">
     <p>Per poter generare un nuovo programma di corse è necessario che ogni azienda registri sulla piattaforma tutte le risorse presenti nel proprio asset. Per generare invece, un programma di corse sulla base di previsioni elaborate con l'ausilio dell'intelligenza artificiale,
     ogni azienda deve raccogliere ed inserire i dati necessari alla formulazione della predizione, riferiti a corse già effettuate, in mancanza di tali informazioni non sarà possibile usufruire della <b>generazione automatica</b> del programma.<br>
-     Per poter compiere tutte queste operazioni è presente un menu di navigazione da consultare al lato.
+    &Egrave; possibile <b>consultare</b> tutte le risorse inserite e i programmi generati dall'area utente, per poter compiere, invece, tutte le altre operazioni descritte è presente al lato, un menu di navigazione.
     </p>   
-
-
+   <div class="w3-half w3-margin-bottom">
+ <div class="colonna">
+ <a href="/risorse/list(${azienda.id})/" class="color animazione1"><h3>Consulta le risorse inserite</h3></a>
+ </div>
+ <div class="colonna4">
+  <a href="/programmaAutomatico/list" class="color animazione2"><h3>Consulta i dati delle corse inseriti</h3></a>
+</div>
+ <div class="colonna">
+  <a href="/programmaManuale/list" class="color animazione3"><h3>Consulta i programmi creati</h3></a>
+ </div>
+</div>
+  <div class="w3-half">
+  <div class="bus">
+  <img src"img/autobus.png" th:src="@{/img/autobus.png}" alt="bus" style="width:130px;height:130px;"/>
+  </div>
+</div>
   <!-- Contact Section -->
   <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
     <h2 class="w3-text-light-grey">Contattaci</h2>

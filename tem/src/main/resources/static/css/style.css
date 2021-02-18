@@ -69,9 +69,17 @@ button:focus {
 .testo{
   font-family: Segoe UI Light;
   color:#ffffff;
-  padding: 20;
   font-size:23px; 
   margin-left:65px;
+}
+
+.testoErrori{
+  font-family: Segoe UI Light;
+  color:#ffffff;
+  padding: 2px;
+  font-size:14px; 
+  margin-left:65px;
+  font-weight: bold;
 }
 .titolo {
   font-family: Segoe UI Light;

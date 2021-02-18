@@ -39,6 +39,7 @@ label {
   left: 610px;
   bottom:0px;
 }
+
 .animazione1{
    animation: fadeIn ease 1.5s;
   -webkit-animation: fadeIn ease 0.9s;
@@ -62,6 +63,14 @@ label {
   -o-animation: fadeIn ease 2.3s;
   -ms-animation: fadeIn ease 2.3s;
 }
+
+.animazione3{
+  animation: fadeIn ease 2s;
+  -webkit-animation: fadeIn ease 2s;
+  -moz-animation: fadeIn ease 2s;
+  -o-animation: fadeIn ease 2s;
+  -ms-animation: fadeIn ease 2s;
+}
 @keyframes fadeIn {
   0% {
     opacity:0;
@@ -71,6 +80,61 @@ label {
   }
 }
 
+@keyframes left_to_right2{
+  from {
+    margin-left: 30%;
+     opacity:0;
+  }
+  to {
+    margin-left: 2,5%;
+    opacity:1;
+  }
+}
+
+@keyframes left_to_right {
+  from {
+    margin-left: 25%;
+     opacity:0;
+  }
+  to {
+    margin-left: 17,5%;
+    opacity:1;
+  }
+}
+ /* consulta risorse nella home*/
+ 
+
+
+.colonna{
+	margin-left: 140px;
+	margin-top:80px;
+    -webkit-animation: fadeIn ease 4s;
+ 	-moz-animation: fadeIn ease 4s;
+  	-o-animation: fadeIn ease 4s;
+ 	-ms-animation: fadeIn ease 4s;
+	animation: left_to_right 4s ease;
+}
+
+.colonna4 {
+	margin-left: 13px;
+	margin-top:70px;
+   -webkit-animation: fadeIn ease 4s;
+   -moz-animation: fadeIn ease 4s;
+   -o-animation: fadeIn ease 4s;
+   -ms-animation: fadeIn ease 4s;
+  	animation: left_to_right2 4s ease;
+	width:300%;
+}
+.bus{
+	margin-left:270px;
+	margin-top:155px;
+	padding-bottom:0px;
+	padding-top:-20px;
+	margin-bottom:230px;
+
+}
+
+/*inserisci risorse*/
 .colonna1{
 	margin-left: 170px;
 	margin-top:80px;
@@ -107,6 +171,7 @@ a.color2:hover{
   -ms-animation: fadeIn ease 3.7s;
   cursor:pointer;
 }
+
 button {
 	background-color: #01010e; 
  	color: white; 

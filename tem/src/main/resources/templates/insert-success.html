@@ -31,8 +31,8 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <!-- Avatar image in top left corner -->
    
   <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-hover-black" >
-    <i><img src"img/home.png" th:src="@{/img/home.png}" alt="home" style="width:55px;height:55px;"/></i>
-    <p>HOME</p>
+    <i><img src"img/home.png" th:src="@{/img/user.png}" alt="user" style="width:40px;height:40px;"/></i>
+    <p>AREA UTENTE</p>
   </a>
   <a href="/risorse" class="w3-bar-item w3-button w3-padding-large w3-black" >
        <i><img src"img/bus.png" th:src="@{/img/bus.png}" alt="bus" style="width:55px;height:55px;"/></i>
@@ -71,9 +71,10 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </header>
 
 <div class="retun animazione1" style="text-align:center;">
-         <a th:onclick="|popEdit(${mezzo.id})|" class="color2"><h3>Modifica mezzo inserito <br></h3></a>
-         <a href="/risorse/add/mezzo" class="color2"><h3>Inserisci un altro mezzo<br></h3></a>
-          <a href="/risorse" class="color2"><h3>Torna alla selezione delle risorse</h3></a>
+         <a th:onclick="|popEdit(${mezzo.id})|" class="color2 animazione1"><h3>Modifica mezzo appena inserito <br></h3></a>
+         <a href="/risorse/add/mezzo" class="color2 animazione2"><h3>Inserisci un altro mezzo<br></h3></a>
+          <a href="/risorse" class="color2 animazione3"><h3>Torna alla selezione delle risorse</h3></a>
+         <a href="/risorse/list" class="color2 animazione4"><h3>Consulta tutte le risorse inserite</h3></a>
          
 </div>
 
