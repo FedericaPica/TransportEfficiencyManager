@@ -392,16 +392,16 @@ button:focus {
 .update2{
 	background-color: #01010e; 
  	color: white; 
-    border: 2px solid #0066ff;
+    border: 2px solid #ff6600;
     padding:7px;
     margin-top:40px;
-	margin-left:202px;
+	margin-left:62px;
 	border-radius: 3px;
 	
 }
 
 .update2:focus{
-	background-color:#4d94ff;
+	background-color:#ff6600;
 	transition-duration: 0.4s;
     cursor: pointer;	 
 }

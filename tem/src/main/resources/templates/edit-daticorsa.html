@@ -15,7 +15,7 @@
 		</div>
 		<form th:action="@{/daticorsa/update/{id}(id=${datiCorsa.id})}" 
 			method="post" style="max-width: 600px; margin: 0 auto;" > 
-                     <div class="m-3">
+                      <div class="row">
 			<div>
 			
 				<div>
@@ -51,19 +51,24 @@
 				</div>
 			</div>
 			
-			<div >
-			<label for="traffico-select">Traffico</label>
-				<select th:field="${datiCorsa.traffico}" name="traffico-select">
-				    <option th:value="'true'" th:text="Si"></option>
-				    <option th:value="'false'" th:text="No"></option>
-				</select>
+				<div >
+			<div class="traffico" th:field="${datiCorsa.traffico}" style="margin-left:-30px;" ><p style="color:#656767; font-size:16px; display:inline-block; text-align:left;">Traffico</p>
+					<label class="traffico">Si
+  					<input type="radio" checked="checked" name="radio">
+  				<span class="checkmark"></span>
+				</label>
+			<label class="traffico">No
+  			<input type="radio" name="radio">
+ 			 <span class="checkmark"></span>
+		</label>
+		</div>
 			</div>
 			
 			
 			<div>
                     
 		
-         <button type="submit" class="submit3"><b>Conferma<b></b></button>
+         <button type="submit" class="update2"><b>Conferma<b></b></button>
                             </div>
                     
                         </div>
