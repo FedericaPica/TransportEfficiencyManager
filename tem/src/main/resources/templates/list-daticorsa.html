@@ -72,9 +72,12 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 	
 	  <table class="w3-table w3-striped w3-bordered animazione1">
 	    <tr>
-	      <th>Nome</th>
-	      <th>Cognome</th>
-	      <th>Codice fiscale</th>
+	      <th>Linea</th>
+	      <th>Orario</th>
+	      <th>Posti disponibili</th>
+	       <th>Posti occupati</th>
+	        <th>Passeggeri non saliti</th>
+	         <th>Traffico</th>
 	      <th>     </th>
 	      <th>     </th>
 	    </tr>
@@ -85,7 +88,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${datiCorsa.passeggeriSaliti}">Posti occupati</td>
 						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
 						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
-						<td th:text="${datiCorsa.traffico}">Passeggeri non saliti</td>
+						<td th:text="${datiCorsa.traffico}">Traffico</td>
 						<td>  <a th:onclick="|popEdit(${daticorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
 						<td><img src"img/trash.png" th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></td>
 						
