@@ -71,9 +71,9 @@ public class RisorseController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
     Utente utente = accountService.getUserByUsername(currentUserName);
-    List<Mezzo> listMezzi = risorseService.getMezzi();
+    List<Mezzo> listMezzi = risorseService.getMezziByAzienda(utente);
     List<Conducente> listConducenti = risorseService.getConducentiByAzienda(utente);
-    List<Linea> listLinee = risorseService.getLinee();
+    List<Linea> listLinee = risorseService.getLineeByAzienda(utente);
     model.addAttribute("linee", listLinee);
     model.addAttribute("conducenti", listConducenti);
     model.addAttribute("mezzi", listMezzi);

@@ -18,19 +18,21 @@
                 <div class="col-md-8">
                     <form action="#" th:action="@{/risorse/update/linea/{id}(id=${linea.id})}" th:object="${linea}" method="post">
                         <div class="row">
+                            <div>
                             <div class="form-group col-md-6">
-                                <label for="nome" class="col-form-label">Nome</label> <input type="text" th:field="${linea.nome}" class="form-control" id="nome" placeholder="Nome" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('nome')}" th:errors="nome" class="text-danger"></span>
+                                <input type="text" th:field="${linea.nome}" class="form-control" id="nome" placeholder="Nome" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('nome')}" th:errors="nome" class="text-danger"></span>
                             </div>
                             <div class="form-group col-md-8">
-                                <label for="partenza" class="col-form-label">Partenza</label> <input type="text" th:field="${linea.partenza}" class="form-control" id="partenza" placeholder="Partenza" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('partenza')}" th:errors="partenza" class="text-danger"></span>
+                                <input type="text" th:field="${linea.partenza}" class="form-control" id="partenza" placeholder="Partenza" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('partenza')}" th:errors="partenza" class="text-danger"></span>
                             </div>
                             <div class="form-group col-md-8">
-                            <label for="destinazione" class="col-form-label">Destinazione</label> <input type="text" th:field="${linea.destinazione}" class="form-control" id="destinazione" placeholder="Destinazione" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('destinazione')}" th:errors="destinazione" class="text-danger"></span>
+                           <input type="text" th:field="${linea.destinazione}" class="form-control" id="destinazione" placeholder="Destinazione" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('destinazione')}" th:errors="destinazione" class="text-danger"></span>
                             </div>
 
                             <div class="form-group col-md-8">
-                                <button type="submit" class="btn btn-primary">Modifica linea</button>
+                                <button type="submit" class="update">Modifica linea</button>
                             </div>
+                        </div>
                         </div>
                     </form>
                 </div>

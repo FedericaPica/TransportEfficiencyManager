@@ -155,6 +155,10 @@ a:link {
   color:white;
 }
 
+a.color{
+	color:white;
+	text-decoration:none;
+}
 a.color:hover{
 	  color: #3366ff;
 }
@@ -362,6 +366,44 @@ button:focus {
 	height: 8px;
 	border-radius: 50%;
 	background: white;
+}
+
+.row{
+	margin-left:170px;
+}
+
+.update{
+	background-color: #01010e; 
+ 	color: white; 
+    border: 2px solid #0066ff;
+    padding:7px;
+    margin-top:40px;
+	margin-left:53px;
+	border-radius: 3px;
+	
+}
+
+.update:focus{
+	background-color:#4d94ff;
+	transition-duration: 0.4s;
+    cursor: pointer;	 
+}
+
+.update2{
+	background-color: #01010e; 
+ 	color: white; 
+    border: 2px solid #0066ff;
+    padding:7px;
+    margin-top:40px;
+	margin-left:202px;
+	border-radius: 3px;
+	
+}
+
+.update2:focus{
+	background-color:#4d94ff;
+	transition-duration: 0.4s;
+    cursor: pointer;	 
 }
 html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}
 article,aside,details,figcaption,figure,footer,header,main,menu,nav,section{display:block}summary{display:list-item}

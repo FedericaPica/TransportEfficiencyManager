@@ -18,18 +18,20 @@
                 <div class="col-md-8">
                     <form action="#" th:action="@{/risorse/update/mezzo/{id}(id=${mezzo.id})}" th:object="${mezzo}" method="post">
                         <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="capienza" class="col-form-label">Capienza</label> <input type="number" th:field="${mezzo.capienza}" class="form-control" id="capienza" placeholder="Capienza" required> <span th:if="${#fields.hasErrors('capienza')}" th:errors="*{capienza}" class="text-danger"></span>
+                              <div >
+                                <input type="number" th:field="${mezzo.capienza}" class="form-control" id="capienza" placeholder="Capienza" required> <span th:if="${#fields.hasErrors('capienza')}" th:errors="*{capienza}" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-md-8">
-                                <label for="targa" class="col-form-label">Targa</label> <input type="text" th:field="${mezzo.targa}" class="form-control" id="targa" placeholder="targa" required minlength="7"> <span th:if="${#fields.hasErrors('targa')}" th:errors="*{targa}" class="text-danger"></span>
+                            <div >
+                                <input type="text" th:field="${mezzo.targa}" class="form-control" id="targa" placeholder="Targa" required minlength="7"> <span th:if="${#fields.hasErrors('targa')}" th:errors="*{targa}" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-md-8">
-                                <label for="tipo" class="col-form-label">Tipo</label> <input type="text" th:field="${mezzo.tipo}" class="form-control" id="tipo" placeholder="Tipo" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('tipo')}" th:errors="tipo" class="text-danger"></span>
+                            <div>
+                               <input type="text" th:field="${mezzo.tipo}" class="form-control" id="tipo" placeholder="Tipo" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('tipo')}" th:errors="tipo" class="text-danger"></span>
                             </div>
+                            
+
 
                             <div class="form-group col-md-8">
-                                <button type="submit" class="btn btn-primary">Modifica mezzo</button>
+                                <button type="submit" class="update">Modifica mezzo</button>
                             </div>
                         </div>
                     </form>
