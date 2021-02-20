@@ -20,6 +20,14 @@ tr, td {background-color:#01010e;}
 th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 
 </style>
+    <script>
+    
+    
+    function popEdit(id) {
+    	var windowFeatures = "top=10, left=10, width=600, height=650, status=no, menubar=no, toolbar=no scrollbars=no";
+    	window.open("/daticorsa/edit/" + id, "Modifica dati corsa", windowFeatures);
+    }
+    </script>
 <body class="w3-black">
 <a href="/home" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
 <!-- Icon Bar (Sidebar - hidden on small screens) -->
@@ -81,15 +89,14 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 	      <th>     </th>
 	      <th>     </th>
 	    </tr>
-	   <tr th:each="daticorsa: ${DatiCorsa}">
+	   <tr th:each="datiCorsa: ${datiCorse}">
 						<td th:text="${datiCorsa.lineaCorsa}">Linea</td>
 						<td th:text="${datiCorsa.orarioCorsa}">Orario</td>
 						<td th:text="${datiCorsa.numeroPosti}">Posti disponibili</td>
 						<td th:text="${datiCorsa.passeggeriSaliti}">Posti occupati</td>
 						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
-						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
-						<td th:text="${datiCorsa.traffico}">Traffico</td>
-						<td>  <a th:onclick="|popEdit(${daticorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
+						<td th:text="${datiCorsa.traffico} ? 'Si' : 'No'">Traffico</td>
+						<td>  <a href="#" th:onclick="|popEdit(${datiCorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
 						<td><img src"img/trash.png" th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></td>
 						
 						

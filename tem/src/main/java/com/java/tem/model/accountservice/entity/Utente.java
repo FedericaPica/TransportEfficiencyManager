@@ -60,7 +60,15 @@ public class Utente {
   private Set<DatiCorsa> datiCorse;
 
 
-  public Set<Conducente> getConducenti() {
+  public Set<DatiCorsa> getDatiCorse() {
+	return datiCorse;
+}
+
+public void setDatiCorse(Set<DatiCorsa> datiCorse) {
+	this.datiCorse = datiCorse;
+}
+
+public Set<Conducente> getConducenti() {
     return conducenti;
   }
 

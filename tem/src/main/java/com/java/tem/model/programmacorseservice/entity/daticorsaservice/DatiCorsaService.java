@@ -1,5 +1,6 @@
 package com.java.tem.model.programmacorseservice.entity.daticorsaservice;
 
+import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.repository.DatiCorsaRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,12 @@ public class DatiCorsaService {
     datiCorsaRepository.findAll().forEach(datiCorse::add);
     return datiCorse;
   }
+  
+  public List<DatiCorsa> getDatiCorsaByAzienda(Utente utente) {
+	    List<DatiCorsa> datiCorse = new ArrayList<DatiCorsa>();
+	    datiCorse = datiCorsaRepository.findByAzienda(utente);
+	    return datiCorse;
+	  }
 
   public Optional<DatiCorsa> getDatiCorsa(Long id) {
     return datiCorsaRepository.findById(id);

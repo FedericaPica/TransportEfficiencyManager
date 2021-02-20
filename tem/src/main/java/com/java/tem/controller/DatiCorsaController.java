@@ -6,7 +6,12 @@ import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsaService;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
+
+import java.awt.print.Printable;
+import java.util.List;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -85,5 +90,15 @@ public String updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa,
     datiCorsaService.deleteDatiCorsa(datiCorsa);
 
     return "home";
+  }
+  
+  @GetMapping("/daticorsa/list")
+  public String listDatiCorsa(Model model) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUserName = authentication.getName();
+    Utente utente = accountService.getUserByUsername(currentUserName);
+    List<DatiCorsa> listDatiCorsa = datiCorsaService.getDatiCorsaByAzienda(utente);
+    model.addAttribute("datiCorse", listDatiCorsa);
+    return "list-daticorsa"; 
   }
 }
