@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
 <style>
 body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}
@@ -27,6 +32,40 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
     	var windowFeatures = "top=10, left=10, width=600, height=650, status=no, menubar=no, toolbar=no scrollbars=no";
     	window.open("/daticorsa/edit/" + id, "Modifica dati corsa", windowFeatures);
     }
+    
+  
+
+        $(document).ready(function(){
+
+            $('.delete_daticorsa').click(function(){
+                let id_daticorsa = $(this).val();
+
+                       Swal.fire({
+                          title: 'Conferma',
+                          text: "Sicuro di voler eliminare i dati relativi alla corsa?",
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Si'
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                              $.ajax({
+                                url: '/daticorsa/delete/'+ id_daticorsa,
+                                success: function() {
+                                    Swal.fire(
+                                        'Cancellato!',
+                                        'I dati corsa sono stati cancellati con successo!',
+                                        'success'
+                                    ),
+                                    $('#'+id_daticorsa).closest("tr").hide();
+                                }
+                                });
+                          }
+                       });
+                });
+        });
+    </script>
     </script>
 <body class="w3-black">
 <a href="/home" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
@@ -89,15 +128,15 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 	      <th>     </th>
 	      <th>     </th>
 	    </tr>
-	   <tr th:each="datiCorsa: ${datiCorse}">
+	   <tr th:each="datiCorsa: ${datiCorse}" th:id="${datiCorsa.id}">
 						<td th:text="${datiCorsa.lineaCorsa}">Linea</td>
 						<td th:text="${datiCorsa.orarioCorsa}">Orario</td>
 						<td th:text="${datiCorsa.numeroPosti}">Posti disponibili</td>
 						<td th:text="${datiCorsa.passeggeriSaliti}">Posti occupati</td>
 						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
 						<td th:text="${datiCorsa.traffico} ? 'Si' : 'No'">Traffico</td>
-						<td>  <a href="#" th:onclick="|popEdit(${datiCorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
-						<td><img src"img/trash.png" th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></td>
+						<td><a href="#" th:onclick="|popEdit(${datiCorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
+						<td><button class="delete_daticorsa" th:value="${datiCorsa.id}"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 						
 		</tr>
