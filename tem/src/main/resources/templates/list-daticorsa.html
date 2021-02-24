@@ -136,7 +136,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
 						<td th:text="${datiCorsa.traffico} ? 'Si' : 'No'">Traffico</td>
 						<td><a href="#" th:onclick="|popEdit(${datiCorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
-						<td><button class="delete_daticorsa" th:value="${datiCorsa.id}"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+						<td><a class="delete_daticorsa" th:value="${datiCorsa.id}"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></a></td>
 						
 						
 		</tr>
