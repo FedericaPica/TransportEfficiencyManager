@@ -1,6 +1,9 @@
 package com.java.tem.model.accountservice.entity;
  
 import antlr.collections.List;
+
+import com.java.tem.model.programmacorseservice.entity.Corsa;
+import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
@@ -58,6 +61,9 @@ public class Utente {
   
   @OneToMany(mappedBy = "azienda")
   private Set<DatiCorsa> datiCorse;
+  
+  @OneToMany(mappedBy = "azienda")
+  private Set<ProgrammaCorse> programmaCorse;
 
 
   public Set<DatiCorsa> getDatiCorse() {

@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,6 +22,7 @@ import javax.persistence.Table;
 public class Corsa {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
   private Time orario;
   @ManyToMany(cascade = {CascadeType.ALL})
@@ -37,7 +40,10 @@ public class Corsa {
   @JoinColumn(name = "linea_id", nullable = false)
     private Linea linea;
 
-
+  @ManyToOne
+  @JoinColumn(name = "programma_id", nullable = false)
+    private ProgrammaCorse programma;
+    
   public Set<Mezzo> getMezzi() {
     return mezzi;
   }
