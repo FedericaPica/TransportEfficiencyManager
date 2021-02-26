@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.ResourcesNotExistException;
 import com.java.tem.exceptions.UserAlreadyExistsException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,12 @@ public class ExceptionHandlingController {
   @ExceptionHandler(UserAlreadyExistsException.class)
   public void userAlreadyExists() {
 
+  }
+  
+  @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Una o più risorse mancanti")
+  @ExceptionHandler(ResourcesNotExistException.class)
+  public void noResourcesFound() {
+	  
   }
 
 }

@@ -23,21 +23,21 @@ public class Corsa {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
   private Time orario;
   @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(name = "Conducente_Corsa",
       joinColumns = {@JoinColumn(name = "corsa_id")},
       inverseJoinColumns = {@JoinColumn(name = "conducente_id")})
-  private Set<Conducente> conducenti = new HashSet<>(); 
-  @ManyToMany(cascade = {CascadeType.ALL})
+  private Set<Conducente> conducenti = new HashSet<>();
+@ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(name = "Mezzo_Corsa", 
       joinColumns = {@JoinColumn(name = "corsa_id")}, 
       inverseJoinColumns = {@JoinColumn(name = "mezzo_id")})
   private Set<Mezzo> mezzi = new HashSet<>(); 
   
   @ManyToOne
-  @JoinColumn(name = "linea_id", nullable = false)
+  @JoinColumn(name = "linea_id")
     private Linea linea;
 
   @ManyToOne
@@ -60,11 +60,11 @@ public class Corsa {
     this.conducenti = conducenti;
   }
   
-  public long getId() {
+  public Long getId() {
     return id;
   }
   
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
   
@@ -74,5 +74,21 @@ public class Corsa {
   
   public void setOrario(Time orario) {
     this.orario = orario;
+  }
+  
+  public Linea getLinea() {
+	return linea;
+  }
+
+  public void setLinea(Linea linea) {
+    this.linea = linea;
+  }
+
+  public ProgrammaCorse getProgramma() {
+    return programma;
+  }
+
+  public void setProgramma(ProgrammaCorse programma) {
+    this.programma = programma;
   }
 }

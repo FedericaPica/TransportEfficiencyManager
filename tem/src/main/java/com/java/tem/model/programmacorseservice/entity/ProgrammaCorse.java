@@ -3,6 +3,7 @@ package com.java.tem.model.programmacorseservice.entity;
 import java.sql.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class ProgrammaCorse {
 	  @OneToMany(mappedBy = "programma")
 	  private Set<Corsa> listaCorse;
 	  
-	  @ManyToOne
+	  @ManyToOne(cascade = CascadeType.ALL)
 	  @JoinColumn(name = "azienda_id", nullable = false)
 	  private Utente azienda;
 

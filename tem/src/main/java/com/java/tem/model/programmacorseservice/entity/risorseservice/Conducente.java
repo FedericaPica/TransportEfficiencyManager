@@ -34,7 +34,7 @@ public class Conducente extends Risorsa {
   private Set<Corsa> corse = new HashSet<>();
   
   @ManyToOne
-  @JoinColumn(name = "azienda_id", nullable = false)
+  @JoinColumn(name = "azienda_id")
   private Utente azienda;
   
   public Utente getAzienda() {

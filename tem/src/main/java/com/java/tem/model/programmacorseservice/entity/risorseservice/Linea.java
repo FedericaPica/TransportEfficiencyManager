@@ -3,7 +3,10 @@ package com.java.tem.model.programmacorseservice.entity.risorseservice;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,7 +60,7 @@ public class Linea extends Risorsa {
     return id;
   }
   
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
   
