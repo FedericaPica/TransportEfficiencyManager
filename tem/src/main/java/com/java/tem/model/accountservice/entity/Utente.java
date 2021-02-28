@@ -50,19 +50,24 @@ public class Utente {
   @JoinColumn(name = "id_dettaglio", referencedColumnName = "id")
   private DettaglioUtente dettaglio;
 
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany
+  @JoinColumn(name = "azienda_id")
   private Set<Conducente> conducenti;
 
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany
+  @JoinColumn(name = "azienda_id")
   private Set<Mezzo> mezzi;
 
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany
+  @JoinColumn(name = "azienda_id")
   private Set<Linea> linee;
   
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany
+  @JoinColumn(name = "azienda_id")
   private Set<DatiCorsa> datiCorse;
   
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany
+  @JoinColumn(name = "azienda_id")
   private Set<ProgrammaCorse> programmaCorse;
 
 

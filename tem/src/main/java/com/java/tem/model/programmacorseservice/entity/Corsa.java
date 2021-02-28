@@ -25,13 +25,13 @@ public class Corsa {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
   private Time orario;
-  @ManyToMany(cascade = {CascadeType.ALL})
+  @ManyToMany
   @JoinTable(name = "Conducente_Corsa",
       joinColumns = {@JoinColumn(name = "corsa_id")},
       inverseJoinColumns = {@JoinColumn(name = "conducente_id")})
   private Set<Conducente> conducenti = new HashSet<>();
-@ManyToMany(cascade = {CascadeType.ALL})
-  @JoinTable(name = "Mezzo_Corsa", 
+@ManyToMany
+  @JoinTable(name = "Mezzo_Corsa",
       joinColumns = {@JoinColumn(name = "corsa_id")}, 
       inverseJoinColumns = {@JoinColumn(name = "mezzo_id")})
   private Set<Mezzo> mezzi = new HashSet<>(); 

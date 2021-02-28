@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorseService;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class ProgrammaCorseController {
@@ -25,8 +28,15 @@ public class ProgrammaCorseController {
 	private AccountService accountService;
 	
 	@GetMapping("/programmacorse")
-	public String homeProgrammaCorse() {
-		return "home-programma-corse";
+	public String homeProgrammaCorse(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		Utente utente = accountService.getUserByUsername(currentUserName);
+
+		List<ProgrammaCorse> programmiList = programmaCorseService.getProgrammaCorseByAzienda(utente);
+
+		model.addAttribute("listaProgrammi", programmiList);
+		return "list-programmacorse";
 	}
 
 	@GetMapping("/programmacorse/insert/manuale")
@@ -39,6 +49,14 @@ public class ProgrammaCorseController {
 	@GetMapping("/programmacorse/insert/auto")
 	public void insertProgrammaAutomatico() {
 
+	}
+
+	@GetMapping("/programmacorse/delete/{id}")
+	public String deleteProgrammaCorse(@PathVariable("id") Long id) {
+		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
+		programmaCorseService.deleteProgrammaCorse(programmaCorse);
+
+		return "index";
 	}
 
 	@PostMapping("/programmacorse/manuale/submit")

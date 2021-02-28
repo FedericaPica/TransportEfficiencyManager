@@ -1,7 +1,9 @@
 package com.java.tem.model.programmacorseservice.entity;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.java.tem.model.accountservice.entity.Utente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,6 +57,14 @@ public class ProgrammaCorseService {
 	
 	public void deleteProgrammaCorseById(Long id) {
 		programmaCorseRepository.deleteById(id);
+	}
+
+	public void deleteProgrammaCorse(ProgrammaCorse programmaCorse) {
+		programmaCorseRepository.delete(programmaCorse);
+	}
+
+	public List<ProgrammaCorse> getProgrammaCorseByAzienda(Utente utente) {
+		return programmaCorseRepository.findByAzienda(utente);
 	}
 	
 

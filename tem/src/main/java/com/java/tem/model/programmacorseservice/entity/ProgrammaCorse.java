@@ -3,7 +3,6 @@ package com.java.tem.model.programmacorseservice.entity;
 import java.sql.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.java.tem.model.accountservice.entity.Utente;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "programmacorse")
@@ -27,9 +28,10 @@ public class ProgrammaCorse {
 	  private Date fineValidita;
 
 	  @OneToMany(mappedBy = "programma")
+	  @Cascade({CascadeType.REMOVE})
 	  private Set<Corsa> listaCorse;
 	  
-	  @ManyToOne(cascade = CascadeType.ALL)
+	  @ManyToOne
 	  @JoinColumn(name = "azienda_id", nullable = false)
 	  private Utente azienda;
 

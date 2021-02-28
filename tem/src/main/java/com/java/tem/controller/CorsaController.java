@@ -1,10 +1,6 @@
 package com.java.tem.controller;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import com.java.tem.model.programmacorseservice.repository.ProgrammaManualeMaker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +21,7 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
-import com.java.tem.model.programmacorseservice.repository.CorsaRepository;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -79,10 +75,10 @@ public class CorsaController {
 	}
 	
 	@PostMapping("/corsa/submit/{programmaCorseId}")
-	public String processCorsa(@ModelAttribute("corsa") Corsa corsa, @RequestParam(value = "mezzo") Long mezzo_id,
-							   @RequestParam(value = "linea") Long linea_id,
-							   @RequestParam(value= "conducente") Long conducente_id,
-							   @PathVariable(value= "programmaCorseId") Long programmaCorse_id) {
+	public ModelAndView processCorsa(@ModelAttribute("corsa") Corsa corsa, @RequestParam(value = "mezzo") Long mezzo_id,
+									 @RequestParam(value = "linea") Long linea_id,
+									 @RequestParam(value= "conducente") Long conducente_id,
+									 @PathVariable(value= "programmaCorseId") Long programmaCorse_id) {
 		Conducente conducente = risorseService.getConducente(conducente_id).get();
 		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(programmaCorse_id).get();
 		Linea linea = risorseService.getLinea(linea_id).get();
@@ -90,9 +86,6 @@ public class CorsaController {
 
 		programmaManualeMaker.creaCorsa(corsa, linea, mezzo, conducente,programmaCorse);
 		
-		return "home";
+		return new ModelAndView("redirect:/corsa/insert/" + programmaCorse_id);
 	}
-	
-	
 }
- 
