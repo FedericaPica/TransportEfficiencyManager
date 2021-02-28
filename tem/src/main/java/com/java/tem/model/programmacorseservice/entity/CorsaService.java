@@ -30,6 +30,8 @@ public class CorsaService {
 	public void deleteCorsaById(Long id) {
 		corsaRepository.deleteById(id);
 	}
+
+	public void deleteCorsa(Corsa corsa) { corsaRepository.delete(corsa); }
 	
 	public List<Corsa> getCorseByProgramma(ProgrammaCorse programmaCorse) {
 		return corsaRepository.findCorseByProgramma(programmaCorse);

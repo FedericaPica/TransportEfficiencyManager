@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -49,13 +50,7 @@ public class ProgrammaManualeMaker implements Strategy {
 		return programmaCorse;
 	}
 
-	public void creaCorsa(Corsa corsa, Linea linea, Mezzo mezzo, Conducente conducente, ProgrammaCorse programmaCorse) {
-
-		Set<Conducente> conducenti = new HashSet<Conducente>();
-		Set<Mezzo> mezzi = new HashSet<Mezzo>();
-
-		conducenti.add(conducente);
-		mezzi.add(mezzo);
+	public void creaCorsa(Corsa corsa, Linea linea, Set<Mezzo> mezzi, Set<Conducente> conducenti, ProgrammaCorse programmaCorse) {
 
 		corsa.setConducenti(conducenti);
 		corsa.setMezzi(mezzi);

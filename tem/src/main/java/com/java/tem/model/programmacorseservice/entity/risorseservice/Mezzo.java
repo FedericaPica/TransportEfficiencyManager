@@ -79,4 +79,9 @@ public class Mezzo extends Risorsa {
   public void setTipo(String tipo) {
     this.tipo = tipo;
   }
+
+  @Override
+  public String toString() {
+    return this.getTipo();
+  }
 }

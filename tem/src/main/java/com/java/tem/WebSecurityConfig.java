@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/home").authenticated()
         .antMatchers("/risorse/**").authenticated()
         .antMatchers("/daticorsa/**").authenticated()
+        .antMatchers("/programmacorse/**").authenticated()
         .anyRequest().permitAll()
         .and()
         .formLogin()

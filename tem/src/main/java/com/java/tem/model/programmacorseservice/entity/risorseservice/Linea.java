@@ -87,4 +87,8 @@ public class Linea extends Risorsa {
   public void setDestinazione(String destinazione) {
     this.destinazione = destinazione;
   }
+
+  public String toString() {
+    return this.nome;
+  }
 }

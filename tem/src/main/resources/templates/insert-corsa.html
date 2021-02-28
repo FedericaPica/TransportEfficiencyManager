@@ -86,8 +86,8 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 			</div>
 
 			<div>
-					<select class="w3-select" name="conducente">
-						<option value="">Seleziona un conducente</option>
+					<select class="w3-select" name="conducente" multiple>
+						<option value="">Seleziona uno o più conducenti</option>
                         <option th:each="conducente : ${conducenti}"
                                 th:value="${conducente.id}"
                                 th:text="${conducente.cognome}"></option>
@@ -95,8 +95,8 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 			</div>
 			
 						<div>
-					<select class="w3-select" name="mezzo">
-						<option value="">Seleziona un mezzo</option>
+					<select class="w3-select" name="mezzo" multiple>
+						<option value="">Seleziona uno o più mezzi</option>
 						        <option th:each="mezzo : ${mezzi}"
 						                th:value="${mezzo.id}"
 						                th:text="${mezzo.tipo}"></option>
@@ -110,7 +110,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                     
 		
                                 <button type="submit" class="submit3" ><b>Conferma<b></b></button>
-                                <a href="/home" class="w3-button w3-red">Termina inserimento</a>
+                                <a th:href="@{/programmacorse/dettaglio/{id}(id=${programmaCorse.id})}" class="w3-button w3-red">Termina inserimento</a>
                             </div>
                         </div>
                     </form>

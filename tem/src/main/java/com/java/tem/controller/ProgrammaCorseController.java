@@ -2,6 +2,8 @@ package com.java.tem.controller;
 
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
+import com.java.tem.model.programmacorseservice.entity.Corsa;
+import com.java.tem.model.programmacorseservice.entity.CorsaService;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,9 +28,18 @@ public class ProgrammaCorseController {
 
 	@Autowired
 	private AccountService accountService;
-	
+
+	@Autowired
+	private CorsaService corsaService;
+
+
 	@GetMapping("/programmacorse")
-	public String homeProgrammaCorse(Model model) {
+	public String homeProgrammaCorse() {
+		return "home-programma-corse";
+	}
+
+	@GetMapping("/programmacorse/list")
+	public String listProgrammaCorse(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentUserName = authentication.getName();
 		Utente utente = accountService.getUserByUsername(currentUserName);
@@ -64,5 +75,15 @@ public class ProgrammaCorseController {
 		programmaCorseService.generaProgrammaCorse("manuale", programmaCorse);
 
 		return new ModelAndView("redirect:/corsa/insert/" + programmaCorse.getId());
+	}
+
+	@GetMapping("/programmacorse/dettaglio/{id}")
+	public String detailProgrammaCorse(@PathVariable("id") Long id, Model model) {
+		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
+		List<Corsa> listaCorse = corsaService.getCorseByProgramma(programmaCorse);
+
+		model.addAttribute("listaCorse", listaCorse);
+		model.addAttribute("programmaCorse", programmaCorse);
+		return "detail-programmacorse";
 	}
 }

@@ -1,6 +1,8 @@
 package com.java.tem.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.java.tem.model.programmacorseservice.repository.ProgrammaManualeMaker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,17 +77,37 @@ public class CorsaController {
 	}
 	
 	@PostMapping("/corsa/submit/{programmaCorseId}")
-	public ModelAndView processCorsa(@ModelAttribute("corsa") Corsa corsa, @RequestParam(value = "mezzo") Long mezzo_id,
+	public ModelAndView processCorsa(@ModelAttribute("corsa") Corsa corsa,
+									 @RequestParam(value = "mezzo") List<Long> mezzi,
 									 @RequestParam(value = "linea") Long linea_id,
-									 @RequestParam(value= "conducente") Long conducente_id,
+									 @RequestParam(value= "conducente") List<Long> conducenti,
 									 @PathVariable(value= "programmaCorseId") Long programmaCorse_id) {
-		Conducente conducente = risorseService.getConducente(conducente_id).get();
+		Set<Conducente> conducenti_to_add = new HashSet<Conducente>();
+		Set<Mezzo> mezzi_to_add = new HashSet<Mezzo>();
+
+		for(Long conducente_id: conducenti) {
+			Conducente conducente = risorseService.getConducente(conducente_id).get();
+			conducenti_to_add.add(conducente);
+		}
+
+		for(Long mezzo_id: mezzi) {
+			Mezzo mezzo = risorseService.getMezzo(mezzo_id).get();
+			mezzi_to_add.add(mezzo);
+		}
+
 		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(programmaCorse_id).get();
 		Linea linea = risorseService.getLinea(linea_id).get();
-		Mezzo mezzo = risorseService.getMezzo(mezzo_id).get();
 
-		programmaManualeMaker.creaCorsa(corsa, linea, mezzo, conducente,programmaCorse);
+		programmaManualeMaker.creaCorsa(corsa, linea, mezzi_to_add, conducenti_to_add, programmaCorse);
 		
 		return new ModelAndView("redirect:/corsa/insert/" + programmaCorse_id);
+	}
+
+	@GetMapping("/corsa/delete/{id}")
+	public String deleteCorsa(@PathVariable("id") Long id) {
+		Corsa corsa = corsaService.getCorsaById(id).get();
+		corsaService.deleteCorsa(corsa);
+
+		return "home";
 	}
 }
