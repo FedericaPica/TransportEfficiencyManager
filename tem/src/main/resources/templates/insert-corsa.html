@@ -65,7 +65,8 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 
  <div class="formRisorsa">
     
-                  <form th:action="@{/corsa/submit}"method="post" style="max-width: 600px; margin: 0 auto;" > 
+                  <form th:action="@{/corsa/submit/{programmaCorseId}(programmaCorseId=${programmaCorse.id})}"
+                        method="post" style="max-width: 600px; margin: 0 auto;" >
                      <div class="m-3">
 			<div>
 			

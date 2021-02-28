@@ -21,22 +21,23 @@ public class ProgrammaCorseService {
 	public ProgrammaCorseService() { 
 	}
 	
-	public void generaProgrammaCorse(String genType) {
+	public void generaProgrammaCorse(String genType, ProgrammaCorse programmaCorse) {
 		Strategy strategy;
 		
 		switch(genType) {
 			case "manuale": 
 				strategy = programmaCorseFactory.findStrategy(StrategyType.Manuale);
+				strategy.doOperation(programmaCorse);
 				break;
 			case "automatico":
 				strategy = programmaCorseFactory.findStrategy(StrategyType.Automatico);
+				strategy.doOperation();
 				break;
 				
 			default:
 				strategy = programmaCorseFactory.findStrategy(StrategyType.Manuale);
+				strategy.doOperation(programmaCorse);
 		}
-		
-		strategy.doOperation();
 	}
 	
 	

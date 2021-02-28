@@ -6,16 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.java.tem.model.programmacorseservice.repository.ProgrammaManualeMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.java.tem.exceptions.ResourcesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
@@ -47,11 +44,17 @@ public class CorsaController {
 	
 	@Autowired
 	private CorsaService corsaService;
-	
-	@GetMapping("/corsa/insert")
-	public String insertCorsa(Model model) throws ResourcesNotExistException {
+
+	@Autowired
+	private ProgrammaManualeMaker programmaManualeMaker;
+
+
+	@GetMapping("/corsa/insert/{programmaCorseId}")
+	public String insertCorsa(@PathVariable("programmaCorseId") Long programmaCorseId, Model model)
+			throws ResourcesNotExistException {
 		
-		
+		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(programmaCorseId).get();
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    String currentUserName = authentication.getName();
 	    Utente utente = accountService.getUserByUsername(currentUserName);
@@ -67,6 +70,7 @@ public class CorsaController {
 		model.addAttribute("linee", linee);
 		model.addAttribute("mezzi", mezzi);
 		model.addAttribute("conducenti", conducenti);
+		model.addAttribute("programmaCorse", programmaCorse);
 		model.addAttribute("linea", new Linea());
 		
 		model.addAttribute("corsa", new Corsa());
@@ -74,29 +78,17 @@ public class CorsaController {
 		return "/insert-corsa";
 	}
 	
-	@PostMapping("/corsa/submit")
-	public String processCorsa(@ModelAttribute("corsa") Corsa corsa, @RequestParam(value = "mezzo") Long mezzo_id, @RequestParam(value = "linea") Long linea_id, @RequestParam(value= "conducente") Long conducente_id) {
+	@PostMapping("/corsa/submit/{programmaCorseId}")
+	public String processCorsa(@ModelAttribute("corsa") Corsa corsa, @RequestParam(value = "mezzo") Long mezzo_id,
+							   @RequestParam(value = "linea") Long linea_id,
+							   @RequestParam(value= "conducente") Long conducente_id,
+							   @PathVariable(value= "programmaCorseId") Long programmaCorse_id) {
 		Conducente conducente = risorseService.getConducente(conducente_id).get();
+		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(programmaCorse_id).get();
 		Linea linea = risorseService.getLinea(linea_id).get();
 		Mezzo mezzo = risorseService.getMezzo(mezzo_id).get();
-		
-		System.out.println(conducente.getNome());
-		System.out.println(linea.getNome());
-		System.out.println(mezzo.getTipo());
-		
-		Set<Conducente> conducenti = new HashSet<Conducente>();
-		Set<Mezzo> mezzi = new HashSet<Mezzo>();
-		
-		conducenti.add(conducente);
-		mezzi.add(mezzo);
 
-		corsa.setConducenti(conducenti);
-		corsa.setMezzi(mezzi);
-		corsa.setLinea(linea);
-		ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(2L).get();
-		corsa.setProgramma(programmaCorse);
-		
-		corsaService.addCorsa(corsa);
+		programmaManualeMaker.creaCorsa(corsa, linea, mezzo, conducente,programmaCorse);
 		
 		return "home";
 	}

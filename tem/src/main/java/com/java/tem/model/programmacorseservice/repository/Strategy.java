@@ -7,6 +7,8 @@ import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 @Repository
 public interface Strategy {
 	public ProgrammaCorse doOperation();
+
+	public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse);
 	
 	public StrategyType getStrategyType();
 }

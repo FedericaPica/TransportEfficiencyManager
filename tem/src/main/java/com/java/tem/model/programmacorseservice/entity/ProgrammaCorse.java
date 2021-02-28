@@ -22,8 +22,7 @@ public class ProgrammaCorse {
 	  @Id
 	  @GeneratedValue(strategy = GenerationType.IDENTITY)
 	  private Long id;
-	  
-	  private Date data;
+
 	  private Date inizioValidita;
 	  private Date fineValidita;
 
@@ -40,14 +39,6 @@ public class ProgrammaCorse {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
 	}
 
 	public Date getInizioValidita() {
