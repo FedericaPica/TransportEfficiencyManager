@@ -6,7 +6,6 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

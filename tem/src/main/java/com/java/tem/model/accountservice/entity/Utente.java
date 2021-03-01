@@ -1,8 +1,5 @@
 package com.java.tem.model.accountservice.entity;
  
-import antlr.collections.List;
-
-import com.java.tem.model.programmacorseservice.entity.Corsa;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
@@ -20,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Entity
