@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ProgrammaCorseRepository extends JpaRepository<ProgrammaCorse, Long>{

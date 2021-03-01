@@ -14,9 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
-
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Repository

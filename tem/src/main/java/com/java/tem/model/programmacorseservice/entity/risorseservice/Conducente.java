@@ -2,8 +2,6 @@ package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
-
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -14,7 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Table(name = "Conducente")
 @DynamicUpdate(true)
-public class Conducente extends Risorsa implements Serializable {
+public class Conducente extends Risorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
