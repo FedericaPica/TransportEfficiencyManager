@@ -67,7 +67,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     
                   <form th:action="@{/corsa/submit/{programmaCorseId}(programmaCorseId=${programmaCorse.id})}"
                         method="post" style="max-width: 600px; margin: 0 auto;" >
-                     <div class="row2">
+                     <div style="margin-left:-90px;">
 			<div>
 					<input type="text" th:field='${corsa.orario}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Inserisci orario" onclick="this.value=''"/>
 				</div>
