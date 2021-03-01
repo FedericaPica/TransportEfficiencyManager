@@ -85,7 +85,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
     <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
     <p>INSERISCI DATI CORSE</p>
   </a>
-  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+  <a href="/programmacorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
       <i><img src"img/programma.png" th:src="@{/img/programma.png}" alt="calendar" style="width:55px;height:55px;"/></i>
     <p>GENERA PROGRAMMA</p>
   </a>
@@ -101,7 +101,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
     <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
     <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
     <a href="/daticorsa/add" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI DATI CORSE</a>
-    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
+    <a href="/programmacorse" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
   </div>
 </div>
 
@@ -135,8 +135,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${datiCorsa.passeggeriSaliti}">Posti occupati</td>
 						<td th:text="${datiCorsa.passeggeriNonSaliti}">Passeggeri non saliti</td>
 						<td th:text="${datiCorsa.traffico} ? 'Si' : 'No'">Traffico</td>
-						<td><a href="#" th:onclick="|popEdit(${datiCorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
-						<td><a class="delete_daticorsa" th:value="${datiCorsa.id}"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></a></td>
+						<td><button class="delete"><a href="#" th:onclick="|popEdit(${datiCorsa.id})|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
+						<td><a class="delete" th:value="${datiCorsa.id}"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></a></td>
 						
 						
 		</tr>
@@ -156,7 +156,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
       <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Telefono: +39 082587650</p>
       <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: TransportEfficiencyManager@gmail.com</p>
     </div><br>
-    <p>Inviaci una mail per richiedere ulteriori informazioni.</p>
+<p style="color: white;font-size:20px;font-weight:bold;">Inviaci una mail per richiedere ulteriori informazioni.</p>
 
     <form action="/action_page.php" target="_blank">
       <p><input class="w3-input w3-padding-16" type="text" placeholder="Nome" required name="Name"></p>

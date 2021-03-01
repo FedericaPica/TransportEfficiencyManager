@@ -85,7 +85,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
     <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
     <p>INSERISCI DATI CORSE</p>
   </a>
-  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+  <a href="/programmacorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
       <i><img src"img/programma.png" th:src="@{/img/programma.png}" alt="calendar" style="width:55px;height:55px;"/></i>
     <p>GENERA PROGRAMMA</p>
   </a>
@@ -101,7 +101,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
     <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
     <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
     <a href="/daticorsa/add" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI DATI CORSE</a>
-    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
+    <a href="/programmacorse" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
   </div>
 </div>
 
@@ -115,7 +115,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
 
 <div class="w3-row">
-	<div class="tabella1">
+	<div>
 	<h2 style="color:white;">Conducenti</h2>
 	  <table class="w3-table w3-striped w3-bordered animazione1">
 	    <tr>
@@ -129,16 +129,16 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${conducente.nome}">Nome</td>
 						<td th:text="${conducente.cognome}">Cognome</td>
 						<td th:text="${conducente.codiceFiscale}">Codice fiscale</td>
-						<td> <a href="#" th:onclick="|popEdit(${conducente.id}, 'conducente')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
-						<td ><button class="delete_risorsa" th:value="${conducente.id}" id="conducente"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+						<td><button class="delete"> <a href="#" th:onclick="|popEdit(${conducente.id}, 'conducente')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
+						<td ><button class="delete" th:value="${conducente.id}" id="conducente"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 						
 		</tr>
 	  </table>
     </div>
-    <div class="tabella2">
+    <div>
     <h2 style="color:white;">Linee</h2>
-	  <table class="w3-table w3-striped w3-bordered animazione2">
+	  <table class="w3-table w3-striped w3-bordered animazione3">
 	    <tr>
 	      <th>Nome</th>
 	      <th>Partenza</th>
@@ -150,16 +150,16 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${linea.nome}">Nome</td>
 						<td th:text="${linea.partenza}">Partenza</td>
 						<td th:text="${linea.destinazione}">Destinazione</td>
-						<td> <a href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
-						<td ><button class="delete_risorsa" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+						<td><button class="delete"> <a href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
+						<td ><button class="delete" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 		</tr>
 	  </table>
     </div>
     
-    <div class="tabella3">
+    <div>
     <h2 style="color:white;">Mezzi</h2>
-	  <table class="w3-table w3-striped w3-bordered animazione3">
+	  <table class="w3-table w3-striped w3-bordered animazione2">
 	    <tr>
 	      <th>Targa</th>
 	      <th>Capienza</th>
@@ -171,8 +171,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${mezzo.targa}">Targa</td>
 						<td th:text="${mezzo.capienza}">Capienza</td>
 						<td th:text="${mezzo.tipo}">Tipo</td>
-						<td> <a href="#" th:onclick="|popEdit(${mezzo.id}, 'mezzo')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></td>
-						<td ><button class="delete_risorsa" th:value="${mezzo.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+						<td> <button class="delete"><a href="#" th:onclick="|popEdit(${mezzo.id}, 'mezzo')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
+						<td ><button class="delete" th:value="${mezzo.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 		</tr>
 	  </table>
@@ -190,7 +190,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
       <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Telefono: +39 082587650</p>
       <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: TransportEfficiencyManager@gmail.com</p>
     </div><br>
-    <p>Inviaci una mail per richiedere ulteriori informazioni.</p>
+<p style="color: white;font-size:20px;font-weight:bold;">Inviaci una mail per richiedere ulteriori informazioni.</p>
 
     <form action="/action_page.php" target="_blank">
       <p><input class="w3-input w3-padding-16" type="text" placeholder="Nome" required name="Name"></p>

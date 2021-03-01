@@ -34,7 +34,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
     <p>INSERISCI DATI CORSE</p>
   </a>
-  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+  <a href="/programmacorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
       <i><img src"img/programma.png" th:src="@{/img/programma.png}" alt="calendar" style="width:55px;height:55px;"/></i>
     <p>GENERA PROGRAMMA</p>
   </a>
@@ -50,7 +50,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
     <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
     <a href="/daticorsa/add" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI DATI CORSE</a>
-    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
+    <a href="/programmacorse" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
   </div>
 </div>
 
@@ -67,50 +67,45 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     
                   <form th:action="@{/corsa/submit/{programmaCorseId}(programmaCorseId=${programmaCorse.id})}"
                         method="post" style="max-width: 600px; margin: 0 auto;" >
-                     <div class="m-3">
+                     <div class="row2">
 			<div>
-			
-				<div>
-					<input type="time" step="1" th:field='${corsa.orario}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Orario della corsa" onclick="this.value=''"/>
+					<input type="text" th:field='${corsa.orario}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Inserisci orario" onclick="this.value=''"/>
 				</div>
-			</div>
-			
+		
 
 			<div>
-					<select class="w3-select" name="linea">
-						<option value="">Seleziona una linea</option>
-						        <option th:each="linea : ${linee}"
+					<select class="select" name="linea" style="margin-top:18px;">
+						<option value="" class="opzioni" style="color:grey;">Seleziona una linea </option>
+						        <option  class="opzioni" th:each="linea : ${linee}"
 						                th:value="${linea.id}"
 						                th:text="${linea.nome}"></option>
 					</select>
+				
 			</div>
 
 			<div>
-					<select class="w3-select" name="conducente" multiple>
-						<option value="">Seleziona uno o più conducenti</option>
-                        <option th:each="conducente : ${conducenti}"
+					<select class="select" name="conducente" multiple>
+						<option value="" class="opzioni" style="color:grey;" disabled>Seleziona uno o più conducenti</option>
+                        <option class="opzioni" th:each="conducente : ${conducenti}"
                                 th:value="${conducente.id}"
                                 th:text="${conducente.cognome}"></option>
 					</select>
 			</div>
 			
-						<div>
-					<select class="w3-select" name="mezzo" multiple>
-						<option value="">Seleziona uno o più mezzi</option>
-						        <option th:each="mezzo : ${mezzi}"
+			<div>
+					<select class="select" name="mezzo" multiple >
+						<option value="" class="opzioni" style="color:grey;"disabled>Seleziona uno o più mezzi</option>
+						        <option  class="opzioni" th:each="mezzo : ${mezzi}"
 						                th:value="${mezzo.id}"
 						                th:text="${mezzo.tipo}"></option>
 					</select>
+					</input>
 			</div>
-			
-			</div>
-			
-			
 			<div>
                     
 		
                                 <button type="submit" class="submit3" ><b>Conferma<b></b></button>
-                                <a th:href="@{/programmacorse/dettaglio/{id}(id=${programmaCorse.id})}" class="w3-button w3-red">Termina inserimento</a>
+                                <a th:href="@{/programmacorse/dettaglio/{id}(id=${programmaCorse.id})}" class="submit2" style="margin-left:40px;">Termina inserimento</a>
                             </div>
                         </div>
                     </form>
@@ -128,7 +123,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Telefono: +39 082587650</p>
       <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: TransportEfficiencyManager@gmail.com</p>
     </div><br>
-    <p>Inviaci una mail per richiedere ulteriori informazioni.</p>
+<p style="color: white;font-size:20px;font-weight:bold;">Inviaci una mail per richiedere ulteriori informazioni.</p>
 
     <form action="/action_page.php" target="_blank">
       <p><input class="w3-input w3-padding-16" type="text" placeholder="Nome" required name="Name"></p>

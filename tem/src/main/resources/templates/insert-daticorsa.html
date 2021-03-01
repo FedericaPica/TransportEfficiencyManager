@@ -34,7 +34,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
     <p>INSERISCI DATI CORSE</p>
   </a>
-  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+  <a href="/programmacorse" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
       <i><img src"img/programma.png" th:src="@{/img/programma.png}" alt="calendar" style="width:55px;height:55px;"/></i>
     <p>GENERA PROGRAMMA</p>
   </a>
@@ -50,7 +50,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
     <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
     <a href="/daticorsa/add" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI DATI CORSE</a>
-    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
+    <a href="/programmacorse" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
   </div>
 </div>
 
@@ -66,43 +66,31 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
  <div class="formRisorsa">
     
                   <form th:action="@{/daticorsa/submit}"method="post" style="max-width: 600px; margin: 0 auto;" > 
-                     <div class="m-3">
-			<div>
-			
+                     <div style="margin-left:-75px;">			
 				<div>
 					<input type="text" th:field='${datiCorsa.lineaCorsa}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Linea della corsa" onclick="this.value=''"/>
 				</div>
-			</div>
+		
 			
-			<div>
 				<div >
 					<input type="text" th:field="${datiCorsa.orarioCorsa}" placeholder="Orario corsa" style="  border-bottom: 1px solid #ff6600;"
 						onclick="this.value=''"required />
 				</div>
-			</div>
 			
-			<div>
 				<div >
 					<input type="text" th:field="${datiCorsa.numeroPosti}" placeholder="Numero di posti disponibili" style="  border-bottom: 1px solid #ff6600;"
 						onclick="this.value=''"	required/>
 				</div>
-			</div>
 			
-			<div>
 				<div >
 					<input type="text" th:field="${datiCorsa.passeggeriSaliti}"  placeholder="Numero di passeggeri saliti" onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
 							required/>
 				</div>
-			</div>
-			
-			<div>
 				<div>
 					<input type="text" th:field="${datiCorsa.passeggeriNonSaliti}" placeholder="Numero di passeggeri non saliti"  onclick="this.value=''" style="  border-bottom: 1px solid #ff6600;"
 							required />
 				</div>
-			</div>
 			
-			<div >
 			<div class="traffico" th:field="${datiCorsa.traffico}" ><p style="color:#656767; font-size:16px; display:inline-block; text-align:left;">Traffico</p>
 					<label class="traffico">Si
   					<input type="radio" checked="checked" name="radio">
@@ -112,14 +100,9 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   			<input type="radio" name="radio">
  			 <span class="checkmark"></span>
 		</label>
-		</div>
 			</div>
-			</div>
-			
-			
-			<div>
-                    
-		
+							<div>
+         
                                 <button type="submit" class="submit3" ><b>Conferma<b></b></button>
                             </div>
                     
@@ -139,7 +122,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Telefono: +39 082587650</p>
       <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: TransportEfficiencyManager@gmail.com</p>
     </div><br>
-    <p>Inviaci una mail per richiedere ulteriori informazioni.</p>
+   <p style="color: white;font-size:20px;font-weight:bold;">Inviaci una mail per richiedere ulteriori informazioni.</p>
 
     <form action="/action_page.php" target="_blank">
       <p><input class="w3-input w3-padding-16" type="text" placeholder="Nome" required name="Name"></p>

@@ -65,7 +65,7 @@
 <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
     <!-- Avatar image in top left corner -->
 
-    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-black" >
+    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-hover-black" >
         <i><img src"img/home.png" th:src="@{/img/user.png}" alt="user" style="width:40px;height:40px;"/></i>
         <p>AREA UTENTE</p>
     </a>
@@ -77,7 +77,7 @@
         <i><img src"img/people.png" th:src="@{/img/people.png}" alt="people" style="width:55px;height:55px;"/></i>
         <p>INSERISCI DATI CORSE</p>
     </a>
-    <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="/programmacorse" class="w3-bar-item w3-button w3-padding-large w3-black">
         <i><img src"img/programma.png" th:src="@{/img/programma.png}" alt="calendar" style="width:55px;height:55px;"/></i>
         <p>GENERA PROGRAMMA</p>
     </a>
@@ -93,7 +93,7 @@
         <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
         <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
         <a href="/daticorsa/add" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI DATI CORSE</a>
-        <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
+        <a href="/programmacorse" class="w3-bar-item w3-button" style="width:25% !important">GENERA UN PROGRAMMA</a>
     </div>
 </div>
 
@@ -105,9 +105,9 @@
     </header>
 
     <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
-
-        <div class="w3-center"><a th:href="@{/corsa/insert/{id}(id=${programmaCorse.id})}" class="w3-button w3-blue">Aggiungi nuova corsa</a></div>
-
+<div class="retun animazione1" style="text-align:center;">
+        <a th:href="@{/corsa/insert/{id}(id=${programmaCorse.id})}" class="color2" ><h3>Aggiungi nuova corsa</h3></a>
+</div>
         <div class="w3-row">
             <div class="tabella1">
                 <h2 style="color:white;">Programma valido dal <span th:text="${#dates.format(programmaCorse.inizioValidita, 'dd/MM/YYYY')}">13 february 2011</span> al <span th:text="${#dates.format(programmaCorse.fineValidita, 'dd/MM/YYYY')}">13 february 2011</span></h2>
@@ -127,7 +127,7 @@
                         <td th:text="${corsa.linea}">Linea</td>
                         <td th:text="${corsa.conducenti}">Conducenti</td>
                         <td th:text="${corsa.mezzi}">Mezzi</td>
-                        <td ><button style="border: none;" class="delete_corsa" th:value="${corsa.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td ><button class="delete" th:value="${corsa.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
                     </tr>
                 </table>
             </div>
@@ -144,7 +144,7 @@
             <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Telefono: +39 082587650</p>
             <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: TransportEfficiencyManager@gmail.com</p>
         </div><br>
-        <p>Inviaci una mail per richiedere ulteriori informazioni.</p>
+        <p style="color: white;font-size:20px;font-weight:bold;">Inviaci una mail per richiedere ulteriori informazioni.</p>
 
         <form action="/action_page.php" target="_blank">
             <p><input class="w3-input w3-padding-16" type="text" placeholder="Nome" required name="Name"></p>
