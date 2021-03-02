@@ -129,8 +129,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${conducente.nome}">Nome</td>
 						<td th:text="${conducente.cognome}">Cognome</td>
 						<td th:text="${conducente.codiceFiscale}">Codice fiscale</td>
-						<td><button class="delete"> <a href="#" th:onclick="|popEdit(${conducente.id}, 'conducente')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
-						<td ><button class="delete" th:value="${conducente.id}" id="conducente"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td> <button style="border: none" href="#" th:onclick="|popEdit(${conducente.id}, 'conducente')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
+                        <td ><button style="border: none" class="delete_risorsa" th:value="${conducente.id}" id="conducente"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 						
 		</tr>
@@ -150,8 +150,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${linea.nome}">Nome</td>
 						<td th:text="${linea.partenza}">Partenza</td>
 						<td th:text="${linea.destinazione}">Destinazione</td>
-						<td><button class="delete"> <a href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
-						<td ><button class="delete" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                       <td> <button style="border: none" href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
+                       <td ><button style="border: none" class="delete_risorsa" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 		</tr>
 	  </table>
@@ -171,8 +171,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${mezzo.targa}">Targa</td>
 						<td th:text="${mezzo.capienza}">Capienza</td>
 						<td th:text="${mezzo.tipo}">Tipo</td>
-						<td> <button class="delete"><a href="#" th:onclick="|popEdit(${mezzo.id}, 'mezzo')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></a></button></td>
-						<td ><button class="delete" th:value="${mezzo.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td> <button style="border: none" href="#" th:onclick="|popEdit(${mezzo.id}, 'mezzo')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
+                        <td ><button style="border: none" class="delete_risorsa" th:value="${mezzo.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 		</tr>
 	  </table>

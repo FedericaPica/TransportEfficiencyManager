@@ -131,7 +131,7 @@
                         <td th:text="${programmaCorse.inizioValidita}">Data Inizio Validità</td>
                         <td th:text="${programmaCorse.fineValidita}">Data Fine Validità</td>
                         <td> <a th:href="@{/programmacorse/dettaglio/{id}(id=${programmaCorse.id})}"><span class="iconify" data-icon="ic:sharp-search" data-inline="false"></span></a></td>
-                        <td ><button class="delete"  th:value="${programmaCorse.id}" id="programmaCorse"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td ><button style="border: none" class="delete_programma"  th:value="${programmaCorse.id}" id="programmaCorse"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
                     </tr>
                 </table>
             </div>
