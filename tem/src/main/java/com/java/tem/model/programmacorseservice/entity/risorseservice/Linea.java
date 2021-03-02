@@ -2,6 +2,8 @@ package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
+
+import java.sql.Time;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Linea extends Risorsa {
   private String partenza;
   @Size(min = 2, max = 50)
   private String destinazione;
+  private int durata;
   
   @OneToMany(mappedBy = "linea")
   private Set<Corsa> corse;
@@ -73,7 +76,15 @@ public class Linea extends Risorsa {
     return partenza;
   }
   
-  public void setPartenza(String partenza) {
+  public int getDurata() {
+	return durata;
+}
+
+public void setDurata(int durata) {
+	this.durata = durata;
+}
+
+public void setPartenza(String partenza) {
     this.partenza = partenza;
   }
 

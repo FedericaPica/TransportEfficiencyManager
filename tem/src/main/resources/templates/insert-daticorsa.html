@@ -91,16 +91,17 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 							required />
 				</div>
 			
-			<div class="traffico" th:field="${datiCorsa.traffico}" ><p style="color:#656767; font-size:16px; display:inline-block; text-align:left;">Traffico</p>
-					<label class="traffico">Si
-  					<input type="radio" checked="checked" name="radio">
-  				<span class="checkmark"></span>
-				</label>
-			<label class="traffico">No
-  			<input type="radio" name="radio">
- 			 <span class="checkmark"></span>
-		</label>
+			<div class="traffico"> <label for="traffico-select">Traffico</label><select id="traffico-select" th:field="${datiCorsa.traffico}">
+				    <option th:value="'true'" th:text="Sì"></option>
+				    <option th:value="'false'" th:text="No"></option>
+				</select></div>
+				
+			<div class="traffico"> <label for="traffico-select"></label><select id="traffico-select" th:field="${datiCorsa.andata}">
+				    <option th:value="'true'" th:text="Andata" selected="selected"></option>
+				    <option th:value="'false'" th:text="Ritorno"></option>
+				</select></div>
 			</div>
+	
 							<div>
          
                                 <button type="submit" class="submit3" ><b>Conferma<b></b></button>

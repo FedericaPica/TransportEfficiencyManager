@@ -43,6 +43,8 @@ public class Corsa {
   @JoinColumn(name = "programma_id", nullable = false)
     private ProgrammaCorse programma;
     
+  private boolean andata;
+  
   public Set<Mezzo> getMezzi() {
     return mezzi;
   }
@@ -90,4 +92,12 @@ public class Corsa {
   public void setProgramma(ProgrammaCorse programma) {
     this.programma = programma;
   }
+
+public boolean isAndata() {
+	return andata;
+}
+
+public void setAndata(boolean andata) {
+	this.andata = andata;
+}
 }

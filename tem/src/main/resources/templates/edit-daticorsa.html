@@ -51,18 +51,15 @@
 				</div>
 			</div>
 			
-				<div >
-			<div class="traffico" th:field="${datiCorsa.traffico}" style="margin-left:-30px;" ><p style="color:#656767; font-size:16px; display:inline-block; text-align:left;">Traffico</p>
-					<label class="traffico">Si
-  					<input type="radio" checked="checked" name="radio">
-  				<span class="checkmark"></span>
-				</label>
-			<label class="traffico">No
-  			<input type="radio" name="radio">
- 			 <span class="checkmark"></span>
-		</label>
-		</div>
-			</div>
+							<div class="traffico"> <label for="traffico-select">Traffico</label><select id="traffico-select" th:field="${datiCorsa.traffico}">
+				    <option th:value="'true'" th:text="S&igrave;"></option>
+				    <option th:value="'false'" th:text="No"></option>
+				</select></div>
+				
+			<div class="traffico"> <label for="traffico-select"></label><select id="traffico-select" th:field="${datiCorsa.andata}">
+				    <option th:value="'true'" th:text="Andata" selected="selected"></option>
+				    <option th:value="'false'" th:text="Ritorno"></option>
+				</select></div>
 			
 			
 			<div>

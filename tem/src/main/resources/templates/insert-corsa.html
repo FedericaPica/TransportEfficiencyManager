@@ -101,6 +101,10 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 					</select>
 					</input>
 			</div>
+			<div class="traffico"> <label for="traffico-select"></label><select id="traffico-select" th:field="${corsa.andata}">
+				    <option th:value="'true'" th:text="Andata" selected="selected"></option>
+				    <option th:value="'false'" th:text="Ritorno"></option>
+				</select></div>
 			<div>
                     
 		

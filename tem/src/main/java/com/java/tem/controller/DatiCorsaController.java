@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DatiCorsaController {
@@ -44,7 +45,9 @@ public String showFormDatiCorsa(@PathVariable("id") Long id, Model model) {
   }
 	
   @PostMapping("/daticorsa/submit")
-public String processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa, BindingResult bindingResult, Model model) {
+public String processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa,
+		BindingResult bindingResult, 
+		Model model) {
     if (AccountUtilities.isAuthenticated()) {
       if (bindingResult.hasErrors()) {
         return "insert-daticorsa";

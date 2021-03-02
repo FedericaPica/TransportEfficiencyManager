@@ -77,6 +77,11 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                            <input type="text" th:field="${linea.destinazione}" class="form-control" id="destinazione" placeholder="Destinazione" required minlength="2" maxlength="50"> <span th:if="${#fields.hasErrors('destinazione')}" th:errors="destinazione" class="text-danger"></span>
                             </div>
                             
+                            <div class="form-group col-md-8">
+							<input type="text" th:field="${linea.durata}" placeholder="Durata indicativa" style="  border-bottom: 1px solid #ff6600;"
+								onclick="this.value=''"required />
+						</div>
+                            
 
                             <div>
                                 <button type="submit" class="submit" ><b>Conferma<b></b></button>

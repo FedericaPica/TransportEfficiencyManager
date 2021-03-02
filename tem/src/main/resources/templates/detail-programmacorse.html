@@ -127,6 +127,7 @@
                         <td th:text="${corsa.linea}">Linea</td>
                         <td th:text="${corsa.conducenti}">Conducenti</td>
                         <td th:text="${corsa.mezzi}">Mezzi</td>
+                        <td th:text="${corsa.andata} ? 'Andata' : 'Ritorno'"></td>
                         <td ><button style="border: none" class="delete_corsa" th:value="${corsa.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
                     </tr>
                 </table>

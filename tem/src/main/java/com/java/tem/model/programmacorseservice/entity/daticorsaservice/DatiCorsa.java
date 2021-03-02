@@ -24,7 +24,8 @@ public class DatiCorsa {
   private int numeroPosti;
   private int passeggeriSaliti;
   private int passeggeriNonSaliti;
-  public boolean traffico;
+  public boolean traffico = false;
+  public boolean andata = false;
   
   @ManyToOne
   @JoinColumn(name = "azienda_id", nullable = false)
@@ -93,5 +94,13 @@ public class DatiCorsa {
   public void setTraffico(boolean traffico) {
     this.traffico = traffico;
   }
+
+public boolean isAndata() {
+	return andata;
+}
+
+public void setAndata(boolean andata) {
+	this.andata = andata;
+}
  
 }
