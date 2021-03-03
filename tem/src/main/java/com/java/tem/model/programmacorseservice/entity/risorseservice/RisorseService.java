@@ -95,7 +95,8 @@ public class RisorseService  {
 	  mezzi = mezzoRepository.findByAzienda(utente);
 	  return mezzi;
   }
-  
+
+  public Optional<Linea> getLineaByName(String nome) { return lineaRepository.findByNome(nome); }
   
   public Optional<Mezzo> getMezzo(Long id) {
     return mezzoRepository.findById(id);

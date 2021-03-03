@@ -5,6 +5,7 @@ import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import com.java.tem.model.programmacorseservice.entity.CorsaService;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
+import com.java.tem.model.programmacorseservice.repository.ProgrammaAutomaticoMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +33,9 @@ public class ProgrammaCorseController {
 	@Autowired
 	private CorsaService corsaService;
 
+	@Autowired
+	private ProgrammaAutomaticoMaker test;
+
 
 	@GetMapping("/programmacorse")
 	public String homeProgrammaCorse() {
@@ -58,8 +62,11 @@ public class ProgrammaCorseController {
 	}
 
 	@GetMapping("/programmacorse/insert/auto")
-	public void insertProgrammaAutomatico() {
+	public String insertProgrammaAutomatico() {
 
+		test.doOperation();
+
+		return "home";
 	}
 
 	@GetMapping("/programmacorse/delete/{id}")
