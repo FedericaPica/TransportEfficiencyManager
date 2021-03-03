@@ -79,7 +79,7 @@ public String updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa,
   }
 
   @GetMapping("daticorsa/delete/{id}")
-    public String deleteMezzo(@PathVariable("id") Long id, Model model) 
+    public String deleteDatiCorsa(@PathVariable("id") Long id, Model model) 
         throws IllegalArgumentException {
     DatiCorsa datiCorsa = datiCorsaService.getDatiCorsa(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid daticorsa Id:" + id));
