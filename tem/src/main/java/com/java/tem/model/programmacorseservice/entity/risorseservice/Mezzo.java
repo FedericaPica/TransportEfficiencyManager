@@ -20,7 +20,7 @@ public class Mezzo extends Risorsa {
   @Size(min = 7, max = 10)
   private String targa;
   @Min(2)
-  @Max(70)
+  @Max(85)
   private int capienza;
   @Size(min = 2, max = 50)
   private String tipo;

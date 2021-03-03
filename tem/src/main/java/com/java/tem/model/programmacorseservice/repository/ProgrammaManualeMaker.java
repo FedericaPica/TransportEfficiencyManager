@@ -8,7 +8,6 @@ import com.java.tem.model.programmacorseservice.entity.ProgrammaCorseService;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
-import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,9 +22,6 @@ public class ProgrammaManualeMaker implements Strategy {
 
 	@Autowired
 	private ProgrammaCorseService programmaCorseService;
-
-	@Autowired
-	private RisorseService risorseService;
 
 	@Autowired
 	private CorsaService corsaService;

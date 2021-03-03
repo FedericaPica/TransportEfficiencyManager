@@ -3,7 +3,6 @@ package com.java.tem.model.programmacorseservice.entity.risorseservice;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 
-import java.sql.Time;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
