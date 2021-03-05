@@ -31,6 +31,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     @Autowired
     private RisorseService risorseService;
 
+    private List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
+
+    private List<Conducente> legalListConducente = new ArrayList<Conducente>();
+
+    private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
     @Override
     public ProgrammaCorse doOperation() {
@@ -38,22 +43,27 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         String currentUserName = authentication.getName();
         Utente utente = accountService.getUserByUsername(currentUserName);
 
-        List<DatiGenerazione> datiGenerazione = datiGenerazioneRepository
+        this.listaDatiGenerazione = datiGenerazioneRepository
                 .findDatiGenerazioneByAziendaId(utente.getId());
 
         List<Conducente> conducenti = risorseService.getConducentiByAzienda(utente);
         List<Mezzo> mezzi = risorseService.getMezziByAzienda(utente);
+        Collections.sort(mezzi, new Comparator<Mezzo>() {
+            @Override
+            public int compare(Mezzo o1, Mezzo o2) {
+                return o1.getCapienza() - o2.getCapienza();
+            }
+        });
 
-        for (DatiGenerazione d: datiGenerazione) {
-            List<LocalTime> orari = new ArrayList<LocalTime>();
-            orari.add(d.getOrario());
-            orari.add(d.getOrario().plusMinutes(30));
+        Collections.sort(this.listaDatiGenerazione, new Comparator<DatiGenerazione>() {
+            @Override
+            public int compare(DatiGenerazione o1, DatiGenerazione o2) {
+                return o1.getOrario().compareTo(o2.getOrario());
+            }
+        });
 
-        }
-
-        for(DatiGenerazione gen: datiGenerazione) {
-            System.out.println(gen.toString());
-        }
+        // ToDo: Ricerca backtracking....
+        // ToDo: Stampa elementi
         return null;
     }
 
@@ -67,17 +77,18 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     }
 
     public boolean checkConducente(DatiGenerazione datiGenerazione,
-            Conducente conducente, List<DatiGenerazione> listaDatiGenerazione) {
+                                   Conducente conducente, List<DatiGenerazione> listaDatiGenerazione) {
         /*
          * Checks if a given Conducente has already driven during the working day. If true, it tries to assign him routes
          * starting from his last destination. If false, it simply assigns the resource to the given route.
          */
 
         int start = listaDatiGenerazione.indexOf(datiGenerazione);
+        Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
+        if(!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
 
         if(start == 0)
             return true;
-
 
         for(int i = start-1; i-- > 0; ) {
             DatiGenerazione d = listaDatiGenerazione.get(i);
@@ -90,10 +101,6 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
                 if(!d.isAndata()) linea_precedente.setDestinazione(linea_precedente.getPartenza());
 
-                Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
-
-                if(!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
-
                 return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
 
             }
@@ -101,6 +108,58 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         return true;
     }
 
+    // ToDo: Checkmezzo!
+
+    public boolean modifiedAC3(List<Mezzo> mezzi, List<Conducente> conducenti, LocalTime orario,
+                               DatiGenerazione datiGenerazione) {
+        // Clears the Legal Lists
+        if(!this.legalListMezzo.isEmpty())
+            this.legalListMezzo.clear();
+
+        if(!this.legalListConducente.isEmpty())
+            this.legalListConducente.clear();
+
+        this.legalListConducente.addAll(conducenti);
+        this.legalListMezzo.addAll(mezzi);
+
+        if(removeIllegalValues(conducenti, orario, datiGenerazione)) {
+            return this.legalListConducente.size() != 0;
+        }
+
+        // ToDo: aggiungere controllo per la lista legalListMezzo
+
+        return true;
+    }
+
+    public boolean removeIllegalValues(Object initial, LocalTime orario_corrente, DatiGenerazione datiGenerazione) {
+        List<Object> init = (List<Object>) initial;
+        boolean removed = false;
+
+        for (Object o : init) {
+
+            int start = this.listaDatiGenerazione.indexOf(datiGenerazione);
+            for (int i = start - 1; i-- > 0; ) {
+                DatiGenerazione d = this.listaDatiGenerazione.get(i);
+
+                if (o instanceof Conducente) {
+                    Conducente conducente = (Conducente) o;
+                    //List<Conducente> legalList = new ArrayList<Conducente>();
+
+                    if (conducente.getCodiceFiscale().equals(d.getConducente())) {
+
+                        Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
+                        LocalTime orario_precedente = d.getOrario();
+
+                        if (orario_corrente.isBefore(orario_precedente.plusMinutes(linea_precedente.getDurata()))) {
+                            this.legalListConducente.remove(d);
+                            removed = true;
+                        }
+                    }
+                } // ToDo: parte per i mezzi...
+            }
+        }
+        return removed;
+    }
 
     @Override
     public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) {
