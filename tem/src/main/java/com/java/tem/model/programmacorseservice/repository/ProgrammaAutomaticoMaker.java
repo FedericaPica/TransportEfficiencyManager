@@ -22,18 +22,18 @@ import java.util.List;
 @Repository
 public class ProgrammaAutomaticoMaker implements Strategy {
 
-    @Autowired
+  @Autowired
     private AccountService accountService;
 
-    @Autowired
+  @Autowired
     private DatiGenerazioneRepository datiGenerazioneRepository;
 
-    @Autowired
+  @Autowired
     private RisorseService risorseService;
 
-    private List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
+  private List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
 
-    private List<Conducente> legalListConducente = new ArrayList<Conducente>();
+  private List<Conducente> legalListConducente = new ArrayList<Conducente>();
 
     private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
