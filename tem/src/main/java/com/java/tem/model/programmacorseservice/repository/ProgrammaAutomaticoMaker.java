@@ -108,7 +108,37 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         return true;
     }
 
-    // ToDo: Checkmezzo!
+    public boolean checkMezzo(DatiGenerazione datiGenerazione,
+            Mezzo mezzo, List<DatiGenerazione> listaDatiGenerazione) {
+
+if (mezzo.getCapienza() < datiGenerazione.getAttesi())
+return false;
+
+
+Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
+
+if(!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
+
+int start = listaDatiGenerazione.indexOf(datiGenerazione);
+
+
+if(start == 0)
+return true;
+
+for(int i = start-1; i-- > 0; ) {
+DatiGenerazione d = listaDatiGenerazione.get(i);
+
+if(mezzo.getId().equals(d.getId())) {
+
+Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
+
+if(!d.isAndata()) linea_precedente.setDestinazione(linea_precedente.getPartenza());
+return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
+}
+}
+return true;
+
+}
 
     public boolean modifiedAC3(List<Mezzo> mezzi, List<Conducente> conducenti, LocalTime orario,
                                DatiGenerazione datiGenerazione) {
@@ -126,7 +156,9 @@ public class ProgrammaAutomaticoMaker implements Strategy {
             return this.legalListConducente.size() != 0;
         }
 
-        // ToDo: aggiungere controllo per la lista legalListMezzo
+        if(removeIllegalValues(mezzi, orario, datiGenerazione)) {
+            return this.legalListMezzo.size() != 0;
+        }
 
         return true;
     }
@@ -155,7 +187,19 @@ public class ProgrammaAutomaticoMaker implements Strategy {
                             removed = true;
                         }
                     }
-                } // ToDo: parte per i mezzi...
+                }else if (o instanceof Mezzo) {
+                    Mezzo mezzo = (Mezzo) o;
+
+                    if (mezzo.getId().equals(d.getId())) {
+                        Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
+                        LocalTime orario_precedente = d.getOrario();
+
+                        if (orario_corrente.isBefore(orario_precedente.plusMinutes(linea_precedente.getDurata()))) {
+                            this.legalListMezzo.remove(d);
+                            removed = true;
+                        }
+                    }
+                }
             }
         }
         return removed;
