@@ -31,9 +31,9 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   @Autowired
     private RisorseService risorseService;
 
-  private List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
+  	private List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
 
-  private List<Conducente> legalListConducente = new ArrayList<Conducente>();
+  	private List<Conducente> legalListConducente = new ArrayList<Conducente>();
 
     private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
@@ -62,9 +62,45 @@ public class ProgrammaAutomaticoMaker implements Strategy {
             }
         });
 
-        // ToDo: Ricerca backtracking....
-        // ToDo: Stampa elementi
+        this.ricercaBacktracking(mezzi, conducenti, 0);
+
+        for(DatiGenerazione d: this.listaDatiGenerazione) {
+            System.out.println(d.toString());
+        }
         return null;
+    }
+        public void ricercaBacktracking(List<Mezzo> mezzi, List<Conducente> conducenti, int count) {
+            DatiGenerazione d = this.listaDatiGenerazione.get(count);
+                List<LocalTime> orari = new ArrayList<LocalTime>();
+                orari.add(d.getOrario());
+                orari.add(d.getOrario().plusMinutes(30));
+
+                for (LocalTime t: orari) {
+                    if(checkOrario(d, t)) {
+                        d.setOrario(t);
+                    }
+                }
+
+            if(modifiedAC3(mezzi, conducenti, d.getOrario(), d)) {
+                for (Conducente c : this.legalListConducente) {
+                    if (checkConducente(d, c, this.listaDatiGenerazione)) {
+                        d.setConducente(c.getCodiceFiscale());
+                        break;
+                    }
+                }
+
+                for (Mezzo m : this.legalListMezzo) {
+                    if (checkMezzo(d, m, this.listaDatiGenerazione)) {
+                        d.setMezzo(m.getId().toString());
+                        break;
+                    }
+                }
+            }
+
+            if(count < this.listaDatiGenerazione.size()-1) {
+                count++;
+                ricercaBacktracking(mezzi, conducenti, count);
+            }
     }
 
     public boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
