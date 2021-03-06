@@ -1,116 +1,116 @@
 package com.java.tem.aimodule;
 
 
-import org.hibernate.annotations.Immutable;
-
+import java.time.LocalTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Time;
-import java.time.LocalTime;
+import org.hibernate.annotations.Immutable;
+
 
 @Entity
 @Immutable
 @Table(name = "generazione_automatica")
 public class DatiGenerazione {
 
-    @Id
+  @Id
     private Long id;
 
-    private String linea_corsa;
+  private String lineaCorsa;
 
-    private String traffico;
+  private String traffico;
 
-    private int attesi;
+  private int attesi;
 
-    private Long azienda_id;
+  private Long aziendaId;
 
-    private LocalTime orario;
+  private LocalTime orario;
+  
+  private String conducente;
 
-    private String conducente;
+  private String mezzo;
 
-    private String mezzo;
+  private boolean andata;
 
-    private boolean andata;
+  public boolean isAndata() {
+    return andata;
+  }
 
-    public boolean isAndata() {
-        return andata;
-    }
-
-    public void setAndata(boolean andata) {
-        this.andata = andata;
-    }
+  public void setAndata(boolean andata) {
+    this.andata = andata;
+  }
 
 
 
-    public LocalTime getOrario() {
-        return orario;
-    }
+  public LocalTime getOrario() {
+    return orario;
+  }
 
-    public void setOrario(LocalTime orario) {
-        this.orario = orario;
-    }
+  public void setOrario(LocalTime orario) {
+    this.orario = orario;
+  }
 
-    public String getConducente() {
-        return conducente;
-    }
+  public String getConducente() {
+    return conducente;
+  }
 
-    public void setConducente(String conducente) {
-        this.conducente = conducente;
-    }
+  public void setConducente(String conducente) {
+    this.conducente = conducente;
+  }
 
-    public String getMezzo() {
-        return mezzo;
-    }
+  public String getMezzo() {
+    return mezzo;
+  }
 
-    public void setMezzo(String mezzo) {
-        this.mezzo = mezzo;
-    }
+  public void setMezzo(String mezzo) {
+    this.mezzo = mezzo;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getLinea_corsa() {
-        return linea_corsa;
-    }
+  public String getLineaCorsa() {
+    return lineaCorsa;
+  }
 
-    public void setLinea_corsa(String linea_corsa) {
-        this.linea_corsa = linea_corsa;
-    }
+  public void setLineaCorsa(String lineaCorsa) {
+    this.lineaCorsa = lineaCorsa;
+  }
 
-    public String getTraffico() {
-        return traffico;
-    }
+  public String getTraffico() {
+    return traffico;
+  }
 
-    public void setTraffico(String traffico) {
-        this.traffico = traffico;
-    }
+  public void setTraffico(String traffico) {
+    this.traffico = traffico;
+  }
 
-    public int getAttesi() {
-        return attesi;
-    }
+  public int getAttesi() {
+    return attesi;
+  }
 
-    public void setAttesi(int attesi) {
-        this.attesi = attesi;
-    }
+  public void setAttesi(int attesi) {
+    this.attesi = attesi;
+  }
 
-    public Long getAzienda_id() {
-        return azienda_id;
-    }
+  public Long getAziendaId() {
+    return aziendaId;
+  }
 
-    public void setAzienda_id(Long azienda_id) {
-        this.azienda_id = azienda_id;
-    }
+  public void setAziendaId(Long aziendaId) {
+    this.aziendaId = aziendaId;
+  }
 
-    public String toString() {
+  @Override
+  public String toString() {
 
-        return "[ " + this.linea_corsa + " " + this.traffico + " " + this.attesi + " " + this.orario + " " + this.conducente +
-                " " + this.mezzo + " ]";
+    return "[ " + this.lineaCorsa + " " + this.traffico + " " + this.attesi + " " + this.orario 
+      + " " + this.conducente + " " + this.mezzo + " ]";
 
-    }
+  }
 }

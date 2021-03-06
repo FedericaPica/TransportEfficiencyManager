@@ -64,6 +64,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     }
     return null;
   }
+  
+  @Override
+  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) {
+    return null;
+  }
 
   private void ricercaBacktracking(List<Mezzo> mezzi, List<Conducente> conducenti, int count) {
     DatiGenerazione d = this.listaDatiGenerazione.get(count);
@@ -101,30 +106,33 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
   private boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
     /*
-     * Given a tested Orario, if Traffico is false ("No") this method confirms its validity; else this will return
+     * Given a tested Orario, if Traffico is false ("No") this method confirms its validity; 
+     * else this will return
      * false and Orario will be shifted by 30 mins, trying to avoid congestion
      */
-    return (datiGenerazione.getOrario().equals(orario) &&
-        datiGenerazione.getTraffico().equals("No")) ||
-        !datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
+    return (datiGenerazione.getOrario().equals(orario) 
+      && datiGenerazione.getTraffico().equals("No")) 
+      ||  datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
   }
 
   private boolean checkConducente(DatiGenerazione datiGenerazione,
                                   Conducente conducente) {
     /*
-     * Checks if a given Conducente has already driven during the working day. If true, it tries to assign him routes
-     * starting from his last destination. If false, it simply assigns the resource to the given route.
+     * Checks if a given Conducente has already driven during the working day. 
+     * If true, it tries to assign him routes
+     * starting from his last destination. 
+     * If false, it simply assigns the resource to the given route.
      */
 
     int start = this.listaDatiGenerazione.indexOf(datiGenerazione);
-    Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
-      if (!datiGenerazione.isAndata()) {
-          linea_corrente.setPartenza(linea_corrente.getDestinazione());
-      }
+    Linea lineaCorrente = risorseService.getLineaByName(datiGenerazione.getLineaCorsa()).get();
+    if (!datiGenerazione.isAndata()) {
+      lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
+    }
 
-      if (start == 0) {
-          return true;
-      }
+    if (start == 0) {
+      return true;
+    }
 
     for (int i = start - 1; i-- > 0; ) {
       DatiGenerazione d = listaDatiGenerazione.get(i);
@@ -133,13 +141,13 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       if (conducente.getCodiceFiscale().equals(d.getConducente())) {
         // Checks if last object's destination is equal to current object destination
 
-        Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
+        Linea lineaPrecedente = risorseService.getLineaByName(d.getLineaCorsa()).get();
 
-          if (!d.isAndata()) {
-              linea_precedente.setDestinazione(linea_precedente.getPartenza());
-          }
+        if (!d.isAndata()) {
+          lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+        }
 
-        return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
+        return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
 
       }
     }
@@ -149,35 +157,35 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   private boolean checkMezzo(DatiGenerazione datiGenerazione,
                              Mezzo mezzo) {
 
-      if (mezzo.getCapienza() < datiGenerazione.getAttesi()) {
-          return false;
-      }
+    if (mezzo.getCapienza() < datiGenerazione.getAttesi()) {
+      return false;
+    }
 
 
-    Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
+    Linea lineaCorrente = risorseService.getLineaByName(datiGenerazione.getLineaCorsa()).get();
 
-      if (!datiGenerazione.isAndata()) {
-          linea_corrente.setPartenza(linea_corrente.getDestinazione());
-      }
+    if (!datiGenerazione.isAndata()) {
+      lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
+    }
 
     int start = this.listaDatiGenerazione.indexOf(datiGenerazione);
 
 
-      if (start == 0) {
-          return true;
-      }
+    if (start == 0) {
+      return true;
+    }
 
     for (int i = start - 1; i-- > 0; ) {
       DatiGenerazione d = this.listaDatiGenerazione.get(i);
 
       if (mezzo.getId().equals(d.getId())) {
 
-        Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
+        Linea lineaPrecedente = risorseService.getLineaByName(d.getLineaCorsa()).get();
 
-          if (!d.isAndata()) {
-              linea_precedente.setDestinazione(linea_precedente.getPartenza());
-          }
-        return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
+        if (!d.isAndata()) {
+          lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+        }
+        return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
     }
     return true;
@@ -187,13 +195,13 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   private boolean modifiedAC3(List<Mezzo> mezzi, List<Conducente> conducenti, LocalTime orario,
                               DatiGenerazione datiGenerazione) {
     // Clears the Legal Lists
-      if (!this.legalListMezzo.isEmpty()) {
-          this.legalListMezzo.clear();
-      }
+    if (!this.legalListMezzo.isEmpty()) {
+      this.legalListMezzo.clear();
+    }
 
-      if (!this.legalListConducente.isEmpty()) {
-          this.legalListConducente.clear();
-      }
+    if (!this.legalListConducente.isEmpty()) {
+      this.legalListConducente.clear();
+    }
 
     this.legalListConducente.addAll(conducenti);
     this.legalListMezzo.addAll(mezzi);
@@ -209,7 +217,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     return true;
   }
 
-  private boolean removeIllegalValues(Object initial, LocalTime orario_corrente,
+  private boolean removeIllegalValues(Object initial, LocalTime orarioCorrente,
                                       DatiGenerazione datiGenerazione) {
     List<Object> init = (List<Object>) initial;
     boolean removed = false;
@@ -226,11 +234,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
           if (conducente.getCodiceFiscale().equals(d.getConducente())) {
 
-            Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
-            LocalTime orario_precedente = d.getOrario();
+            Linea lineaPrecedente = risorseService.getLineaByName(d.getLineaCorsa()).get();
+            LocalTime orarioPrecedente = d.getOrario();
 
-            if (orario_corrente
-                .isBefore(orario_precedente.plusMinutes(linea_precedente.getDurata()))) {
+            if (orarioCorrente
+                .isBefore(orarioPrecedente.plusMinutes(lineaPrecedente.getDurata()))) {
               this.legalListConducente.remove(d);
               removed = true;
             }
@@ -239,11 +247,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
           Mezzo mezzo = (Mezzo) o;
 
           if (mezzo.getId().equals(d.getId())) {
-            Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
-            LocalTime orario_precedente = d.getOrario();
+            Linea lineaPrecedente = risorseService.getLineaByName(d.getLineaCorsa()).get();
+            LocalTime orarioPrecedente = d.getOrario();
 
-            if (orario_corrente
-                .isBefore(orario_precedente.plusMinutes(linea_precedente.getDurata()))) {
+            if (orarioCorrente
+                .isBefore(orarioPrecedente.plusMinutes(lineaPrecedente.getDurata()))) {
               this.legalListMezzo.remove(d);
               removed = true;
             }
@@ -252,11 +260,6 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       }
     }
     return removed;
-  }
-
-  @Override
-  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) {
-    return null;
   }
 
   @Override
