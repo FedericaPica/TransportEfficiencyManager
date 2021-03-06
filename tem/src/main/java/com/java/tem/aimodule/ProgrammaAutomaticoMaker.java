@@ -1,13 +1,14 @@
-package com.java.tem.model.programmacorseservice.repository;
+package com.java.tem.aimodule;
 
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
-import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiGenerazione;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
+import com.java.tem.model.programmacorseservice.repository.Strategy;
+import com.java.tem.model.programmacorseservice.repository.StrategyType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,19 +23,14 @@ import java.util.List;
 @Repository
 public class ProgrammaAutomaticoMaker implements Strategy {
 
-  @Autowired
+    private final List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
+    private final List<Conducente> legalListConducente = new ArrayList<Conducente>();
+    @Autowired
     private AccountService accountService;
-
-  @Autowired
+    @Autowired
     private DatiGenerazioneRepository datiGenerazioneRepository;
-
-  @Autowired
+    @Autowired
     private RisorseService risorseService;
-
-  	private List<Mezzo> legalListMezzo = new ArrayList<Mezzo>();
-
-  	private List<Conducente> legalListConducente = new ArrayList<Conducente>();
-
     private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
     @Override
@@ -64,46 +60,47 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
         this.ricercaBacktracking(mezzi, conducenti, 0);
 
-        for(DatiGenerazione d: this.listaDatiGenerazione) {
+        for (DatiGenerazione d : this.listaDatiGenerazione) {
             System.out.println(d.toString());
         }
         return null;
     }
-        public void ricercaBacktracking(List<Mezzo> mezzi, List<Conducente> conducenti, int count) {
-            DatiGenerazione d = this.listaDatiGenerazione.get(count);
-                List<LocalTime> orari = new ArrayList<LocalTime>();
-                orari.add(d.getOrario());
-                orari.add(d.getOrario().plusMinutes(30));
 
-                for (LocalTime t: orari) {
-                    if(checkOrario(d, t)) {
-                        d.setOrario(t);
-                    }
-                }
+    private void ricercaBacktracking(List<Mezzo> mezzi, List<Conducente> conducenti, int count) {
+        DatiGenerazione d = this.listaDatiGenerazione.get(count);
+        List<LocalTime> orari = new ArrayList<LocalTime>();
+        orari.add(d.getOrario());
+        orari.add(d.getOrario().plusMinutes(30));
 
-            if(modifiedAC3(mezzi, conducenti, d.getOrario(), d)) {
-                for (Conducente c : this.legalListConducente) {
-                    if (checkConducente(d, c, this.listaDatiGenerazione)) {
-                        d.setConducente(c.getCodiceFiscale());
-                        break;
-                    }
-                }
+        for (LocalTime t : orari) {
+            if (checkOrario(d, t)) {
+                d.setOrario(t);
+            }
+        }
 
-                for (Mezzo m : this.legalListMezzo) {
-                    if (checkMezzo(d, m, this.listaDatiGenerazione)) {
-                        d.setMezzo(m.getId().toString());
-                        break;
-                    }
+        if (modifiedAC3(mezzi, conducenti, d.getOrario(), d)) {
+            for (Conducente c : this.legalListConducente) {
+                if (checkConducente(d, c)) {
+                    d.setConducente(c.getCodiceFiscale());
+                    break;
                 }
             }
 
-            if(count < this.listaDatiGenerazione.size()-1) {
-                count++;
-                ricercaBacktracking(mezzi, conducenti, count);
+            for (Mezzo m : this.legalListMezzo) {
+                if (checkMezzo(d, m)) {
+                    d.setMezzo(m.getId().toString());
+                    break;
+                }
             }
+        }
+
+        if (count < this.listaDatiGenerazione.size() - 1) {
+            count++;
+            ricercaBacktracking(mezzi, conducenti, count);
+        }
     }
 
-    public boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
+    private boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
         /*
          * Given a tested Orario, if Traffico is false ("No") this method confirms its validity; else this will return
          * false and Orario will be shifted by 30 mins, trying to avoid congestion
@@ -112,30 +109,30 @@ public class ProgrammaAutomaticoMaker implements Strategy {
                 !datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
     }
 
-    public boolean checkConducente(DatiGenerazione datiGenerazione,
-                                   Conducente conducente, List<DatiGenerazione> listaDatiGenerazione) {
+    private boolean checkConducente(DatiGenerazione datiGenerazione,
+                                    Conducente conducente) {
         /*
          * Checks if a given Conducente has already driven during the working day. If true, it tries to assign him routes
          * starting from his last destination. If false, it simply assigns the resource to the given route.
          */
 
-        int start = listaDatiGenerazione.indexOf(datiGenerazione);
+        int start = this.listaDatiGenerazione.indexOf(datiGenerazione);
         Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
-        if(!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
+        if (!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
 
-        if(start == 0)
+        if (start == 0)
             return true;
 
-        for(int i = start-1; i-- > 0; ) {
+        for (int i = start - 1; i-- > 0; ) {
             DatiGenerazione d = listaDatiGenerazione.get(i);
 
 
-            if(conducente.getCodiceFiscale().equals(d.getConducente())) {
+            if (conducente.getCodiceFiscale().equals(d.getConducente())) {
                 // Checks if last object's destination is equal to current object destination
 
                 Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
 
-                if(!d.isAndata()) linea_precedente.setDestinazione(linea_precedente.getPartenza());
+                if (!d.isAndata()) linea_precedente.setDestinazione(linea_precedente.getPartenza());
 
                 return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
 
@@ -144,62 +141,62 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         return true;
     }
 
-    public boolean checkMezzo(DatiGenerazione datiGenerazione,
-            Mezzo mezzo, List<DatiGenerazione> listaDatiGenerazione) {
+    private boolean checkMezzo(DatiGenerazione datiGenerazione,
+                               Mezzo mezzo) {
 
-if (mezzo.getCapienza() < datiGenerazione.getAttesi())
-return false;
-
-
-Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
-
-if(!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
-
-int start = listaDatiGenerazione.indexOf(datiGenerazione);
+        if (mezzo.getCapienza() < datiGenerazione.getAttesi())
+            return false;
 
 
-if(start == 0)
-return true;
+        Linea linea_corrente = risorseService.getLineaByName(datiGenerazione.getLinea_corsa()).get();
 
-for(int i = start-1; i-- > 0; ) {
-DatiGenerazione d = listaDatiGenerazione.get(i);
+        if (!datiGenerazione.isAndata()) linea_corrente.setPartenza(linea_corrente.getDestinazione());
 
-if(mezzo.getId().equals(d.getId())) {
+        int start = this.listaDatiGenerazione.indexOf(datiGenerazione);
 
-Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
 
-if(!d.isAndata()) linea_precedente.setDestinazione(linea_precedente.getPartenza());
-return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
-}
-}
-return true;
+        if (start == 0)
+            return true;
 
-}
+        for (int i = start - 1; i-- > 0; ) {
+            DatiGenerazione d = this.listaDatiGenerazione.get(i);
 
-    public boolean modifiedAC3(List<Mezzo> mezzi, List<Conducente> conducenti, LocalTime orario,
-                               DatiGenerazione datiGenerazione) {
+            if (mezzo.getId().equals(d.getId())) {
+
+                Linea linea_precedente = risorseService.getLineaByName(d.getLinea_corsa()).get();
+
+                if (!d.isAndata()) linea_precedente.setDestinazione(linea_precedente.getPartenza());
+                return linea_corrente.getPartenza().equals(linea_precedente.getDestinazione());
+            }
+        }
+        return true;
+
+    }
+
+    private boolean modifiedAC3(List<Mezzo> mezzi, List<Conducente> conducenti, LocalTime orario,
+                                DatiGenerazione datiGenerazione) {
         // Clears the Legal Lists
-        if(!this.legalListMezzo.isEmpty())
+        if (!this.legalListMezzo.isEmpty())
             this.legalListMezzo.clear();
 
-        if(!this.legalListConducente.isEmpty())
+        if (!this.legalListConducente.isEmpty())
             this.legalListConducente.clear();
 
         this.legalListConducente.addAll(conducenti);
         this.legalListMezzo.addAll(mezzi);
 
-        if(removeIllegalValues(conducenti, orario, datiGenerazione)) {
+        if (removeIllegalValues(conducenti, orario, datiGenerazione)) {
             return this.legalListConducente.size() != 0;
         }
 
-        if(removeIllegalValues(mezzi, orario, datiGenerazione)) {
+        if (removeIllegalValues(mezzi, orario, datiGenerazione)) {
             return this.legalListMezzo.size() != 0;
         }
 
         return true;
     }
 
-    public boolean removeIllegalValues(Object initial, LocalTime orario_corrente, DatiGenerazione datiGenerazione) {
+    private boolean removeIllegalValues(Object initial, LocalTime orario_corrente, DatiGenerazione datiGenerazione) {
         List<Object> init = (List<Object>) initial;
         boolean removed = false;
 
@@ -223,7 +220,7 @@ return true;
                             removed = true;
                         }
                     }
-                }else if (o instanceof Mezzo) {
+                } else if (o instanceof Mezzo) {
                     Mezzo mezzo = (Mezzo) o;
 
                     if (mezzo.getId().equals(d.getId())) {

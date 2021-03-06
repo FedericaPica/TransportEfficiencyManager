@@ -1,6 +1,6 @@
-package com.java.tem.model.programmacorseservice.repository;
+package com.java.tem.aimodule;
 
-import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiGenerazione;
+import com.java.tem.aimodule.DatiGenerazione;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

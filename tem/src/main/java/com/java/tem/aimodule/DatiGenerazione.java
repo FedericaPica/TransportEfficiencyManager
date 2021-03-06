@@ -1,4 +1,4 @@
-package com.java.tem.model.programmacorseservice.entity.daticorsaservice;
+package com.java.tem.aimodule;
 
 
 import org.hibernate.annotations.Immutable;

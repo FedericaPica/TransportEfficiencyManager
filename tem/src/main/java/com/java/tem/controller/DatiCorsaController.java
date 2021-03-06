@@ -1,7 +1,6 @@
 package com.java.tem.controller;
 
 import com.java.tem.model.accountservice.entity.AccountService;
-import com.java.tem.model.accountservice.entity.AccountUtilities;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsaService;
@@ -47,7 +46,7 @@ public String showFormDatiCorsa(@PathVariable("id") Long id, Model model) {
 public String processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa,
 		BindingResult bindingResult, 
 		Model model) {
-    if (AccountUtilities.isAuthenticated()) {
+    if (AccountService.isAuthenticated()) {
       if (bindingResult.hasErrors()) {
         return "insert-daticorsa";
       }

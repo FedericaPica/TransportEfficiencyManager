@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.exceptions.UserAlreadyExistsException;
+import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.DettaglioUtente;
 import com.java.tem.model.accountservice.entity.Profilo;
 import com.java.tem.model.accountservice.entity.Utente;
@@ -29,10 +30,7 @@ public class AccountController implements WebMvcConfigurer {
     private UserRepository userRepo;
 
   @Autowired
-    private DettaglioUtenteRepository dettaglioUtenteRepo;
-
-  @Autowired
-    private ProfiloRepository profiloRepository;
+    private AccountService accountService;
 
   @GetMapping("/")
     public String viewHomePage() {
@@ -49,7 +47,10 @@ public class AccountController implements WebMvcConfigurer {
   }
   
   @PostMapping("/process_register")
-    public String processRegister(@ModelAttribute("user") @Valid Utente user, BindingResult bindingResult, @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente, BindingResult bindingResult2) throws UserAlreadyExistsException {
+    public String processRegister(@ModelAttribute("user") @Valid Utente user,
+                                  BindingResult bindingResult,
+                                  @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente,
+                                  BindingResult bindingResult2) throws UserAlreadyExistsException {
     
     
     if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
@@ -58,15 +59,7 @@ public class AccountController implements WebMvcConfigurer {
     if (userRepo.checkUserExistanceByEmail(user.getEmail())) {
       throw new UserAlreadyExistsException("Utente già esistente.");
     } else {
-      BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-      Profilo profilo = profiloRepository.findByRuolo("azienda");
-      String encodedPassword = passwordEncoder.encode(user.getPassword());
-      user.setPassword(encodedPassword);
-      user.setProfilo(profilo);
-      DettaglioUtente savedDettaglioUtente = dettaglioUtenteRepo.save(dettaglioUtente);
-      user.setDettaglio(savedDettaglioUtente);
-      userRepo.save(user);
-            
+      accountService.registerUser(user, dettaglioUtente);
       return "register_success";
     } 
     

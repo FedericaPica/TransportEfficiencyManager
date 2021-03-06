@@ -5,7 +5,7 @@ import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import com.java.tem.model.programmacorseservice.entity.CorsaService;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
-import com.java.tem.model.programmacorseservice.repository.ProgrammaAutomaticoMaker;
+import com.java.tem.aimodule.ProgrammaAutomaticoMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

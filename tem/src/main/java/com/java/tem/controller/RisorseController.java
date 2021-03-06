@@ -1,7 +1,6 @@
 package com.java.tem.controller;
 
 import com.java.tem.model.accountservice.entity.AccountService;
-import com.java.tem.model.accountservice.entity.AccountUtilities;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
@@ -76,7 +75,7 @@ public class RisorseController {
   
   @PostMapping("/risorse/submit/conducente")
   public String processRisorsa(Conducente conducente, Model model) {
-    if (AccountUtilities.isAuthenticated()) {
+    if (AccountService.isAuthenticated()) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentUserName = authentication.getName();
       Utente utente = accountService.getUserByUsername(currentUserName);
@@ -95,7 +94,7 @@ public class RisorseController {
   
   @PostMapping("/risorse/submit/linea")
 public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea, BindingResult bindingResult, Model model) {
-    if (AccountUtilities.isAuthenticated()) {
+    if (AccountService.isAuthenticated()) {
       if (bindingResult.hasErrors()) {
         return "insert-linea";
       }
@@ -113,7 +112,7 @@ public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea, Bindin
   
   @PostMapping("/risorse/submit/mezzo")
 public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo, BindingResult bindingResult) {
-    if (AccountUtilities.isAuthenticated()) {
+    if (AccountService.isAuthenticated()) {
       if (bindingResult.hasErrors()) {
         return "insert-mezzo";
       }
