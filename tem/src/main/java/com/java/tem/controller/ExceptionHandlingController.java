@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.NotAuthorizedException;
 import com.java.tem.exceptions.ResourcesNotExistException;
 import com.java.tem.exceptions.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,12 @@ public class ExceptionHandlingController {
   @ExceptionHandler(ResourcesNotExistException.class)
   public void noResourcesFound() {
 	  
+  }
+
+  @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Utente non autorizzato")
+  @ExceptionHandler(NotAuthorizedException.class)
+  public void notAuthorized() {
+
   }
 
 }

@@ -60,25 +60,40 @@ public class RisorseController {
   
   @GetMapping("/risorse/list")
   public String listRisorse(Model model) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUserName = authentication.getName();
-    Utente utente = accountService.getUserByUsername(currentUserName);
+    Utente utente = accountService.getLoggedUser();
     List<Mezzo> listMezzi = risorseService.getMezziByAzienda(utente);
     List<Conducente> listConducenti = risorseService.getConducentiByAzienda(utente);
     List<Linea> listLinee = risorseService.getLineeByAzienda(utente);
+    boolean isAdmin = accountService.isAdmin();
+    model.addAttribute("azienda", utente);
     model.addAttribute("linee", listLinee);
     model.addAttribute("conducenti", listConducenti);
     model.addAttribute("mezzi", listMezzi);
+    model.addAttribute("adminCheck", isAdmin);
     return "list-risorse"; 
+  }
+
+  @GetMapping("/risorse/list/{aziendaId}")
+  public String listRisorseByAzienda(@PathVariable("aziendaId") Long aziendaId, Model model) {
+    Utente azienda = accountService.getUserById(aziendaId);
+    List<Mezzo> listMezzi = risorseService.getMezziByAzienda(azienda);
+    List<Conducente> listConducenti = risorseService.getConducentiByAzienda(azienda);
+    List<Linea> listLinee = risorseService.getLineeByAzienda(azienda);
+    boolean isAdmin = accountService.isAdmin();
+    model.addAttribute("azienda", azienda);
+    model.addAttribute("linee", listLinee);
+    model.addAttribute("conducenti", listConducenti);
+    model.addAttribute("mezzi", listMezzi);
+    model.addAttribute("adminCheck", isAdmin);
+
+    return "list-risorse";
   }
   
   
   @PostMapping("/risorse/submit/conducente")
   public String processRisorsa(Conducente conducente, Model model) {
     if (AccountService.isAuthenticated()) {
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentUserName = authentication.getName();
-      Utente utente = accountService.getUserByUsername(currentUserName);
+      Utente utente = accountService.getLoggedUser();
       conducente.setAzienda(utente);
       try {
         this.risorseService.addConducente(conducente);
@@ -98,9 +113,7 @@ public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea, Bindin
       if (bindingResult.hasErrors()) {
         return "insert-linea";
       }
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentUserName = authentication.getName();
-      Utente utente = accountService.getUserByUsername(currentUserName);
+      Utente utente = accountService.getLoggedUser();
       linea.setAzienda(utente);
       this.risorseService.addLinea(linea);
       model.addAttribute(linea);
@@ -116,9 +129,7 @@ public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo, Bindin
       if (bindingResult.hasErrors()) {
         return "insert-mezzo";
       }
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentUserName = authentication.getName();
-      Utente utente = accountService.getUserByUsername(currentUserName);
+      Utente utente = accountService.getLoggedUser();
       mezzo.setAzienda(utente);
       this.risorseService.addMezzo(mezzo);
 
@@ -168,9 +179,7 @@ public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo, Bindin
     if (result.hasErrors()) {
       return "edit-conducente";
     }
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUserName = authentication.getName();
-    Utente utente = accountService.getUserByUsername(currentUserName);
+    Utente utente = accountService.getLoggedUser();
     conducente.setAzienda(utente);
     this.risorseService.updateConducente(conducente);
       
@@ -184,9 +193,7 @@ public String updateLinea(@PathVariable("id") Long id, @ModelAttribute("linea") 
     if (result.hasErrors()) {
       return "edit-linea";
     }
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUserName = authentication.getName();
-    Utente utente = accountService.getUserByUsername(currentUserName);
+    Utente utente = accountService.getLoggedUser();
     linea.setAzienda(utente);
     this.risorseService.updateLinea(linea);
       
@@ -200,9 +207,7 @@ public String updateMezzo(@PathVariable("id") Long id, @ModelAttribute("mezzo") 
     if (result.hasErrors()) {
       return "edit-mezzo";
     }
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUserName = authentication.getName();
-    Utente utente = accountService.getUserByUsername(currentUserName);
+    Utente utente = accountService.getLoggedUser();
     mezzo.setAzienda(utente);
     this.risorseService.updateMezzo(mezzo);
       

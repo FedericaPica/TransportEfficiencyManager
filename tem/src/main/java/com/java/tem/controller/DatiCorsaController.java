@@ -5,7 +5,6 @@ import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsaService;
 import java.util.List;
-
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,50 +21,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class DatiCorsaController {
 
   @Autowired
-DatiCorsaService datiCorsaService;
+  DatiCorsaService datiCorsaService;
 
   @Autowired
-AccountService accountService;
+  AccountService accountService;
 
   @GetMapping("/daticorsa/add")
-public String addDatiCorsa(Model model) {
+  public String addDatiCorsa(Model model) {
     model.addAttribute("datiCorsa", new DatiCorsa());
 
     return "insert-daticorsa";
   }
 
   @GetMapping("/daticorsa/edit/{id}")
-public String showFormDatiCorsa(@PathVariable("id") Long id, Model model) {
-    DatiCorsa datiCorsa = (DatiCorsa) this.datiCorsaService.getDatiCorsa(id)
+  public String showFormDatiCorsa(@PathVariable("id") Long id, Model model) {
+    DatiCorsa datiCorsa = this.datiCorsaService.getDatiCorsa(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid Conducente Id:" + id));
     model.addAttribute("datiCorsa", datiCorsa);
     return "edit-daticorsa";
   }
-	
+
   @PostMapping("/daticorsa/submit")
-public String processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa,
-		BindingResult bindingResult, 
-		Model model) {
-    if (AccountService.isAuthenticated()) {
-      if (bindingResult.hasErrors()) {
-        return "insert-daticorsa";
-      }
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentUserName = authentication.getName();
-      Utente utente = accountService.getUserByUsername(currentUserName);
-      datiCorsa.setAzienda(utente);
-      this.datiCorsaService.addDatiCorsa(datiCorsa);
-      model.addAttribute(datiCorsa);
-      return "dati-corsa-success";
-    } else {
-      return "login-required";
+  public String processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa,
+                                 BindingResult bindingResult,
+                                 Model model) {
+    if (bindingResult.hasErrors()) {
+      return "insert-daticorsa";
     }
+    Utente utente = accountService.getLoggedUser();
+    datiCorsa.setAzienda(utente);
+    this.datiCorsaService.addDatiCorsa(datiCorsa);
+    model.addAttribute(datiCorsa);
+    return "dati-corsa-success";
   }
 
   @PostMapping("daticorsa/update/{id}")
-public String updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa, 
-      BindingResult result,
-        Model model) {
+  public String updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa,
+                                BindingResult result,
+                                Model model) {
     if (result.hasErrors()) {
       return "edit-daticorsa";
     }
@@ -78,22 +71,34 @@ public String updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa,
   }
 
   @GetMapping("daticorsa/delete/{id}")
-    public String deleteDatiCorsa(@PathVariable("id") Long id, Model model) 
-        throws IllegalArgumentException {
+  public String deleteDatiCorsa(@PathVariable("id") Long id, Model model)
+      throws IllegalArgumentException {
     DatiCorsa datiCorsa = datiCorsaService.getDatiCorsa(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid daticorsa Id:" + id));
     datiCorsaService.deleteDatiCorsa(datiCorsa);
 
     return "home";
   }
-  
+
   @GetMapping("/daticorsa/list")
   public String listDatiCorsa(Model model) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUserName = authentication.getName();
-    Utente utente = accountService.getUserByUsername(currentUserName);
+    Utente utente = accountService.getLoggedUser();
+    boolean isAdmin = accountService.isAdmin();
     List<DatiCorsa> listDatiCorsa = datiCorsaService.getDatiCorsaByAzienda(utente);
     model.addAttribute("datiCorse", listDatiCorsa);
-    return "list-daticorsa"; 
+    model.addAttribute("adminCheck", isAdmin);
+    return "list-daticorsa";
+  }
+
+  @GetMapping("/daticorsa/list/{aziendaId}")
+  public String listDatiCorsa(@PathVariable("aziendaId") Long id, Model model) {
+    Utente azienda = accountService.getUserById(id);
+    boolean isAdmin = accountService.isAdmin();
+
+    List<DatiCorsa> listDatiCorsa = datiCorsaService.getDatiCorsaByAzienda(azienda);
+    model.addAttribute("datiCorse", listDatiCorsa);
+    model.addAttribute("azienda", azienda);
+    model.addAttribute("adminCheck", isAdmin);
+    return "list-daticorsa";
   }
 }

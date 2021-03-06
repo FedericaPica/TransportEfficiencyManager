@@ -3,6 +3,7 @@ package com.java.tem.model.accountservice.entity;
 import com.java.tem.model.accountservice.repository.DettaglioUtenteRepository;
 import com.java.tem.model.accountservice.repository.ProfiloRepository;
 import com.java.tem.model.accountservice.repository.UserRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 public class AccountService implements UserDetailsService {
@@ -33,7 +33,7 @@ public class AccountService implements UserDetailsService {
     return new CustomUserDetails(user, user.getProfilo(), user.getDettaglio());
   }
 
- 
+
   public Utente getUserByUsername(String usernameString) throws UsernameNotFoundException {
     Utente user = userRepo.findByEmail(usernameString);
     return user;
@@ -41,6 +41,11 @@ public class AccountService implements UserDetailsService {
 
   public boolean isAdmin(Utente utente) {
     return utente.getProfilo().equals("Admin");
+  }
+
+  public boolean isAdmin() {
+    Utente utente = this.getLoggedUser();
+    return utente.getProfilo().getNomeProfilo().equals("Admin");
   }
 
   public void registerUser(Utente utente, DettaglioUtente dettaglioUtente) {
@@ -62,6 +67,29 @@ public class AccountService implements UserDetailsService {
       return false;
     }
   }
+
+  public Utente getLoggedUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUserName = authentication.getName();
+    Utente utente = this.getUserByUsername(currentUserName);
+    return utente;
+  }
+
+  public List<Utente> getAllUsers() {
+    return userRepo.findAllByDettaglioIsNotNull();
+  }
+
+  public Boolean checkUserExistanceByEmail(String email) {
+    return userRepo.checkUserExistanceByEmail(email);
+  }
+
+  public Utente getUserById(Long id) {
+    if (userRepo.findById(id).isPresent())
+      return userRepo.findById(id).get();
+    else return null;
+  }
+
+
 }
 
 

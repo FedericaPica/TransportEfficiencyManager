@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<title>Admin Area - Lista Utenti</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<style>
+    body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+    .w3-row-padding img {margin-bottom: 12px}
+    /* Set the width of the sidebar to 120px */
+    .w3-sidebar {width: 170px;background: #005ce6;}
+    /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+    #main {margin-left: 120px}
+    /* Remove margins from "page content" on small screens */
+    @media only screen and (max-width: 600px) {#main {margin-left: 0}}
+    tr, td {background-color:#01010e;}
+
+    th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
+
+</style>
+
+<body class="w3-black">
+<a href="/home" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
+
+<!-- Page Content -->
+<div  class="w3-padding-large" id="main">
+    <!-- Header/Home -->
+    <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+        <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Lista <span class="w3-jumbo" style="color:#00e6e6;">utenti</span> </p></span></h1>
+    </header>
+
+    <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+
+        <div class="w3-row">
+            <div>
+                <h2 style="color:white;">Lista aziende</h2>
+                <table class="w3-table w3-striped w3-bordered animazione1">
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Profilo</th>
+                        <th>Denominazione</th>
+                        <th>Partita IVA</th>
+                        <th>Telefono</th>
+                        <th>Indirizzo</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr th:each="utente: ${utenti}" th:id="${utente.id}">
+                        <td th:text="${utente.username}">Username</td>
+                        <td th:text="${utente.email}">Email</td>
+                        <td th:text="${utente.profilo.getNomeProfilo()}">Profilo</td>
+                        <td th:text="${utente.dettaglio.getDenominazione()}">Denominazione</td>
+                        <td th:text="${utente.dettaglio.getPartitaIVA()}">Partita IVA</td>
+                        <td th:text="${utente.dettaglio.getTelefono()}">Telefono</td>
+                        <td th:text="${utente.dettaglio.getIndirizzo()}">Indirizzo</td>
+                        <td><a th:href="@{/risorse/list/{id}(id=${utente.id})}">Visualizza risorse</a></td>
+                        <td><a th:href="@{/programmacorse/list/{id}(id=${utente.id})}">Visualizza programmi</a></td>
+                        <td><a th:href="@{/daticorsa/list/{id}(id=${utente.id})}">Visualizza dati corse</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- END PAGE CONTENT -->
+</div>
+
+</body>
+</html>

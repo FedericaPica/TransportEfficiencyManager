@@ -70,7 +70,7 @@
 <body class="w3-black">
 <a href="/home" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
 <!-- Icon Bar (Sidebar - hidden on small screens) -->
-<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+<nav th:if="${not adminCheck}" class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
     <!-- Avatar image in top left corner -->
 
     <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-black" >
@@ -116,7 +116,7 @@
 
         <div class="w3-row">
             <div class="tabella1">
-                <h2 style="color:white;">Lista programmi</h2>
+                <h2 style="color:white;">Lista programmi dell'azienda <strong><span th:text="${azienda.dettaglio.getDenominazione()}"></span></strong></h2>
                 <table class="w3-table w3-striped w3-bordered animazione1">
                     <tr>
                         <th>ID</th>
@@ -131,7 +131,7 @@
                         <td th:text="${programmaCorse.inizioValidita}">Data Inizio Validità</td>
                         <td th:text="${programmaCorse.fineValidita}">Data Fine Validità</td>
                         <td> <a th:href="@{/programmacorse/dettaglio/{id}(id=${programmaCorse.id})}"><span class="iconify" data-icon="ic:sharp-search" data-inline="false"></span></a></td>
-                        <td ><button style="border: none" class="delete_programma"  th:value="${programmaCorse.id}" id="programmaCorse"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td ><button th:if="${not adminCheck}" style="border: none" class="delete_programma"  th:value="${programmaCorse.id}" id="programmaCorse"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
                     </tr>
                 </table>
             </div>
@@ -139,7 +139,7 @@
 
     </div>
     <!-- Contact Section -->
-    <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+    <div th:if="${not adminCheck}" class="w3-padding-64 w3-content w3-text-grey" id="contact">
         <h2 class="w3-text-light-grey">Contattaci</h2>
         <hr style="width:200px" class="w3-opacity">
 
@@ -162,7 +162,7 @@
             </p>
         </form>
         <!-- End Contact Section -->
-    </div>
+    </divc>
 
     <!-- Footer -->
     <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">

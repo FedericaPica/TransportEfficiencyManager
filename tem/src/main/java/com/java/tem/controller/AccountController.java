@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.NotAuthorizedException;
 import com.java.tem.exceptions.UserAlreadyExistsException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.DettaglioUtente;
@@ -19,15 +20,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Controller
 @RequestMapping("/")
 public class AccountController implements WebMvcConfigurer {
- 
-  @Autowired
-    private UserRepository userRepo;
 
   @Autowired
     private AccountService accountService;
@@ -49,14 +48,15 @@ public class AccountController implements WebMvcConfigurer {
   @PostMapping("/process_register")
     public String processRegister(@ModelAttribute("user") @Valid Utente user,
                                   BindingResult bindingResult,
-                                  @ModelAttribute("dettaglioUtente") @Valid DettaglioUtente dettaglioUtente,
+                                  @ModelAttribute("dettaglioUtente")
+                                    @Valid DettaglioUtente dettaglioUtente,
                                   BindingResult bindingResult2) throws UserAlreadyExistsException {
     
     
     if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
       return "signup_form";
     }
-    if (userRepo.checkUserExistanceByEmail(user.getEmail())) {
+    if (accountService.checkUserExistanceByEmail(user.getEmail())) {
       throw new UserAlreadyExistsException("Utente già esistente.");
     } else {
       accountService.registerUser(user, dettaglioUtente);
@@ -66,11 +66,15 @@ public class AccountController implements WebMvcConfigurer {
   }
   
   @GetMapping("/users")
-    public String listUsers(Model model) {
-    List<Utente> listUsers = userRepo.findAll();
-    model.addAttribute("listUsers", listUsers);
-         
-    return "users";
+    public String listUsers(Model model) throws NotAuthorizedException {
+    if (accountService.isAdmin()) {
+      List<Utente> listUsers = accountService.getAllUsers();
+      model.addAttribute("utenti", listUsers);
+      return "admin";
+    } else {
+      System.out.println(accountService.isAdmin());
+      throw new NotAuthorizedException("Utente non autorizzato");
+    }
   }
    
   @GetMapping("/logout")
@@ -84,7 +88,9 @@ public class AccountController implements WebMvcConfigurer {
   }
   
   @GetMapping("/home")
-  public String home() {
-    return "home";
+  public ModelAndView home() {
+    if(accountService.isAdmin())
+      return new ModelAndView("redirect:/users");
+    else return new ModelAndView("/home");
   }
 }

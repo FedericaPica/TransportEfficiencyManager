@@ -70,7 +70,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 <body class="w3-black">
 <a href="/home" ><img class="logo" id="logo" src="img/logo2.png" th:src="@{/img/logo2.png}" alt="logo" style="width:265px;height:44px;"></img></a>
 <!-- Icon Bar (Sidebar - hidden on small screens) -->
-<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+<nav th:if="${not adminCheck}" class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
   <!-- Avatar image in top left corner -->
    
   <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-black" >
@@ -96,7 +96,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 </nav>
 
 <!-- Navbar on small screens (Hidden on medium and large screens) -->
-<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+<div th:if="${not adminCheck}" class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
   <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
     <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
     <a href="/risorse" class="w3-bar-item w3-button" style="width:25% !important">INSERISCI RISORSE</a>
@@ -109,7 +109,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
   <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
-    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Lista <span class="w3-jumbo" style="color:#00e6e6;">risorse</span> </p></span></h1>
+    <h1 class="w3-jumbo" style="font-size:50px;"><span class="w3-hide-small"><p>Lista <span class="w3-jumbo" style="color:#00e6e6;">risorse</span> </p></span>
+        <strong><span th:text="${azienda.dettaglio.getDenominazione()}"></span></strong></h1>
   </header>
 
 <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
@@ -129,8 +130,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${conducente.nome}">Nome</td>
 						<td th:text="${conducente.cognome}">Cognome</td>
 						<td th:text="${conducente.codiceFiscale}">Codice fiscale</td>
-                        <td> <button style="border: none" href="#" th:onclick="|popEdit(${conducente.id}, 'conducente')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
-                        <td ><button style="border: none" class="delete_risorsa" th:value="${conducente.id}" id="conducente"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td th:if="${not adminCheck}"> <button style="border: none" href="#" th:onclick="|popEdit(${conducente.id}, 'conducente')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
+                        <td th:if="${not adminCheck}"><button style="border: none" class="delete_risorsa" th:value="${conducente.id}" id="conducente"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 						
 		</tr>
@@ -150,8 +151,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${linea.nome}">Nome</td>
 						<td th:text="${linea.partenza}">Partenza</td>
 						<td th:text="${linea.destinazione}">Destinazione</td>
-                       <td> <button style="border: none" href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
-                       <td ><button style="border: none" class="delete_risorsa" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                       <td th:if="${not adminCheck}"> <button style="border: none" href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
+                       <td th:if="${not adminCheck}"><button style="border: none" class="delete_risorsa" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 		</tr>
 	  </table>
@@ -171,8 +172,8 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${mezzo.targa}">Targa</td>
 						<td th:text="${mezzo.capienza}">Capienza</td>
 						<td th:text="${mezzo.tipo}">Tipo</td>
-                        <td> <button style="border: none" href="#" th:onclick="|popEdit(${mezzo.id}, 'mezzo')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
-                        <td ><button style="border: none" class="delete_risorsa" th:value="${mezzo.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
+                        <td th:if="${not adminCheck}"> <button style="border: none" href="#" th:onclick="|popEdit(${mezzo.id}, 'mezzo')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
+                        <td th:if="${not adminCheck}"><button style="border: none" class="delete_risorsa" th:value="${mezzo.id}" id="mezzo"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
 		</tr>
 	  </table>
@@ -181,7 +182,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
   
 </div>
   <!-- Contact Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+  <div th:if="${not adminCheck}" class="w3-padding-64 w3-content w3-text-grey" id="contact">
     <h2 class="w3-text-light-grey">Contattaci</h2>
     <hr style="width:200px" class="w3-opacity">
 

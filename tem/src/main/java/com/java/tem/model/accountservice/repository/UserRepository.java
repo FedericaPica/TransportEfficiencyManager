@@ -1,6 +1,7 @@
 package com.java.tem.model.accountservice.repository;
 
 import com.java.tem.model.accountservice.entity.Utente;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,8 +11,9 @@ public interface UserRepository extends JpaRepository<Utente, Long> {
   @Query("SELECT u FROM Utente u WHERE u.email = ?1")
   public Utente findByEmail(String email);
   
-  @Query("SELECT count(u)>0 FROM Utente u WHERE u.email = ?1")
+  @Query("SELECT count(u) > 0 FROM Utente u WHERE u.email = ?1")
   public Boolean checkUserExistanceByEmail(String email);
-  
-  public Boolean existsByEmail(String email);
+
+  public List<Utente> findAllByDettaglioIsNotNull();
+
 }

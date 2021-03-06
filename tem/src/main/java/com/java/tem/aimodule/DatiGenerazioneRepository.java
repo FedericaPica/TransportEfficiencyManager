@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DatiGenerazioneRepository extends JpaRepository<DatiGenerazione, Long> {
-  @Query("SELECT d FROM DatiGenerazione d WHERE d.azienda_id = ?1")
-  public List<DatiGenerazione> findDatiGenerazioneByAziendaId(Long id);
+  @Query("SELECT d FROM DatiGenerazione d WHERE d.aziendaId = ?1")
+  List<DatiGenerazione> findDatiGenerazioneByAziendaId(Long id);
 }
