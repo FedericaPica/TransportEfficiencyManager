@@ -95,10 +95,10 @@ public class ProgrammaCorseController {
   @PostMapping("/programmacorse/automatico/submit")
   public ModelAndView insertProgrammaAutomatico(@ModelAttribute("programmaCorse")
                                                     ProgrammaCorse programmaCorse) {
-    ProgrammaCorse generato =
+
         programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
 
-    return new ModelAndView("redirect:/programmacorse/dettaglio/" + generato.getId());
+    return new ModelAndView("redirect:/programmacorse/dettaglio/" + programmaCorse.getId());
   }
 
   @GetMapping("/programmacorse/delete/{id}")
