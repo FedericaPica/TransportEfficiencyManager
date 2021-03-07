@@ -1,9 +1,9 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.exceptions.NotAuthorizedException;
-import com.java.tem.exceptions.DoesNotBelongToAzienda;
-import com.java.tem.exceptions.ResourcesNotExistException;
+import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.exceptions.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,11 +18,11 @@ public class ExceptionHandlingController {
   public void userAlreadyExists() {
 
   }
-  
+
   @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Una o più risorse mancanti")
-  @ExceptionHandler(ResourcesNotExistException.class)
+  @ExceptionHandler(ResourcesDoesNotExistException.class)
   public void noResourcesFound() {
-	  
+
   }
 
   @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Utente non autorizzato")
@@ -38,7 +38,7 @@ public class ExceptionHandlingController {
   }
 
   @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "La risorsa non appartiene all'azienda")
-  @ExceptionHandler(DoesNotBelongToAzienda.class)
+  @ExceptionHandler(DoesNotBelongToAziendaException.class)
   public void resourceDoesNotBelong() {
 
   }

@@ -22,63 +22,63 @@ public class Corsa {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  private Long id;
   private Time orario;
   @ManyToMany
   @JoinTable(name = "Conducente_Corsa",
       joinColumns = {@JoinColumn(name = "corsa_id")},
       inverseJoinColumns = {@JoinColumn(name = "conducente_id")})
   private Set<Conducente> conducenti = new HashSet<>();
-@ManyToMany
+  @ManyToMany
   @JoinTable(name = "Mezzo_Corsa",
-      joinColumns = {@JoinColumn(name = "corsa_id")}, 
+      joinColumns = {@JoinColumn(name = "corsa_id")},
       inverseJoinColumns = {@JoinColumn(name = "mezzo_id")})
-  private Set<Mezzo> mezzi = new HashSet<>(); 
-  
+  private Set<Mezzo> mezzi = new HashSet<>();
+
   @ManyToOne
   @JoinColumn(name = "linea_id")
-    private Linea linea;
+  private Linea linea;
 
   @ManyToOne
   @JoinColumn(name = "programma_id", nullable = false)
-    private ProgrammaCorse programma;
-    
+  private ProgrammaCorse programma;
+
   private boolean andata;
-  
+
   public Set<Mezzo> getMezzi() {
     return mezzi;
   }
-  
+
   public void setMezzi(Set<Mezzo> mezzi) {
     this.mezzi = mezzi;
   }
-  
+
   public Set<Conducente> getConducenti() {
     return conducenti;
   }
-  
+
   public void setConducenti(Set<Conducente> conducenti) {
     this.conducenti = conducenti;
   }
-  
+
   public Long getId() {
     return id;
   }
-  
+
   public void setId(Long id) {
     this.id = id;
   }
-  
+
   public Time getOrario() {
     return orario;
   }
-  
+
   public void setOrario(Time orario) {
     this.orario = orario;
   }
-  
+
   public Linea getLinea() {
-	return linea;
+    return linea;
   }
 
   public void setLinea(Linea linea) {
@@ -93,11 +93,11 @@ public class Corsa {
     this.programma = programma;
   }
 
-public boolean isAndata() {
-	return andata;
-}
+  public boolean isAndata() {
+    return andata;
+  }
 
-public void setAndata(boolean andata) {
-	this.andata = andata;
-}
+  public void setAndata(boolean andata) {
+    this.andata = andata;
+  }
 }

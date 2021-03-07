@@ -1,14 +1,15 @@
 package com.java.tem.controller;
 
-import com.java.tem.aimodule.ProgrammaAutomaticoMaker;
-import com.java.tem.exceptions.DoesNotBelongToAzienda;
+import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
+import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import com.java.tem.model.programmacorseservice.entity.CorsaService;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorseService;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class ProgrammaCorseController {
   private CorsaService corsaService;
 
   @Autowired
-  private ProgrammaAutomaticoMaker programmaAutomaticoMaker;
+  private RisorseService risorseService;
 
 
   @GetMapping("/programmacorse")
@@ -67,23 +68,35 @@ public class ProgrammaCorseController {
   }
 
   @GetMapping("/programmacorse/insert")
-  public String insertProgramma(@RequestParam(name = "type") String type, Model model) throws
+  public ModelAndView insertProgramma(@RequestParam(name = "type") String type, Model model) throws
       GenerationTypeNotFoundException {
-    if(!type.equals("automatico") && !type.equals("manuale")) {
+    if (!type.equals("automatico") && !type.equals("manuale")) {
       throw new GenerationTypeNotFoundException("Tipo di generazione non supportata");
     }
+    Utente utente = accountService.getLoggedUser();
+    try {
+      if (risorseService.getConducentiByAzienda(utente).size() == 0 ||
+          risorseService.getMezziByAzienda(utente).size() == 0 ||
+          risorseService.getLineeByAzienda(utente).size() == 0) {
+        throw new ResourcesDoesNotExistException(
+            "Una o più risorse mancanti. Per generare un programma è necessario disporre di " +
+                "almeno una risorsa per tipo.");
+      }
+    } catch (ResourcesDoesNotExistException exc) {
+      model.addAttribute("error", exc.getMessage());
+      return new ModelAndView("redirect:/home", (ModelMap) model);
+    }
+
     model.addAttribute("programmaCorse", new ProgrammaCorse());
-    model.addAttribute("submit", "/programmacorse/"+type+"/submit");
-    return "insert-programmacorse";
+    model.addAttribute("submit", "/programmacorse/" + type + "/submit");
+    return new ModelAndView("insert-programmacorse");
   }
 
   @PostMapping("/programmacorse/automatico/submit")
   public ModelAndView insertProgrammaAutomatico(@ModelAttribute("programmaCorse")
-                                                ProgrammaCorse programmaCorse) {
-
+                                                    ProgrammaCorse programmaCorse) {
     ProgrammaCorse generato =
         programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
-
 
     return new ModelAndView("redirect:/programmacorse/dettaglio/" + generato.getId());
   }
@@ -95,10 +108,10 @@ public class ProgrammaCorseController {
     Utente utente = accountService.getLoggedUser();
     try {
       if (!programmaCorseService.checkOwnership(programmaCorse, utente)) {
-        throw new DoesNotBelongToAzienda("Il programma corse non appartiene alla tua azienda");
+        throw new DoesNotBelongToAziendaException("Il programma corse non appartiene alla tua azienda");
       }
       programmaCorseService.deleteProgrammaCorse(programmaCorse);
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
     }
     return new ModelAndView("redirect:/home", (ModelMap) model);
@@ -125,8 +138,8 @@ public class ProgrammaCorseController {
 
   @GetMapping("/programmacorse/{aziendaId}/dettaglio/{id}")
   public String detailProgrammaCorseByAzienda(@PathVariable("aziendaId") Long aziendaId,
-                                     @PathVariable("id") Long id,
-                                     Model model) {
+                                              @PathVariable("id") Long id,
+                                              Model model) {
     ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
     List<Corsa> listaCorse = corsaService.getCorseByProgramma(programmaCorse);
     boolean isAdmin = accountService.isAdmin();

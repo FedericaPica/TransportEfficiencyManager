@@ -1,16 +1,13 @@
 package com.java.tem.controller;
 
-import com.java.tem.exceptions.DoesNotBelongToAzienda;
+import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsaService;
 import java.util.List;
 import javax.validation.Valid;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -46,10 +43,10 @@ public class DatiCorsaController {
     Utente utente = accountService.getLoggedUser();
     try {
       if (!datiCorsaService.checkOwnership(datiCorsa, utente)) {
-        throw new DoesNotBelongToAzienda("I dati corsa non appartengono alla tua azienda");
+        throw new DoesNotBelongToAziendaException("I dati corsa non appartengono alla tua azienda");
       }
       return new ModelAndView("edit-daticorsa");
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
       return new ModelAndView("redirect:/home", (ModelMap) model);
     }
@@ -94,10 +91,10 @@ public class DatiCorsaController {
 
     try {
       if (!datiCorsaService.checkOwnership(datiCorsa, utente)) {
-        throw new DoesNotBelongToAzienda("I dati corsa non appartengono alla tua azienda");
+        throw new DoesNotBelongToAziendaException("I dati corsa non appartengono alla tua azienda");
       }
       datiCorsaService.deleteDatiCorsa(datiCorsa);
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
     }
     return new ModelAndView("redirect:/home", (ModelMap) model);

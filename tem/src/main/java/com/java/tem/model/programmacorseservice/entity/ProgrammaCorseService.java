@@ -1,16 +1,13 @@
 package com.java.tem.model.programmacorseservice.entity;
 
-import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
-import java.util.List;
-import java.util.Optional;
-
 import com.java.tem.model.accountservice.entity.Utente;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
 import com.java.tem.model.programmacorseservice.repository.StrategyType;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ProgrammaCorseService {

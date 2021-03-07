@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
-import com.java.tem.exceptions.DoesNotBelongToAzienda;
+import com.java.tem.exceptions.BoundResourceException;
+import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
@@ -144,11 +145,11 @@ public class RisorseController {
 
     try {
       if (!risorseService.checkOwnership(conducente, utente)) {
-        throw new DoesNotBelongToAzienda("La risorsa non appartiene all'azienda");
+        throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
       }
       model.addAttribute("mezzo", conducente);
       return new ModelAndView("edit-conducente");
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
       return new ModelAndView("redirect:/home", (ModelMap) model);
     }
@@ -163,11 +164,11 @@ public class RisorseController {
 
     try {
       if (!risorseService.checkOwnership(linea, utente)) {
-        throw new DoesNotBelongToAzienda("La risorsa non appartiene all'azienda");
+        throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
       }
       model.addAttribute("mezzo", linea);
       return new ModelAndView("edit-linea");
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
       return new ModelAndView("redirect:/home", (ModelMap) model);
     }
@@ -182,11 +183,11 @@ public class RisorseController {
 
     try {
       if (!risorseService.checkOwnership(mezzo, utente)) {
-        throw new DoesNotBelongToAzienda("La risorsa non appartiene all'azienda");
+        throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
       }
       model.addAttribute("mezzo", mezzo);
       return new ModelAndView("edit-mezzo");
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
       return new ModelAndView("redirect:/home", (ModelMap) model);
     }
@@ -238,17 +239,22 @@ public class RisorseController {
 
   @GetMapping("risorse/delete/mezzo/{id}")
   public ModelAndView deleteMezzo(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException, DoesNotBelongToAzienda {
+      throws IllegalArgumentException, BoundResourceException {
     Mezzo mezzo = risorseService.getMezzo(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid mezzo Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
       if (!risorseService.checkOwnership(mezzo, utente)) {
-        throw new DoesNotBelongToAzienda("La risorsa non appartiene all'azienda");
+        throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
+      }
+
+      if (risorseService.isBound(mezzo)) {
+        throw new BoundResourceException(
+            "La risorsa è collegata ad una corsa e pertanto non può essere eliminata.");
       }
       risorseService.deleteMezzo(mezzo);
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
     }
     return new ModelAndView("redirect:/home", (ModelMap) model);
@@ -257,17 +263,22 @@ public class RisorseController {
 
   @GetMapping("risorse/delete/conducente/{id}")
   public ModelAndView deleteConducente(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException {
+      throws IllegalArgumentException, BoundResourceException {
     Conducente conducente = risorseService.getConducente(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid conducente Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
       if (!risorseService.checkOwnership(conducente, utente)) {
-        throw new DoesNotBelongToAzienda("La risorsa non appartiene all'azienda");
+        throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
+      }
+
+      if (risorseService.isBound(conducente)) {
+        throw new BoundResourceException(
+            "La risorsa è collegata ad una corsa e pertanto non può essere eliminata.");
       }
       risorseService.deleteConducente(conducente);
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
     }
     return new ModelAndView("redirect:/home", (ModelMap) model);
@@ -275,17 +286,22 @@ public class RisorseController {
 
   @GetMapping("risorse/delete/linea/{id}")
   public ModelAndView deleteLinea(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException {
+      throws IllegalArgumentException, BoundResourceException {
     Linea linea = risorseService.getLinea(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
       if (!risorseService.checkOwnership(linea, utente)) {
-        throw new DoesNotBelongToAzienda("La risorsa non appartiene all'azienda");
+        throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
+      }
+
+      if (risorseService.isBound(linea)) {
+        throw new BoundResourceException(
+            "La risorsa è collegata ad una corsa e pertanto non può essere eliminata.");
       }
       risorseService.deleteLinea(linea);
-    } catch (DoesNotBelongToAzienda exc) {
+    } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
     }
     return new ModelAndView("redirect:/home", (ModelMap) model);

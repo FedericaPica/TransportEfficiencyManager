@@ -1,21 +1,16 @@
 package com.java.tem.model.programmacorseservice.entity;
 
+import com.java.tem.model.programmacorseservice.repository.Strategy;
+import com.java.tem.model.programmacorseservice.repository.StrategyType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
-
-import com.java.tem.model.programmacorseservice.repository.Strategy;
-import com.java.tem.model.programmacorseservice.repository.StrategyType;
 
 
 @Component
 public class ProgrammaCorseFactory {
-
-//	private Strategy strategy;
 
   private Map<StrategyType, Strategy> strategies;
 

@@ -1,6 +1,6 @@
 package com.java.tem.controller;
 
-import com.java.tem.exceptions.ResourcesNotExistException;
+import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
@@ -16,8 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +49,7 @@ public class CorsaController {
 
   @GetMapping("/corsa/insert/{programmaCorseId}")
   public String insertCorsa(@PathVariable("programmaCorseId") Long programmaCorseId, Model model)
-      throws ResourcesNotExistException {
+      throws ResourcesDoesNotExistException {
 
     Utente utente = accountService.getLoggedUser();
 
@@ -60,7 +58,7 @@ public class CorsaController {
     List<Mezzo> mezzi = risorseService.getMezziByAzienda(utente);
 
     if (linee.size() == 0 || mezzi.size() == 0 || conducenti.size() == 0) {
-      throw new ResourcesNotExistException("Una o più risorse non esistenti.");
+      throw new ResourcesDoesNotExistException("Una o più risorse non esistenti.");
     }
 	ProgrammaCorse programmaCorse = programmaCorseService
             .getProgrammaCorseById(programmaCorseId).get();

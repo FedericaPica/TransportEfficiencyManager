@@ -60,7 +60,14 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
                                         'success'
                                     ),
                                     $('#'+id_risorsa).closest("tr").hide();
-                                }
+                                },
+                                  error: function() {
+                                      Swal.fire(
+                                          'Errore',
+                                          'La risorsa è associata a una o più corse e pertanto non può essere eliminata.',
+                                          'error'
+                                      )
+                                  }
                                 });
                           }
                        });

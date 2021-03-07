@@ -7,6 +7,22 @@
 	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 	<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
 </head>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script
+		src="https://code.jquery.com/jquery-2.2.4.min.js"
+		integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+		crossorigin="anonymous"></script>
+<script th:inline="javascript" th:if="${param.error != null}">
+	$(document).ready(function() {
+		/*<![CDATA[*/
+		Swal.fire({
+			icon: 'error',
+			title: 'Errore',
+			html: /*[[${error}]]*/,
+		})
+	});
+	/*]]>*/
+</script>
 <body>
 	<div class="parent">	
 	<div class="sfondo">

@@ -1,6 +1,8 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
+import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
+import com.java.tem.model.programmacorseservice.entity.ProgrammaCorseService;
 import com.java.tem.model.programmacorseservice.repository.ConducenteRepository;
 import com.java.tem.model.programmacorseservice.repository.LineaRepository;
 import com.java.tem.model.programmacorseservice.repository.MezzoRepository;
@@ -142,6 +144,19 @@ public class RisorseService {
       return linea.getAzienda().equals(utente);
     }
     return false;
+  }
+
+  public boolean isBound(Risorsa risorsa) {
+    if (risorsa instanceof Mezzo) {
+      Mezzo resourceToCheck = (Mezzo) risorsa;
+      return !resourceToCheck.getCorse().isEmpty();
+    } else if (risorsa instanceof Linea) {
+      Linea resourceToCheck = (Linea) risorsa;
+      return !resourceToCheck.getCorse().isEmpty();
+    } else {
+      Conducente resourceToCheck = (Conducente) risorsa;
+      return !resourceToCheck.getCorse().isEmpty();
+    }
   }
 
 }
