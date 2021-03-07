@@ -66,7 +66,7 @@
 
     <div class="formRisorsa">
 
-        <form action="#" th:action="@{/programmacorse/manuale/submit}" th:object="${programmaCorse}" method="post">
+        <form action="#" th:action="${submit}" th:object="${programmaCorse}" method="post">
               <div class="row2">
               <div>
                    <label for="da"><b>Da:&nbsp;</b></label> <input type="date" th:field="${programmaCorse.inizioValidita}" class="form-control" id="da" placeholder="Data Inizio Validità" required> <span th:if="${#fields.hasErrors('inizioValidita')}" th:errors="${programmaCorse.inizioValidita}" class="text-danger"></span>

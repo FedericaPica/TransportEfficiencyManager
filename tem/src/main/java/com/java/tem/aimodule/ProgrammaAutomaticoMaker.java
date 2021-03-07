@@ -43,10 +43,10 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
   @Override
-  public ProgrammaCorse doOperation() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUserName = authentication.getName();
-    Utente utente = accountService.getUserByUsername(currentUserName);
+  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) {
+    Utente utente = accountService.getLoggedUser();
+    programmaCorse.setAzienda(utente);
+    programmaCorseRepository.save(programmaCorse);
 
     this.listaDatiGenerazione = datiGenerazioneRepository
         .findDatiGenerazioneByAziendaId(utente.getId());
@@ -69,11 +69,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
     this.ricercaBacktracking(mezzi, conducenti, 0);
 
+
     for (DatiGenerazione d : this.listaDatiGenerazione) {
       Set<Conducente> conducentiCorsa = new HashSet<Conducente>();
       Set<Mezzo> mezziCorsa = new HashSet<Mezzo>();
       Corsa corsa = new Corsa();
-      ProgrammaCorse programmaCorse = programmaCorseRepository.findById(1L).get();
       corsa.setProgramma(programmaCorse);
 
       Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
@@ -91,12 +91,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       corsaService.addCorsa(corsa);
 
     }
-    return null;
-  }
-  
-  @Override
-  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) {
-    return null;
+    return programmaCorse;
   }
 
   private void ricercaBacktracking(List<Mezzo> mezzi, List<Conducente> conducenti, int count) {

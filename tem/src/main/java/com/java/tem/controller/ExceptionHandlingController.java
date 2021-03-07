@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.exceptions.NotAuthorizedException;
 import com.java.tem.exceptions.ResourcesNotExistException;
 import com.java.tem.exceptions.UserAlreadyExistsException;
@@ -26,6 +27,12 @@ public class ExceptionHandlingController {
   @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Utente non autorizzato")
   @ExceptionHandler(NotAuthorizedException.class)
   public void notAuthorized() {
+
+  }
+
+  @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Tipo di Generazione non valido.")
+  @ExceptionHandler(GenerationTypeNotFoundException.class)
+  public void generationNotFound() {
 
   }
 

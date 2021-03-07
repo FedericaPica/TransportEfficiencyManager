@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.aimodule.ProgrammaAutomaticoMaker;
+import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -62,16 +64,26 @@ public class ProgrammaCorseController {
     return "list-programmacorse";
   }
 
-  @GetMapping("/programmacorse/insert/manuale")
-  public String insertProgrammaManuale(Model model) {
+  @GetMapping("/programmacorse/insert")
+  public String insertProgramma(@RequestParam(name = "type") String type, Model model) throws
+      GenerationTypeNotFoundException {
+    if(!type.equals("automatico") && !type.equals("manuale")) {
+      throw new GenerationTypeNotFoundException("Tipo di generazione non supportata");
+    }
     model.addAttribute("programmaCorse", new ProgrammaCorse());
-    return "insert-programmacorse-manuale";
+    model.addAttribute("submit", "/programmacorse/"+type+"/submit");
+    return "insert-programmacorse";
   }
 
-  @GetMapping("/programmacorse/insert/auto")
-  public String insertProgrammaAutomatico() {
-    programmaCorseService.generaProgrammaCorse("automatico", new ProgrammaCorse());
-    return "home";
+  @PostMapping("/programmacorse/automatico/submit")
+  public ModelAndView insertProgrammaAutomatico(@ModelAttribute("programmaCorse")
+                                                ProgrammaCorse programmaCorse) {
+
+    ProgrammaCorse generato =
+        programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
+
+
+    return new ModelAndView("redirect:/programmacorse/dettaglio/" + generato.getId());
   }
 
   @GetMapping("/programmacorse/delete/{id}")
