@@ -14,7 +14,7 @@ import org.hibernate.annotations.Immutable;
 public class DatiGenerazione {
 
   @Id
-    private Long id;
+  private Long id;
 
   private String lineaCorsa;
 
@@ -25,22 +25,24 @@ public class DatiGenerazione {
   private Long aziendaId;
 
   private LocalTime orario;
-  
+
   private String conducente;
 
   private String mezzo;
 
-  private boolean andata;
+  private String andata;
 
-  public boolean isAndata() {
+  public String isAndata() {
     return andata;
   }
 
-  public void setAndata(boolean andata) {
+  public void setAndata(String andata) {
     this.andata = andata;
   }
 
-
+  public String getAndata() {
+    return andata;
+  }
 
   public LocalTime getOrario() {
     return orario;
@@ -109,8 +111,8 @@ public class DatiGenerazione {
   @Override
   public String toString() {
 
-    return "[ " + this.lineaCorsa + " " + this.traffico + " " + this.attesi + " " + this.orario 
-      + " " + this.conducente + " " + this.mezzo + " ]";
+    return "[ " + this.lineaCorsa + " " + this.traffico + " " + this.attesi + " " + this.orario
+        + " " + this.conducente + " " + this.mezzo + " ]";
 
   }
 }

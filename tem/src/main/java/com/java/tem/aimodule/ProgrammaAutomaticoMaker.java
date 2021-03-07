@@ -2,18 +2,24 @@ package com.java.tem.aimodule;
 
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
+import com.java.tem.model.programmacorseservice.entity.Corsa;
+import com.java.tem.model.programmacorseservice.entity.CorsaService;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
+import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
 import com.java.tem.model.programmacorseservice.repository.StrategyType;
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +36,10 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   private DatiGenerazioneRepository datiGenerazioneRepository;
   @Autowired
   private RisorseService risorseService;
+  @Autowired
+  private ProgrammaCorseRepository programmaCorseRepository;
+  @Autowired
+  private CorsaService corsaService;
   private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
   @Override
@@ -60,7 +70,26 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     this.ricercaBacktracking(mezzi, conducenti, 0);
 
     for (DatiGenerazione d : this.listaDatiGenerazione) {
-      System.out.println(d.toString());
+      Set<Conducente> conducentiCorsa = new HashSet<Conducente>();
+      Set<Mezzo> mezziCorsa = new HashSet<Mezzo>();
+      Corsa corsa = new Corsa();
+      ProgrammaCorse programmaCorse = programmaCorseRepository.findById(1L).get();
+      corsa.setProgramma(programmaCorse);
+
+      Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
+      Conducente conducenteB = risorseService.getConducenteByCodiceFiscale(d.getConducente()).get();
+      Mezzo mezzoB = risorseService.getMezzo(Long.parseLong(d.getMezzo())).get();
+
+      conducentiCorsa.add(conducenteB);
+      mezziCorsa.add(mezzoB);
+
+      corsa.setConducenti(conducentiCorsa);
+      corsa.setMezzi(mezziCorsa);
+      corsa.setLinea(lineaB);
+      corsa.setAndata(Boolean.valueOf(d.getAndata()));
+      corsa.setOrario(Time.valueOf(d.getOrario()));
+      corsaService.addCorsa(corsa);
+
     }
     return null;
   }
@@ -126,7 +155,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
     int start = this.listaDatiGenerazione.indexOf(datiGenerazione);
     Linea lineaCorrente = risorseService.getLineaByName(datiGenerazione.getLineaCorsa()).get();
-    if (!datiGenerazione.isAndata()) {
+    if (!Boolean.getBoolean(datiGenerazione.isAndata())) {
       lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
     }
 
@@ -143,7 +172,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
         Linea lineaPrecedente = risorseService.getLineaByName(d.getLineaCorsa()).get();
 
-        if (!d.isAndata()) {
+        if (!Boolean.getBoolean(datiGenerazione.isAndata())) {
           lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
         }
 
@@ -164,7 +193,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
     Linea lineaCorrente = risorseService.getLineaByName(datiGenerazione.getLineaCorsa()).get();
 
-    if (!datiGenerazione.isAndata()) {
+    if (!Boolean.getBoolean(datiGenerazione.isAndata())) {
       lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
     }
 
@@ -182,7 +211,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
         Linea lineaPrecedente = risorseService.getLineaByName(d.getLineaCorsa()).get();
 
-        if (!d.isAndata()) {
+        if (!Boolean.getBoolean(d.isAndata())) {
           lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
         }
         return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());

@@ -30,7 +30,7 @@ public class ProgrammaCorseController {
   private CorsaService corsaService;
 
   @Autowired
-  private ProgrammaAutomaticoMaker test;
+  private ProgrammaAutomaticoMaker programmaAutomaticoMaker;
 
 
   @GetMapping("/programmacorse")
@@ -45,6 +45,7 @@ public class ProgrammaCorseController {
     List<ProgrammaCorse> programmiList =
         programmaCorseService.getProgrammaCorseByAzienda(utente);
     model.addAttribute("listaProgrammi", programmiList);
+    model.addAttribute("azienda", utente);
     model.addAttribute("adminCheck", isAdmin);
     return "list-programmacorse";
   }
@@ -69,7 +70,7 @@ public class ProgrammaCorseController {
 
   @GetMapping("/programmacorse/insert/auto")
   public String insertProgrammaAutomatico() {
-    test.doOperation();
+    programmaCorseService.generaProgrammaCorse("automatico", new ProgrammaCorse());
     return "home";
   }
 
