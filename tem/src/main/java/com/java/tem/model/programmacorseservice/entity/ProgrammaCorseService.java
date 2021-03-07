@@ -1,5 +1,6 @@
 package com.java.tem.model.programmacorseservice.entity;
 
+import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,10 @@ public class ProgrammaCorseService {
 
   public List<ProgrammaCorse> getProgrammaCorseByAzienda(Utente utente) {
     return programmaCorseRepository.findByAzienda(utente);
+  }
+
+  public boolean checkOwnership(ProgrammaCorse programmaCorse, Utente utente) {
+    return programmaCorse.getAzienda().equals(utente);
   }
 
 

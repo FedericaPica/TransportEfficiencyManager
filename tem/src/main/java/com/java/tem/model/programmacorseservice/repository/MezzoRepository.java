@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface MezzoRepository extends JpaRepository<Mezzo, Long> {
-	public List<Mezzo> findByAzienda(Utente utente);
+  List<Mezzo> findByAzienda(Utente utente);
+
 }

@@ -2,6 +2,7 @@ package com.java.tem.controller;
 
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.exceptions.NotAuthorizedException;
+import com.java.tem.exceptions.DoesNotBelongToAzienda;
 import com.java.tem.exceptions.ResourcesNotExistException;
 import com.java.tem.exceptions.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,12 @@ public class ExceptionHandlingController {
   @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Tipo di Generazione non valido.")
   @ExceptionHandler(GenerationTypeNotFoundException.class)
   public void generationNotFound() {
+
+  }
+
+  @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "La risorsa non appartiene all'azienda")
+  @ExceptionHandler(DoesNotBelongToAzienda.class)
+  public void resourceDoesNotBelong() {
 
   }
 

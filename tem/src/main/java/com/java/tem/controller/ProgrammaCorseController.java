@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.aimodule.ProgrammaAutomaticoMaker;
+import com.java.tem.exceptions.DoesNotBelongToAzienda;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
@@ -12,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,11 +89,19 @@ public class ProgrammaCorseController {
   }
 
   @GetMapping("/programmacorse/delete/{id}")
-  public String deleteProgrammaCorse(@PathVariable("id") Long id) {
+  public ModelAndView deleteProgrammaCorse(@PathVariable("id") Long id, Model model) {
     ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
     programmaCorseService.deleteProgrammaCorse(programmaCorse);
-
-    return "index";
+    Utente utente = accountService.getLoggedUser();
+    try {
+      if (!programmaCorseService.checkOwnership(programmaCorse, utente)) {
+        throw new DoesNotBelongToAzienda("Il programma corse non appartiene alla tua azienda");
+      }
+      programmaCorseService.deleteProgrammaCorse(programmaCorse);
+    } catch (DoesNotBelongToAzienda exc) {
+      model.addAttribute("error", exc.getMessage());
+    }
+    return new ModelAndView("redirect:/home", (ModelMap) model);
   }
 
   @PostMapping("/programmacorse/manuale/submit")
@@ -114,7 +124,7 @@ public class ProgrammaCorseController {
   }
 
   @GetMapping("/programmacorse/{aziendaId}/dettaglio/{id}")
-  public String detailProgrammaCorse(@PathVariable("aziendaId") Long aziendaId,
+  public String detailProgrammaCorseByAzienda(@PathVariable("aziendaId") Long aziendaId,
                                      @PathVariable("id") Long id,
                                      Model model) {
     ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();

@@ -72,7 +72,11 @@ public class AccountService implements UserDetailsService {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
     Utente utente = this.getUserByUsername(currentUserName);
-    return utente;
+    if(utente != null) {
+      return utente;
+    } else {
+      return null;
+    }
   }
 
   public List<Utente> getAllUsers() {

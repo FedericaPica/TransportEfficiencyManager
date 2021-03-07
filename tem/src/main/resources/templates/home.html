@@ -6,8 +6,22 @@
 <link rel="stylesheet" href="css/style2.css" th:href="@{/css/style2.css}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script th:inline="javascript" th:if="${error != null}">
+ $(document).ready(function() {
+   /*<![CDATA[*/
+   Swal.fire({
+     icon: 'error',
+     title: 'Errore',
+     html: /*[[${error}]]*/,
+   })
+ });
+ /*]]>*/
+</script>
 <style>
 body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}

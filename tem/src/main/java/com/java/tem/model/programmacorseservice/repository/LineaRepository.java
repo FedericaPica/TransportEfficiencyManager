@@ -13,4 +13,5 @@ public interface LineaRepository extends JpaRepository<Linea, Long> {
 	public List<Linea> findByAzienda(Utente azienda);
 
 	public Optional<Linea> findByNome(String nome);
+
 }

@@ -14,4 +14,5 @@ public interface ConducenteRepository extends JpaRepository<Conducente, Long> {
   public List<Conducente> findByAzienda(Utente azienda);
 
   public Optional<Conducente> findConducenteByCodiceFiscale(String codiceFiscale);
+
 }

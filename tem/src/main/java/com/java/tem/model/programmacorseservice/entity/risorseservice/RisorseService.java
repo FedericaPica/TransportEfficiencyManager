@@ -27,10 +27,7 @@ public class RisorseService {
     mezzoRepository.save(mezzo);
   }
 
-  public void addConducente(Conducente conducente) throws Exception {
-    if (conducente.getCodiceFiscale().length() != 16) {
-      throw new Exception(); // ToDo
-    }
+  public void addConducente(Conducente conducente)  {
     conducenteRepository.save(conducente);
   }
 
@@ -131,6 +128,20 @@ public class RisorseService {
 
   public void deleteConducente(Conducente conducente) {
     conducenteRepository.delete(conducente);
+  }
+
+  public boolean checkOwnership(Risorsa risorsa, Utente utente) {
+    if (risorsa instanceof Mezzo) {
+      Mezzo mezzo = (Mezzo) risorsa;
+      return mezzo.getAzienda().equals(utente);
+    } else if (risorsa instanceof Conducente) {
+      Conducente conducente = (Conducente) risorsa;
+      return conducente.getAzienda().equals(utente);
+    } else if (risorsa instanceof Linea) {
+      Linea linea = (Linea) risorsa;
+      return linea.getAzienda().equals(utente);
+    }
+    return false;
   }
 
 }

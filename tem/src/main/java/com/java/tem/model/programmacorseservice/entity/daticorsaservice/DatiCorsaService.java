@@ -1,6 +1,10 @@
 package com.java.tem.model.programmacorseservice.entity.daticorsaservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Risorsa;
 import com.java.tem.model.programmacorseservice.repository.DatiCorsaRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +49,10 @@ public class DatiCorsaService {
     datiCorsaRepository.save(datiCorsa);
   }
 
-  
+  public boolean checkOwnership(DatiCorsa datiCorsa, Utente utente) {
+    return datiCorsa.getAzienda().equals(utente);
+  }
+
   public void deleteDatiCorsa(DatiCorsa datiCorsa) {
     datiCorsaRepository.delete(datiCorsa);
   }
