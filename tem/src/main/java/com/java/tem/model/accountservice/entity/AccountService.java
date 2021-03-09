@@ -40,7 +40,7 @@ public class AccountService implements UserDetailsService {
   }
 
   public boolean isAdmin(Utente utente) {
-    return utente.getProfilo().equals("Admin");
+    return utente.getProfilo().getNomeProfilo().equals("Admin");
   }
 
   public boolean isAdmin() {
@@ -48,7 +48,7 @@ public class AccountService implements UserDetailsService {
     return utente.getProfilo().getNomeProfilo().equals("Admin");
   }
 
-  public void registerUser(Utente utente, DettaglioUtente dettaglioUtente) {
+  public Utente registerUser(Utente utente, DettaglioUtente dettaglioUtente) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     Profilo profilo = profiloRepository.findByRuolo("azienda");
     String encodedPassword = passwordEncoder.encode(utente.getPassword());
@@ -56,27 +56,14 @@ public class AccountService implements UserDetailsService {
     utente.setProfilo(profilo);
     DettaglioUtente savedDettaglioUtente = dettaglioUtenteRepository.save(dettaglioUtente);
     utente.setDettaglio(savedDettaglioUtente);
-    userRepo.save(utente);
-  }
-
-  public static Boolean isAuthenticated() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (!(authentication instanceof AnonymousAuthenticationToken)) {
-      return true;
-    } else {
-      return false;
-    }
+    return userRepo.save(utente);
   }
 
   public Utente getLoggedUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
     Utente utente = this.getUserByUsername(currentUserName);
-    if(utente != null) {
-      return utente;
-    } else {
-      return null;
-    }
+    return utente;
   }
 
   public List<Utente> getAllUsers() {
@@ -92,8 +79,6 @@ public class AccountService implements UserDetailsService {
       return userRepo.findById(id).get();
     else return null;
   }
-
-
 }
 
 
