@@ -1,12 +1,16 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
+import com.java.tem.model.programmacorseservice.entity.Corsa;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -59,18 +63,47 @@ class RisorseServiceTest {
     @Test
     @WithMockUser
     void isBoundIfMezzo() {
+        Mezzo mezzo = new Mezzo();
+        Corsa corsa = new Corsa();
+        Set<Corsa> listaCorse = new HashSet<Corsa>();
+        listaCorse.add(corsa);
+        mezzo.setCorse(listaCorse);
 
+        assertTrue(risorseService.isBound(mezzo));
     }
 
     @Test
     @WithMockUser
     void isBoundIfConducente() {
+        Conducente conducente = new Conducente();
+        Corsa corsa = new Corsa();
+        Set<Corsa> listaCorse = new HashSet<Corsa>();
+        listaCorse.add(corsa);
+        conducente.setCorse(listaCorse);
 
+        assertTrue(risorseService.isBound(conducente));
     }
 
     @Test
     @WithMockUser
     void isBoundIfLinea() {
+        Linea linea = mock(Linea.class, RETURNS_DEEP_STUBS);
+        Corsa corsa = new Corsa();
+        Set<Corsa> listaCorse = new HashSet<Corsa>();
+        listaCorse.add(corsa);
+        linea.setCorse(listaCorse);        
+//        when(linea.getCorse().isEmpty()).thenReturn(true);
+        assertTrue(risorseService.isBound(linea));
 
+    }
+    
+    @Test
+    @WithMockUser
+    void isBoundIfLineaFalse() {
+        Linea linea = mock(Linea.class, RETURNS_DEEP_STUBS);
+        Set<Corsa> listaCorse = new HashSet<Corsa>();
+        linea.setCorse(listaCorse);        
+        when(linea.getCorse().isEmpty()).thenReturn(true);
+        assertFalse(risorseService.isBound(linea));
     }
 }

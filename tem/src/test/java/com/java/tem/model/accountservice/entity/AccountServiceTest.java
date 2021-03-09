@@ -116,7 +116,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void getUserByIdIs() {
+    void getUserById() {
         Utente u = new Utente();
         u.setId(1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(u));
