@@ -60,8 +60,8 @@ public class CorsaController {
     if (linee.size() == 0 || mezzi.size() == 0 || conducenti.size() == 0) {
       throw new ResourcesDoesNotExistException("Una o più risorse non esistenti.");
     }
-	ProgrammaCorse programmaCorse = programmaCorseService
-            .getProgrammaCorseById(programmaCorseId).get();
+    ProgrammaCorse programmaCorse = programmaCorseService
+        .getProgrammaCorseById(programmaCorseId).get();
 
     model.addAttribute("linee", linee);
     model.addAttribute("mezzi", mezzi);
@@ -76,10 +76,10 @@ public class CorsaController {
 
   @PostMapping("/corsa/submit/{programmaCorseId}")
   public ModelAndView processCorsa(@ModelAttribute("corsa") Corsa corsa,
-                                   @RequestParam(value = "mezzo") List<Long> mezzi,
-                                   @RequestParam(value = "linea") Long lineaId,
-                                   @RequestParam(value = "conducente") List<Long> conducenti,
-                                   @PathVariable(value = "programmaCorseId")
+                                   @RequestParam("mezzo") List<Long> mezzi,
+                                   @RequestParam("linea") Long lineaId,
+                                   @RequestParam("conducente") List<Long> conducenti,
+                                   @PathVariable("programmaCorseId")
                                        Long programmaCorseId) {
     Set<Conducente> conducentiToAdd = new HashSet<Conducente>();
     Set<Mezzo> mezziToAdd = new HashSet<Mezzo>();

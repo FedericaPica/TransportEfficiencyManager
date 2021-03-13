@@ -9,9 +9,9 @@ import com.java.tem.model.programmacorseservice.entity.Corsa;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 
 @Repository
-public interface CorsaRepository extends JpaRepository<Corsa, Long>{
-	public Corsa findCorsaByProgramma(ProgrammaCorse programmaCorse);
-	
-	public List<Corsa> findCorseByProgramma(ProgrammaCorse programmaCorse);
-	
+public interface CorsaRepository extends JpaRepository<Corsa, Long> {
+  Corsa findCorsaByProgramma(ProgrammaCorse programmaCorse);
+
+  List<Corsa> findCorseByProgramma(ProgrammaCorse programmaCorse);
+
 }

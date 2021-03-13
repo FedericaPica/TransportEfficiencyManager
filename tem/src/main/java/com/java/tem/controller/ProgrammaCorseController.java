@@ -96,7 +96,7 @@ public class ProgrammaCorseController {
   public ModelAndView insertProgrammaAutomatico(@ModelAttribute("programmaCorse")
                                                     ProgrammaCorse programmaCorse) {
 
-        programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
+    programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
 
     return new ModelAndView("redirect:/programmacorse/dettaglio/" + programmaCorse.getId());
   }
@@ -108,7 +108,8 @@ public class ProgrammaCorseController {
     Utente utente = accountService.getLoggedUser();
     try {
       if (!programmaCorseService.checkOwnership(programmaCorse, utente)) {
-        throw new DoesNotBelongToAziendaException("Il programma corse non appartiene alla tua azienda");
+        throw new DoesNotBelongToAziendaException(
+            "Il programma corse non appartiene alla tua azienda");
       }
       programmaCorseService.deleteProgrammaCorse(programmaCorse);
     } catch (DoesNotBelongToAziendaException exc) {

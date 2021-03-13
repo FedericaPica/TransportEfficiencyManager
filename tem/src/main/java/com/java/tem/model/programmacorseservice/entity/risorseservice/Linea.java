@@ -31,14 +31,14 @@ public class Linea extends Risorsa {
   @Size(min = 2, max = 50)
   private String destinazione;
   private int durata;
-  
+
   @OneToMany(mappedBy = "linea")
   private Set<Corsa> corse;
 
   @ManyToOne
   @JoinColumn(name = "azienda_id", nullable = false)
   private Utente azienda;
-  
+
   public Set<Corsa> getCorse() {
     return corse;
   }
@@ -58,44 +58,44 @@ public class Linea extends Risorsa {
   public Long getId() {
     return id;
   }
-  
+
   public void setId(Long id) {
     this.id = id;
   }
-  
+
   public String getNome() {
     return nome;
   }
-  
+
   public void setNome(String nome) {
     this.nome = nome;
   }
-  
+
   public String getPartenza() {
     return partenza;
   }
-  
+
   public int getDurata() {
-	return durata;
-}
+    return durata;
+  }
 
-public void setDurata(int durata) {
-	this.durata = durata;
-}
+  public void setDurata(int durata) {
+    this.durata = durata;
+  }
 
-public void setPartenza(String partenza) {
+  public void setPartenza(String partenza) {
     this.partenza = partenza;
   }
 
   public String getDestinazione() {
     return destinazione;
   }
-  
+
   public void setDestinazione(String destinazione) {
     this.destinazione = destinazione;
   }
 
   public String toString() {
-    return this.nome;
+    return nome;
   }
 }

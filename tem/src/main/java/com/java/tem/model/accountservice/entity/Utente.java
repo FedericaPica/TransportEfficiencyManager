@@ -1,5 +1,5 @@
 package com.java.tem.model.accountservice.entity;
- 
+
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
@@ -32,13 +32,13 @@ public class Utente {
   private String email;
 
   @Size(min = 6, max = 20)
-  @Column(name = "username", nullable = false, length = 20, unique = true)  
+  @Column(name = "username", nullable = false, length = 20, unique = true)
   private String username;
 
   @Column(nullable = false, length = 64)
   private String password;
 
-  @ManyToOne()
+  @ManyToOne
   @JoinColumn(name = "id_profilo", nullable = false)
   private Profilo profilo;
 
@@ -57,25 +57,25 @@ public class Utente {
   @OneToMany
   @JoinColumn(name = "azienda_id")
   private Set<Linea> linee;
-  
+
   @OneToMany
   @JoinColumn(name = "azienda_id")
   private Set<DatiCorsa> datiCorse;
-  
+
   @OneToMany
   @JoinColumn(name = "azienda_id")
   private Set<ProgrammaCorse> programmaCorse;
 
 
   public Set<DatiCorsa> getDatiCorse() {
-	return datiCorse;
-}
+    return datiCorse;
+  }
 
-public void setDatiCorse(Set<DatiCorsa> datiCorse) {
-	this.datiCorse = datiCorse;
-}
+  public void setDatiCorse(Set<DatiCorsa> datiCorse) {
+    this.datiCorse = datiCorse;
+  }
 
-public Set<Conducente> getConducenti() {
+  public Set<Conducente> getConducenti() {
     return conducenti;
   }
 
@@ -146,7 +146,6 @@ public Set<Conducente> getConducenti() {
   public void setUsername(String username) {
     this.username = username;
   }
-
 
 
 }

@@ -18,11 +18,11 @@ import org.springframework.stereotype.Component;
 public class AccountService implements UserDetailsService {
 
   @Autowired
-    private UserRepository userRepo;
+  private UserRepository userRepo;
   @Autowired
-    private ProfiloRepository profiloRepository;
+  private ProfiloRepository profiloRepository;
   @Autowired
-    private DettaglioUtenteRepository dettaglioUtenteRepository;
+  private DettaglioUtenteRepository dettaglioUtenteRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -44,7 +44,7 @@ public class AccountService implements UserDetailsService {
   }
 
   public boolean isAdmin() {
-    Utente utente = this.getLoggedUser();
+    Utente utente = getLoggedUser();
     return utente.getProfilo().getNomeProfilo().equals("Admin");
   }
 
@@ -62,7 +62,7 @@ public class AccountService implements UserDetailsService {
   public Utente getLoggedUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
-    Utente utente = this.getUserByUsername(currentUserName);
+    Utente utente = getUserByUsername(currentUserName);
     return utente;
   }
 
@@ -75,9 +75,11 @@ public class AccountService implements UserDetailsService {
   }
 
   public Utente getUserById(Long id) {
-    if (userRepo.findById(id).isPresent())
+    if (userRepo.findById(id).isPresent()) {
       return userRepo.findById(id).get();
-    else return null;
+    } else {
+      return null;
+    }
   }
 }
 

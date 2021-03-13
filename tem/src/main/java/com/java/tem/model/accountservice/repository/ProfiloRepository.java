@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfiloRepository extends JpaRepository<Profilo, Long> {
   @Query("SELECT p FROM Profilo p WHERE p.nomeProfilo = ?1")
-    public Profilo findByRuolo(String ruolo);
+  Profilo findByRuolo(String ruolo);
 }

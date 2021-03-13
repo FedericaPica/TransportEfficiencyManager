@@ -15,21 +15,21 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Conducente extends Risorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  private Long id;
   @Size(min = 2, max = 50)
   private String nome;
   @Size(min = 2, max = 50)
   private String cognome;
   @Size(min = 16, max = 16)
   private String codiceFiscale;
-  
+
   @ManyToMany(mappedBy = "conducenti")
   private Set<Corsa> corse = new HashSet<>();
-  
+
   @ManyToOne
   @JoinColumn(name = "azienda_id")
   private Utente azienda;
-  
+
   public Utente getAzienda() {
     return azienda;
   }
@@ -41,11 +41,11 @@ public class Conducente extends Risorsa {
   public Set<Corsa> getCorse() {
     return corse;
   }
-  
+
   public void setCorse(Set<Corsa> corse) {
     this.corse = corse;
   }
-  
+
   public Long getId() {
     return id;
   }
@@ -61,25 +61,25 @@ public class Conducente extends Risorsa {
   public void setNome(String nome) {
     this.nome = nome;
   }
-  
+
   public String getCognome() {
     return cognome;
   }
-  
+
   public void setCognome(String cognome) {
     this.cognome = cognome;
   }
-  
+
   public String getCodiceFiscale() {
     return codiceFiscale;
   }
-  
+
   public void setCodiceFiscale(String codiceFiscale) {
     this.codiceFiscale = codiceFiscale;
   }
 
   @Override
   public String toString() {
-    return this.nome + " " + this.cognome;
+    return nome + " " + cognome;
   }
 }

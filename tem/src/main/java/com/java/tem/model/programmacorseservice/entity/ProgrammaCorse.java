@@ -26,7 +26,7 @@ public class ProgrammaCorse {
   private Date fineValidita;
 
   @OneToMany(mappedBy = "programma")
-  @Cascade({CascadeType.REMOVE})
+  @Cascade(CascadeType.REMOVE)
   private Set<Corsa> listaCorse;
 
   @ManyToOne

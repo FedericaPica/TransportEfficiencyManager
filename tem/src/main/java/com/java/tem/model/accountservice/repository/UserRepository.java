@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<Utente, Long> {
   @Query("SELECT u FROM Utente u WHERE u.email = ?1")
-  public Utente findByEmail(String email);
-  
-  @Query("SELECT count(u) > 0 FROM Utente u WHERE u.email = ?1")
-  public Boolean checkUserExistanceByEmail(String email);
+  Utente findByEmail(String email);
 
-  public List<Utente> findAllByDettaglioIsNotNull();
+  @Query("SELECT count(u) > 0 FROM Utente u WHERE u.email = ?1")
+  Boolean checkUserExistanceByEmail(String email);
+
+  List<Utente> findAllByDettaglioIsNotNull();
 
 }

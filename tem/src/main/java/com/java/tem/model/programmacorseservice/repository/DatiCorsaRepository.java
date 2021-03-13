@@ -9,10 +9,9 @@ import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 
 
-
 @Repository
 public interface DatiCorsaRepository extends JpaRepository<DatiCorsa, Long> {
-	public List<DatiCorsa> findByAzienda(Utente utente);
+  List<DatiCorsa> findByAzienda(Utente utente);
 
-  
+
 }

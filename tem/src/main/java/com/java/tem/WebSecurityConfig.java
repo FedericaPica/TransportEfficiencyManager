@@ -18,34 +18,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
-   private DataSource dataSource;
-    
+  private DataSource dataSource;
+
+  @Override
   @Bean
   public UserDetailsService userDetailsService() {
     return new AccountService();
   }
-    
+
   @Bean
-   public BCryptPasswordEncoder passwordEncoder() {
+  public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-    
-  /** Returns the authentication provider.
 
+  /**
+   * Returns the authentication provider.
+   *
    * @return authProvider: DaoAuthenticationProvider
    */
   @Bean
-  
-   public DaoAuthenticationProvider authenticationProvider() {
+
+  public DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
     authProvider.setUserDetailsService(userDetailsService());
     authProvider.setPasswordEncoder(passwordEncoder());
-        
+
     return authProvider;
   }
 
   @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(authenticationProvider());
   }
 
@@ -61,10 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().permitAll()
         .and()
         .formLogin()
-            .usernameParameter("email").loginPage("/login")
-            .defaultSuccessUrl("/home")
-            .failureUrl("/login?error=bad")
-            .permitAll()
+        .usernameParameter("email").loginPage("/login")
+        .defaultSuccessUrl("/home")
+        .failureUrl("/login?error=bad")
+        .permitAll()
         .and()
         .cors().and().csrf().disable()
         .logout().logoutSuccessUrl("/").permitAll();

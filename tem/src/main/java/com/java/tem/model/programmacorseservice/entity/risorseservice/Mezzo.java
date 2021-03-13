@@ -16,7 +16,7 @@ public class Mezzo extends Risorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
+
   @Size(min = 7, max = 10)
   private String targa;
   @Min(2)
@@ -27,7 +27,7 @@ public class Mezzo extends Risorsa {
 
   @ManyToMany(mappedBy = "mezzi")
   private Set<Corsa> corse = new HashSet<>();
-  
+
   @ManyToOne
   @JoinColumn(name = "azienda_id", nullable = false)
   private Utente azienda;
@@ -43,35 +43,35 @@ public class Mezzo extends Risorsa {
   public Set<Corsa> getCorse() {
     return corse;
   }
-  
+
   public void setCorse(Set<Corsa> corse) {
     this.corse = corse;
   }
-  
+
   public Long getId() {
     return id;
   }
-  
+
   public void setId(Long id) {
     this.id = id;
   }
-  
+
   public String getTarga() {
     return targa;
   }
- 
+
   public void setTarga(String targa) {
     this.targa = targa;
   }
-  
+
   public int getCapienza() {
     return capienza;
   }
-  
+
   public void setCapienza(int capienza) {
     this.capienza = capienza;
   }
-  
+
   public String getTipo() {
     return tipo;
   }
@@ -82,6 +82,6 @@ public class Mezzo extends Risorsa {
 
   @Override
   public String toString() {
-    return this.getTipo();
+    return getTipo();
   }
 }

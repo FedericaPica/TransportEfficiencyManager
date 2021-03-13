@@ -17,7 +17,7 @@ public class ProgrammaCorseFactory {
 
   @Autowired
   public ProgrammaCorseFactory(Set<Strategy> strategyType) {
-    this.createStrategy(strategyType);
+    createStrategy(strategyType);
   }
 
   public Strategy findStrategy(StrategyType strategyType) {
@@ -25,7 +25,7 @@ public class ProgrammaCorseFactory {
   }
 
   private void createStrategy(Set<Strategy> strategySet) {
-    this.strategies = new HashMap<StrategyType, Strategy>();
+    strategies = new HashMap<StrategyType, Strategy>();
     strategySet.forEach(strategy -> strategies.put(strategy.getStrategyType(), strategy));
   }
 

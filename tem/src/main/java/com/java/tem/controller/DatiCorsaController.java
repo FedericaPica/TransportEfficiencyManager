@@ -36,7 +36,7 @@ public class DatiCorsaController {
 
   @GetMapping("/daticorsa/edit/{id}")
   public ModelAndView showFormDatiCorsa(@PathVariable("id") Long id, Model model) {
-    DatiCorsa datiCorsa = this.datiCorsaService.getDatiCorsa(id)
+    DatiCorsa datiCorsa = datiCorsaService.getDatiCorsa(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid Dati Corsa Id:" + id));
     model.addAttribute("datiCorsa", datiCorsa);
 
@@ -54,31 +54,30 @@ public class DatiCorsaController {
 
   @PostMapping("/daticorsa/submit")
   public ModelAndView processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa,
-                                 BindingResult bindingResult,
-                                 Model model) {
+                                       BindingResult bindingResult,
+                                       Model model) {
     if (bindingResult.hasErrors()) {
       return new ModelAndView("insert-daticorsa");
     }
     Utente utente = accountService.getLoggedUser();
     datiCorsa.setAzienda(utente);
-    this.datiCorsaService.addDatiCorsa(datiCorsa);
+    datiCorsaService.addDatiCorsa(datiCorsa);
     model.addAttribute(datiCorsa);
     return new ModelAndView("dati-corsa-success");
-
 
 
   }
 
   @PostMapping("daticorsa/update/{id}")
   public ModelAndView updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa,
-                              BindingResult result,
-                              Model model) {
+                                      BindingResult result,
+                                      Model model) {
     if (result.hasErrors()) {
       return new ModelAndView("update-daticorsa");
     }
     Utente utente = accountService.getLoggedUser();
     datiCorsa.setAzienda(utente);
-    this.datiCorsaService.updateDatiCorsa(datiCorsa);
+    datiCorsaService.updateDatiCorsa(datiCorsa);
     return new ModelAndView("update-success");
   }
 

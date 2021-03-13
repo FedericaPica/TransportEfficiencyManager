@@ -111,8 +111,8 @@ public class DatiGenerazione {
   @Override
   public String toString() {
 
-    return "[ " + this.lineaCorsa + " " + this.traffico + " " + this.attesi + " " + this.orario
-        + " " + this.conducente + " " + this.mezzo + " ]";
+    return "[ " + lineaCorsa + " " + traffico + " " + attesi + " " + orario
+        + " " + conducente + " " + mezzo + " ]";
 
   }
 }

@@ -20,7 +20,7 @@ public class DettaglioUtente {
   @Size(min = 2, max = 50)
   @Column(name = "denominazione", nullable = false, length = 50)
   private String denominazione;
- 
+
   @Size(min = 11, max = 11)
   @Column(name = "partitaIVA", nullable = false, length = 11)
   private String partitaIVA;
@@ -36,7 +36,7 @@ public class DettaglioUtente {
   @Size(min = 2, max = 50)
   @Column(name = "indirizzo", nullable = false, length = 50)
   private String indirizzo;
-  
+
   @Size(min = 5, max = 5)
   @Column(name = "cap", nullable = false, length = 10)
   private String cap;
@@ -95,7 +95,7 @@ public class DettaglioUtente {
   public void setIndirizzo(String indirizzo) {
     this.indirizzo = indirizzo;
   }
-  
+
   public String getCap() {
     return cap;
   }

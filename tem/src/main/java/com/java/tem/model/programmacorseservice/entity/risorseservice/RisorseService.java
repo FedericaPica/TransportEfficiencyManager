@@ -29,7 +29,7 @@ public class RisorseService {
     mezzoRepository.save(mezzo);
   }
 
-  public void addConducente(Conducente conducente)  {
+  public void addConducente(Conducente conducente) {
     conducenteRepository.save(conducente);
   }
 

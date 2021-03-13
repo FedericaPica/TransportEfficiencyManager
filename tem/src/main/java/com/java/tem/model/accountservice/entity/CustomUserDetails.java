@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 public class CustomUserDetails implements UserDetails {
-  private Utente user;
-  private Profilo profilo;
-  private DettaglioUtente dettaglioUtente;
+  private final Utente user;
+  private final Profilo profilo;
+  private final DettaglioUtente dettaglioUtente;
 
 
   public CustomUserDetails(Utente user, Profilo profilo, DettaglioUtente dettaglioUtente) {
@@ -26,7 +26,7 @@ public class CustomUserDetails implements UserDetails {
   public String getPassword() {
     return user.getPassword();
   }
-  
+
   @Override
   public String getUsername() {
     return user.getEmail();

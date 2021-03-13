@@ -103,7 +103,7 @@ public class RisorseController {
     }
     Utente utente = accountService.getLoggedUser();
     conducente.setAzienda(utente);
-    this.risorseService.addConducente(conducente);
+    risorseService.addConducente(conducente);
     model.addAttribute(conducente);
     return "insert-success-conducente";
   }
@@ -116,7 +116,7 @@ public class RisorseController {
     }
     Utente utente = accountService.getLoggedUser();
     linea.setAzienda(utente);
-    this.risorseService.addLinea(linea);
+    risorseService.addLinea(linea);
     model.addAttribute(linea);
 
     return "insert-success-linea";
@@ -130,7 +130,7 @@ public class RisorseController {
     }
     Utente utente = accountService.getLoggedUser();
     mezzo.setAzienda(utente);
-    this.risorseService.addMezzo(mezzo);
+    risorseService.addMezzo(mezzo);
 
     return "insert-success";
   }
@@ -139,7 +139,7 @@ public class RisorseController {
   public ModelAndView showUpdateFormConducente(@PathVariable("id") Long id, Model model)
       throws IllegalArgumentException {
 
-    Conducente conducente = this.risorseService.getConducente(id)
+    Conducente conducente = risorseService.getConducente(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid Conducente Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
@@ -158,7 +158,7 @@ public class RisorseController {
   @GetMapping("/risorse/linea/edit/{id}")
   public ModelAndView showUpdateFormLinea(@PathVariable("id") Long id, Model model)
       throws IllegalArgumentException {
-    Linea linea = this.risorseService.getLinea(id)
+    Linea linea = risorseService.getLinea(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
@@ -177,7 +177,7 @@ public class RisorseController {
   @GetMapping("/risorse/mezzo/edit/{id}")
   public ModelAndView showUpdateFormMezzo(@PathVariable("id") Long id, Model model)
       throws Throwable {
-    Mezzo mezzo = this.risorseService.getMezzo(id)
+    Mezzo mezzo = risorseService.getMezzo(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
@@ -202,7 +202,7 @@ public class RisorseController {
     }
     Utente utente = accountService.getLoggedUser();
     conducente.setAzienda(utente);
-    this.risorseService.updateConducente(conducente);
+    risorseService.updateConducente(conducente);
 
     return "update-success";
   }
@@ -217,7 +217,7 @@ public class RisorseController {
     }
     Utente utente = accountService.getLoggedUser();
     linea.setAzienda(utente);
-    this.risorseService.updateLinea(linea);
+    risorseService.updateLinea(linea);
 
     return "update-success";
   }
@@ -232,7 +232,7 @@ public class RisorseController {
     }
     Utente utente = accountService.getLoggedUser();
     mezzo.setAzienda(utente);
-    this.risorseService.updateMezzo(mezzo);
+    risorseService.updateMezzo(mezzo);
 
     return "update-success";
   }

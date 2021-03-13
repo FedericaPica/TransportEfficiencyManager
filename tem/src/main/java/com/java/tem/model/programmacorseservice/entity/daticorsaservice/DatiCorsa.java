@@ -18,23 +18,23 @@ public class DatiCorsa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
-  @Size(min=2, max=40)
+
+  @Size(min = 2, max = 40)
   private String lineaCorsa;
   private Time orarioCorsa;
   private int numeroPosti;
   private int passeggeriSaliti;
   private int passeggeriNonSaliti;
-  public boolean traffico = false;
-  public boolean andata = false;
-  
+  public boolean traffico;
+  public boolean andata;
+
   @ManyToOne
   @JoinColumn(name = "azienda_id", nullable = false)
   private Utente azienda;
-  
+
   public Utente getAzienda() {
     return azienda;
-}
+  }
 
   public Long getId() {
     return id;
@@ -43,7 +43,7 @@ public class DatiCorsa {
   public void setId(Long id) {
     this.id = id;
   }
-	
+
   public void setAzienda(Utente azienda) {
     this.azienda = azienda;
   }
@@ -51,7 +51,7 @@ public class DatiCorsa {
   public String getLineaCorsa() {
     return lineaCorsa;
   }
-  
+
   public void setLineaCorsa(String lineaCorsa) {
     this.lineaCorsa = lineaCorsa;
   }
@@ -96,12 +96,12 @@ public class DatiCorsa {
     this.traffico = traffico;
   }
 
-public boolean isAndata() {
-	return andata;
-}
+  public boolean isAndata() {
+    return andata;
+  }
 
-public void setAndata(boolean andata) {
-	this.andata = andata;
-}
- 
+  public void setAndata(boolean andata) {
+    this.andata = andata;
+  }
+
 }

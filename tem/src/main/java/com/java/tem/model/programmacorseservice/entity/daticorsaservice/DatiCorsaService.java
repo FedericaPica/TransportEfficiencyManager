@@ -16,35 +16,35 @@ import org.springframework.stereotype.Component;
 public class DatiCorsaService {
   @Autowired
   DatiCorsaRepository datiCorsaRepository;
-  
+
   public DatiCorsaService() {
   }
 
   public void addDatiCorsa(DatiCorsa datiCorsa) {
     datiCorsaRepository.save(datiCorsa);
   }
- 
-  /** Simply returns a list of DatiCorsa elements.
 
-   * @return datiCorse  List set of datiCorsa. 
+  /**
+   * Simply returns a list of DatiCorsa elements.
    *
+   * @return datiCorse  List set of datiCorsa.
    */
   public List<DatiCorsa> getDatiCorsa() {
     List<DatiCorsa> datiCorse = new ArrayList<DatiCorsa>();
     datiCorsaRepository.findAll().forEach(datiCorse::add);
     return datiCorse;
   }
-  
+
   public List<DatiCorsa> getDatiCorsaByAzienda(Utente utente) {
-	    List<DatiCorsa> datiCorse = new ArrayList<DatiCorsa>();
-	    datiCorse = datiCorsaRepository.findByAzienda(utente);
-	    return datiCorse;
-	  }
+    List<DatiCorsa> datiCorse = new ArrayList<DatiCorsa>();
+    datiCorse = datiCorsaRepository.findByAzienda(utente);
+    return datiCorse;
+  }
 
   public Optional<DatiCorsa> getDatiCorsa(Long id) {
     return datiCorsaRepository.findById(id);
   }
-  
+
   public void updateDatiCorsa(DatiCorsa datiCorsa) {
     datiCorsaRepository.save(datiCorsa);
   }
