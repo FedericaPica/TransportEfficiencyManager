@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "DatiCorsa")
@@ -18,7 +19,7 @@ public class DatiCorsa {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   
-  
+  @Size(min=2, max=40)
   private String lineaCorsa;
   private Time orarioCorsa;
   private int numeroPosti;

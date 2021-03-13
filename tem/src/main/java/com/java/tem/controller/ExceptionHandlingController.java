@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
+import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.exceptions.NotAuthorizedException;
 import com.java.tem.exceptions.ResourcesDoesNotExistException;
@@ -40,6 +41,13 @@ public class ExceptionHandlingController {
   @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "La risorsa non appartiene all'azienda")
   @ExceptionHandler(DoesNotBelongToAziendaException.class)
   public void resourceDoesNotBelong() {
+
+  }
+
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "La generazione automatica"
+      + " non è andata a buon fine")
+  @ExceptionHandler(GenerationFailedException.class)
+  public void autogenerationError() {
 
   }
 

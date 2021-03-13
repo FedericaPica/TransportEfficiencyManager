@@ -68,17 +68,18 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                   <form th:action="@{/daticorsa/submit}"method="post" style="max-width: 600px; margin: 0 auto;" > 
                      <div style="margin-left:-75px;">			
 				<div>
-					<input type="text" th:field='${datiCorsa.lineaCorsa}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Linea della corsa" onclick="this.value=''"/>
+					<input type="text" th:field='${datiCorsa.lineaCorsa}' min="2" max="40" style="  border-bottom: 1px solid #ff6600;" required placeholder="Linea della corsa" onclick="this.value=''"/>
+                    <div class="testoErrori" th:if="${#fields.hasErrors('datiCorsa.lineaCorsa')}" th:errors="${datiCorsa.lineaCorsa}"></div>
 				</div>
 		
 			
 				<div >
-					<input type="text" th:field="${datiCorsa.orarioCorsa}" placeholder="Orario corsa" style="  border-bottom: 1px solid #ff6600;"
+					<input type="text" th:field="${datiCorsa.orarioCorsa}" placeholder="Orario corsa (hh:mm:ss)" style="  border-bottom: 1px solid #ff6600;"
 						onclick="this.value=''"required />
 				</div>
 			
 				<div >
-					<input type="text" th:field="${datiCorsa.numeroPosti}" placeholder="Numero di posti disponibili" style="  border-bottom: 1px solid #ff6600;"
+					<input type="text" th:field="${datiCorsa.numeroPosti}" value="" placeholder="Numero di posti disponibili" style="  border-bottom: 1px solid #ff6600;"
 						onclick="this.value=''"	required/>
 				</div>
 			
