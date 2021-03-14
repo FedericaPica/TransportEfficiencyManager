@@ -83,16 +83,16 @@ public class DatiCorsaControllerTest {
         ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(post(url).with(csrf())))
             .param("lineaCorsa", "NA08")
             .param("orarioCorsa", "09:00:00")
-            .param("numeroPosti", "50")
+            .param("numeroPosti", "500")
             .param("passeggeriSaliti", "50")
             .param("passeggeriNonSaliti", "13")
             .param("traffico", "true")
             .param("andata", "true")).andReturn();
-    String sizeErrorString = "Il campo Orario corsa non rispetta la lunghezza minima";
+    String sizeErrorString = "Il campo Numero posti non rispetta la lunghezza minima";
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.datiCorsa");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("orarioCorsa").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("numeroPosti").toString().contains(sizeErrorString), "");
   }
 
   @Test
@@ -111,7 +111,7 @@ public class DatiCorsaControllerTest {
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.datiCorsa");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("orarioCorsa").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("passeggeriSaliti").toString().contains(sizeErrorString), "");
   }
 
   @Test
