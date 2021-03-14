@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.model.accountservice.entity.AccountService;
+import java.sql.Time;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,27 +22,31 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class DatiCorsaControllerTest {
-  @InjectMocks
-  private AccountController accountController;
+
   @Autowired
   private WebApplicationContext wac;
   @Autowired
   private MockMvc mockMvc;
   @MockBean
   private AccountService accountService;
-  @MockBean
+  @InjectMocks
   private DatiCorsaController datiCorsaController;
   
+  /*
+   * Insert Dati Corsa Tests
+   */
   @Test
-void LineaTooShort() throws Exception {
-    String url = "/daticorsa/add";
-    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(MockMvcRequestBuilders.post(url).with(csrf())))
+  @WithMockUser
+void lineaTooShort() throws Exception {
+    String url = "/daticorsa/submit";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
         .param("lineaCorsa", "N")
         .param("orarioCorsa", "09:00:00")
         .param("numeroPosti", "50")
@@ -48,7 +54,7 @@ void LineaTooShort() throws Exception {
         .param("passeggeriNonSaliti", "13")
         .param("traffico", "true")
         .param("andata", "true")).andReturn();
-    String sizeErrorString = "Il campo Linea corsa non rispetta la lunghezza minima";
+    String sizeErrorString = "[lineaCorsa],40,2]";
     Object bindingResObject = (Object) result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.datiCorsa");
     BindingResult bindingResult = (BindingResult) bindingResObject;
@@ -56,9 +62,10 @@ void LineaTooShort() throws Exception {
   }
   
   @Test
-void OrarioTooShort() throws Exception {
-    String url = "/daticorsa/add";
-    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(MockMvcRequestBuilders.post(url).with(csrf())))
+  @WithMockUser
+void orarioBadFormat() throws Exception {
+    String url = "/daticorsa/submit";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
         .param("lineaCorsa", "NA08")
         .param("orarioCorsa", "9")
         .param("numeroPosti", "50")
@@ -66,7 +73,7 @@ void OrarioTooShort() throws Exception {
         .param("passeggeriNonSaliti", "13")
         .param("traffico", "true")
         .param("andata", "true")).andReturn();
-    String sizeErrorString = "Il campo Orario corsa non rispetta la lunghezza minima";
+    String sizeErrorString = "typeMismatch";
     Object bindingResObject = (Object) result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.datiCorsa");
     BindingResult bindingResult = (BindingResult) bindingResObject;
@@ -74,9 +81,9 @@ void OrarioTooShort() throws Exception {
   }
   
   @Test
-void PostiTooLong() throws Exception {
+void postiTooLong() throws Exception {
     String url = "/daticorsa/add";
-    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(MockMvcRequestBuilders.post(url).with(csrf())))
+    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(post(url).with(csrf())))
         .param("lineaCorsa", "NA08")
         .param("orarioCorsa", "09:00:00")
         .param("numeroPosti", "50")
@@ -92,9 +99,9 @@ void PostiTooLong() throws Exception {
   }
   
   @Test
-  void SalitiWrongFormat() throws Exception {
+  void salitiWrongFormat() throws Exception {
     String url = "/daticorsa/add";
-    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(MockMvcRequestBuilders.post(url).with(csrf())))
+    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(post(url).with(csrf())))
         .param("lineaCorsa", "NA08")
         .param("orarioCorsa", "09:00:00")
         .param("numeroPosti", "50")
@@ -109,9 +116,9 @@ void PostiTooLong() throws Exception {
     assertTrue(bindingResult.getFieldError("orarioCorsa").toString().contains(sizeErrorString), "");
   }
   @Test
-  void DatiCorsaCorrect() throws Exception {
+  void datiCorsaCorrect() throws Exception {
     String url = "/daticorsa/add";
-    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(MockMvcRequestBuilders.post(url).with(csrf())))
+    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(post(url).with(csrf())))
         .param("lineaCorsa", "NA08")
         .param("orarioCorsa", "09:00:00")
         .param("numeroPosti", "50")
@@ -125,4 +132,5 @@ void PostiTooLong() throws Exception {
     BindingResult bindingResult = (BindingResult) bindingResObject;
     assertTrue(bindingResult.getFieldError("orarioCorsa").toString().contains(sizeErrorString), "");
   }
+  /* End of Dati Corsa insert tests */
 }
