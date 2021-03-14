@@ -1,5 +1,10 @@
 package com.java.tem.model.programmacorseservice.entity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.repository.CorsaRepository;
 import java.util.Optional;
@@ -11,20 +16,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 class CorsaServiceTest {
 
-  @InjectMocks
-  private CorsaService corsaService;
   Utente azienda;
   Corsa corsa;
   ProgrammaCorse programma;
-
+  @InjectMocks
+  private CorsaService corsaService;
   @MockBean
   private CorsaRepository corsaRepository;
 
