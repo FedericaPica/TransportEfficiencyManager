@@ -19,7 +19,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Table(name = "Linea")
 @DynamicUpdate
-public class Linea extends Risorsa {
+public class Linea extends Risorsa implements Cloneable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -97,5 +97,14 @@ public class Linea extends Risorsa {
 
   public String toString() {
     return nome;
+  }
+
+  public Object clone() {
+    try {
+      Object linea = super.clone();
+      return linea;
+    } catch(CloneNotSupportedException e) {
+      return null;
+    }
   }
 }

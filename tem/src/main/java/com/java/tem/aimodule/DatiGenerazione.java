@@ -30,18 +30,14 @@ public class DatiGenerazione {
 
   private String mezzo;
 
-  private String andata;
+  private boolean andata;
 
-  public String isAndata() {
+  public boolean isAndata() {
     return andata;
   }
 
-  public void setAndata(String andata) {
+  public void setAndata(boolean andata) {
     this.andata = andata;
-  }
-
-  public String getAndata() {
-    return andata;
   }
 
   public LocalTime getOrario() {
