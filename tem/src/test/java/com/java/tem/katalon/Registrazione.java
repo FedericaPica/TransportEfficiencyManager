@@ -3,12 +3,19 @@ package com.java.tem.katalon;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
+@DisplayName("JUnit 5 katalonTest")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Registrazione {
   private WebDriver driver;
   private String baseUrl;
