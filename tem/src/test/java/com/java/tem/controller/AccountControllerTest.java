@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -15,12 +16,15 @@ import com.java.tem.exceptions.NotAuthorizedException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.DettaglioUtente;
 import com.java.tem.model.accountservice.entity.Utente;
+
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,14 +57,14 @@ class AccountControllerTest {
   private AccountService accountService;
 
 
-  @Before
-  public void setup() {
-
-    mockMvc = MockMvcBuilders.standaloneSetup(accountController)
-        .setControllerAdvice(new ExceptionHandlingController())
-        .apply(springSecurity())
-        .build();
+  @Test
+  @WithMockUser
+  void homeTestIsAdmin() throws Exception {
+	  when(accountService.isAdmin()).thenReturn(true);
+	  mockMvc.perform(get("/home")).andExpect(status().is3xxRedirection())
+	  .andExpect(view().name("redirect:/users"));
   }
+  
 
   @Test
   void getIndexTest() throws Exception {
@@ -98,6 +102,173 @@ class AccountControllerTest {
   }
 
   @Test
+  void processRegisterUsernameTooShort() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "password")
+        .param("username", "B")
+        .param("denominazione", "Bus srl")
+        .param("partitaIVA", "08100750010")
+        .param("telefono", "08257654334")
+        .param("fax", "800909396")
+        .param("indirizzo", "via Roma n 13")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "size must be between 6 and 20";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.user");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("username").toString().contains(sizeErrorString),
+        "");
+
+  }
+
+  @Test
+  void processRegisterBadFormatDenominazione() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "password")
+        .param("username", "AziendaBus")
+        .param("denominazione", "Bu$ srl")
+        .param("partitaIVA", "08100750010")
+        .param("telefono", "08257654334")
+        .param("fax", "800909396")
+        .param("indirizzo", "via Roma n 13")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "Caratteri non ammessi";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.dettaglioUtente");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("denominazione").toString().contains(sizeErrorString),
+        "");
+
+  }
+
+  @Test
+  void processRegisterPasswordTooShort() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "passw")
+        .param("username", "BusAzienda")
+        .param("denominazione", "Bus srl")
+        .param("partitaIVA", "08100750010")
+        .param("telefono", "08257654334")
+        .param("fax", "800909396")
+        .param("indirizzo", "via Roma n 13")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "size must be between 6 and 64";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.user");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("password").toString().contains(sizeErrorString),
+        "");
+
+  }
+
+  @Test
+  void processRegisterBadFormatPartitaIva() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "password")
+        .param("username", "AziendaBus")
+        .param("denominazione", "Bus srl")
+        .param("partitaIVA", "0810075001$")
+        .param("telefono", "08257654334")
+        .param("fax", "800909396")
+        .param("indirizzo", "via Roma n 13")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "Solo numeri ammessi";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.dettaglioUtente");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("partitaIVA").toString().contains(sizeErrorString),
+        "");
+
+  }
+
+  @Test
+  void processRegisterTelefonoTooShort() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "password")
+        .param("username", "AziendaBus")
+        .param("denominazione", "Bus srl")
+        .param("partitaIVA", "08100750010")
+        .param("telefono", "0825765")
+        .param("fax", "800909396")
+        .param("indirizzo", "via Roma n 13")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "size must be between 8 and 30";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.dettaglioUtente");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("telefono").toString().contains(sizeErrorString),
+        "");
+
+  }
+  @Test
+  void processRegisterFaxTooShort() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "password")
+        .param("username", "AziendaBus")
+        .param("denominazione", "Bus srl")
+        .param("partitaIVA", "08100750010")
+        .param("telefono", "08257654334")
+        .param("fax", "800")
+        .param("indirizzo", "via Roma n 13")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "size must be between 4 and 40";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.dettaglioUtente");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("fax").toString().contains(sizeErrorString),
+        "");
+
+  }
+
+  @Test
+  void processRegisterIndirizzoTooShort() throws Exception {
+    String url = "/process_register";
+    MvcResult result = mockMvc.perform(post(url).with(csrf())
+        .param("email", "azienda@gmail.com")
+        .param("password", "password")
+        .param("username", "AziendaBus")
+        .param("denominazione", "Bus srl")
+        .param("partitaIVA", "08100750010")
+        .param("telefono", "08257654334")
+        .param("fax", "800909396")
+        .param("indirizzo", "v")
+        .param("cap", "89700")
+        .param("citta", "Verona")).andReturn();
+    String sizeErrorString = "size must be between 2 and 50";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.dettaglioUtente");
+    BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(
+        bindingResult.getFieldError("indirizzo").toString().contains(sizeErrorString),
+        "");
+
+  }
+
+  @Test
   void processRegisterUserAlreadyExists() throws Exception {
     String url = "/process_register";
     when(accountService.checkUserExistanceByEmail(ArgumentMatchers.anyString()))
@@ -105,8 +276,8 @@ class AccountControllerTest {
     mockMvc.perform(post(url).with(csrf())
         .param("email", "azienda@gmail.com")
         .param("password", "password")
-        .param("username", "username")
-        .param("denominazione", "Bus s.r.l")
+        .param("username", "AziendaBus")
+        .param("denominazione", "Bussrl")
         .param("partitaIVA", "08100750010")
         .param("telefono", "08257654334")
         .param("fax", "800909396")
@@ -135,7 +306,7 @@ class AccountControllerTest {
         .param("email", "azienda@gmail.com")
         .param("password", "password")
         .param("username", "username")
-        .param("denominazione", "Bus s.r.l")
+        .param("denominazione", "Bus srl")
         .param("partitaIVA", "08100750010")
         .param("telefono", "08257654334")
         .param("fax", "800909396")
@@ -169,10 +340,5 @@ class AccountControllerTest {
         .andExpect(view().name("admin"));
   }
 
-  @Test
-  @WithMockUser
-  void testHomeNotLogged() {
-
-  }
 
 }

@@ -2,6 +2,7 @@ package com.java.tem.controller;
 
 import com.java.tem.exceptions.BoundResourceException;
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
+import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
@@ -137,17 +138,17 @@ public class RisorseController {
 
   @GetMapping("/risorse/conducente/edit/{id}")
   public ModelAndView showUpdateFormConducente(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException {
+      throws ResourcesDoesNotExistException {
 
     Conducente conducente = risorseService.getConducente(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid Conducente Id:" + id));
+        .orElseThrow(() -> new ResourcesDoesNotExistException("Invalid Conducente Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
       if (!risorseService.checkOwnership(conducente, utente)) {
         throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
       }
-      model.addAttribute("mezzo", conducente);
+      model.addAttribute("conducente", conducente);
       return new ModelAndView("edit-conducente");
     } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
@@ -157,16 +158,16 @@ public class RisorseController {
 
   @GetMapping("/risorse/linea/edit/{id}")
   public ModelAndView showUpdateFormLinea(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException {
+      throws ResourcesDoesNotExistException {
     Linea linea = risorseService.getLinea(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
+        .orElseThrow(() -> new ResourcesDoesNotExistException("Invalid linea Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
       if (!risorseService.checkOwnership(linea, utente)) {
         throw new DoesNotBelongToAziendaException("La risorsa non appartiene all'azienda");
       }
-      model.addAttribute("mezzo", linea);
+      model.addAttribute("linea", linea);
       return new ModelAndView("edit-linea");
     } catch (DoesNotBelongToAziendaException exc) {
       model.addAttribute("error", exc.getMessage());
@@ -178,7 +179,7 @@ public class RisorseController {
   public ModelAndView showUpdateFormMezzo(@PathVariable("id") Long id, Model model)
       throws Throwable {
     Mezzo mezzo = risorseService.getMezzo(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
+        .orElseThrow(() -> new ResourcesDoesNotExistException("Invalid mezzo Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
@@ -194,7 +195,8 @@ public class RisorseController {
   }
 
   @PostMapping("risorse/update/conducente/{id}")
-  public String updateConducente(@PathVariable("id") Long id, Conducente conducente,
+  public String updateConducente(@PathVariable("id") Long id,
+                                 @ModelAttribute("conducente") @Valid Conducente conducente,
                                  BindingResult result,
                                  Model model) {
     if (result.hasErrors()) {
@@ -239,9 +241,9 @@ public class RisorseController {
 
   @GetMapping("risorse/delete/mezzo/{id}")
   public ModelAndView deleteMezzo(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException, BoundResourceException {
+      throws ResourcesDoesNotExistException, BoundResourceException {
     Mezzo mezzo = risorseService.getMezzo(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid mezzo Id:" + id));
+        .orElseThrow(() -> new ResourcesDoesNotExistException("Invalid mezzo Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
@@ -263,9 +265,9 @@ public class RisorseController {
 
   @GetMapping("risorse/delete/conducente/{id}")
   public ModelAndView deleteConducente(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException, BoundResourceException {
+      throws ResourcesDoesNotExistException, BoundResourceException {
     Conducente conducente = risorseService.getConducente(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid conducente Id:" + id));
+        .orElseThrow(() -> new ResourcesDoesNotExistException("Invalid conducente Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {
@@ -286,9 +288,9 @@ public class RisorseController {
 
   @GetMapping("risorse/delete/linea/{id}")
   public ModelAndView deleteLinea(@PathVariable("id") Long id, Model model)
-      throws IllegalArgumentException, BoundResourceException {
+      throws ResourcesDoesNotExistException, BoundResourceException {
     Linea linea = risorseService.getLinea(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid linea Id:" + id));
+        .orElseThrow(() -> new ResourcesDoesNotExistException("Invalid linea Id:" + id));
     Utente utente = accountService.getLoggedUser();
 
     try {

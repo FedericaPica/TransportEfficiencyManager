@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -18,18 +19,22 @@ public class DettaglioUtente {
   private Long id;
 
   @Size(min = 2, max = 50)
+  @Pattern(regexp="^[a-zA-Z0-9_ \\. ]*$",message="Caratteri non ammessi")
   @Column(name = "denominazione", nullable = false, length = 50)
   private String denominazione;
 
   @Size(min = 11, max = 11)
+  @Pattern(regexp="^[0-9]*$",message="Solo numeri ammessi")
   @Column(name = "partitaIVA", nullable = false, length = 11)
   private String partitaIVA;
 
   @Size(min = 8, max = 30)
+  @Pattern(regexp="^[0-9]*$",message="Solo numeri ammessi")
   @Column(name = "telefono", nullable = false, length = 30)
   private String telefono;
 
   @Size(min = 4, max = 40)
+  @Pattern(regexp="^[0-9]*$",message="Solo numeri ammessi")
   @Column(name = "fax", nullable = false, length = 40)
   private String fax;
 
