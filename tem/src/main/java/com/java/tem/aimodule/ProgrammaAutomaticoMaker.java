@@ -12,9 +12,6 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseSer
 import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
 import com.java.tem.model.programmacorseservice.repository.StrategyType;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -68,29 +65,28 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     });
 
 
-
     try {
       for (DatiGenerazione d : listaDatiGenerazione) {
         List<LocalTime> orari = new ArrayList<LocalTime>();
         orari.add(d.getOrario());
         orari.add(d.getOrario().plusMinutes(30));
 
-        for (LocalTime t: orari) {
-          if(checkOrario(d, t)) {
+        for (LocalTime t : orari) {
+          if (checkOrario(d, t)) {
             d.setOrario(t);
           }
         }
       }
 
-      Collections.sort(this.listaDatiGenerazione, new Comparator<DatiGenerazione>() {
+      Collections.sort(listaDatiGenerazione, new Comparator<DatiGenerazione>() {
         @Override
         public int compare(DatiGenerazione o1, DatiGenerazione o2) {
           return o1.getOrario().compareTo(o2.getOrario());
         }
       });
 
-      if (this.ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)
-          && this.ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
+      if (ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)
+          && ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
 
         for (DatiGenerazione d : listaDatiGenerazione) {
           Set<Conducente> conducentiCorsa = new HashSet<Conducente>();
@@ -99,7 +95,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
           corsa.setProgramma(programmaCorse);
 
           Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
-          Conducente conducenteB = risorseService.getConducenteByCodiceFiscale(d.getConducente()).get();
+          Conducente conducenteB =
+              risorseService.getConducenteByCodiceFiscale(d.getConducente()).get();
           Mezzo mezzoB = risorseService.getMezzo(Long.parseLong(d.getMezzo())).get();
 
           conducentiCorsa.add(conducenteB);
@@ -113,7 +110,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
           corsaService.addCorsa(corsa);
         }
 
-      } } catch (Exception e) {
+      }
+    } catch (Exception e) {
       // TODO: handle exception
     }
     return programmaCorse;
@@ -121,12 +119,12 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
   private boolean ricercaBacktrackingConducente(List<Conducente> conducenti,
                                                 ArrayList<ArrayList<Object>> illegalValuesConducenti)
-      throws IOException{
+      throws IOException {
     boolean isEmpty = true;
     int indice = -1;
-    for (DatiGenerazione d : this.listaDatiGenerazione) {
+    for (DatiGenerazione d : listaDatiGenerazione) {
       if (d.getConducente() == null) {
-        indice = this.listaDatiGenerazione.indexOf(d);
+        indice = listaDatiGenerazione.indexOf(d);
         isEmpty = false;
         break;
       }
@@ -134,86 +132,91 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     if (isEmpty) {
       return true;
     }
-    DatiGenerazione posizioneCorrente = this.listaDatiGenerazione.get(indice);
+    DatiGenerazione posizioneCorrente = listaDatiGenerazione.get(indice);
     for (Conducente c : conducenti) {
 
       if (checkConducente(c, posizioneCorrente, illegalValuesConducenti)) {
         String cF = c.getCodiceFiscale();
         posizioneCorrente.setConducente(cF);
-        this.listaDatiGenerazione.set(indice, posizioneCorrente);
+        listaDatiGenerazione.set(indice, posizioneCorrente);
         if (forwardConducente(c, illegalValuesConducenti, posizioneCorrente, conducenti)) {
           if (ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)) {
             return true;
           } else {
             posizioneCorrente.setConducente(null);
-            illegalValuesConducenti.remove(illegalValuesConducenti.size()-1);
+            illegalValuesConducenti.remove(illegalValuesConducenti.size() - 1);
           }
         }
       }
-    } return false;
+    }
+    return false;
   }
 
   private boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
-			ArrayList<ArrayList<Object>> illegalValuesMezzi)
-throws IOException{
-boolean isEmpty = true;
-int indice = -1;
-for (DatiGenerazione d : this.listaDatiGenerazione) {
-if (d.getMezzo() == null) {
-indice = this.listaDatiGenerazione.indexOf(d);
-isEmpty = false;
-break;
-}
-}
-if (isEmpty) {
-return true;
-}
-DatiGenerazione posizioneCorrente = this.listaDatiGenerazione.get(indice);
-for (Mezzo m : mezzi) {
+                                           ArrayList<ArrayList<Object>> illegalValuesMezzi)
+      throws IOException {
+    boolean isEmpty = true;
+    int indice = -1;
+    for (DatiGenerazione d : listaDatiGenerazione) {
+      if (d.getMezzo() == null) {
+        indice = listaDatiGenerazione.indexOf(d);
+        isEmpty = false;
+        break;
+      }
+    }
+    if (isEmpty) {
+      return true;
+    }
+    DatiGenerazione posizioneCorrente = listaDatiGenerazione.get(indice);
+    for (Mezzo m : mezzi) {
 
-if (checkMezzo(m, posizioneCorrente, illegalValuesMezzi)) {
-Long id = m.getId();
-posizioneCorrente.setMezzo(id.toString());
-this.listaDatiGenerazione.set(indice, posizioneCorrente);
-if (forwardMezzo(m, illegalValuesMezzi, posizioneCorrente, mezzi)) {
-if (ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
-return true;
-} else {
-posizioneCorrente.setMezzo(null);
-illegalValuesMezzi.remove(illegalValuesMezzi.size()-1);
-}
-}
-}
-} return false;
-} 
+      if (checkMezzo(m, posizioneCorrente, illegalValuesMezzi)) {
+        Long id = m.getId();
+        posizioneCorrente.setMezzo(id.toString());
+        listaDatiGenerazione.set(indice, posizioneCorrente);
+        if (forwardMezzo(m, illegalValuesMezzi, posizioneCorrente, mezzi)) {
+          if (ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
+            return true;
+          } else {
+            posizioneCorrente.setMezzo(null);
+            illegalValuesMezzi.remove(illegalValuesMezzi.size() - 1);
+          }
+        }
+      }
+    }
+    return false;
+  }
 
-private boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
-/*
-* Given a tested Orario, if Traffico is false ("No") this method confirms its validity;
-* else this will return
-* false and Orario will be shifted by 30 mins, trying to avoid congestion
-*/
-return (datiGenerazione.getOrario().equals(orario)
-&& datiGenerazione.getTraffico().equals("No"))
-||  !datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
-}
+  private boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
+    /*
+     * Given a tested Orario, if Traffico is false ("No") this method confirms its validity;
+     * else this will return
+     * false and Orario will be shifted by 30 mins, trying to avoid congestion
+     */
+    return datiGenerazione.getOrario().equals(orario)
+        && datiGenerazione.getTraffico().equals("No")
+        ||
+        !datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
+  }
 
   public boolean checkConducente(Conducente conducente, DatiGenerazione posizioneCorrente,
                                  ArrayList<ArrayList<Object>> illegalValuesConducenti) {
     // Returns true because he/she is the first driver
-    if (this.listaDatiGenerazione.indexOf(posizioneCorrente) == 0)
+    if (listaDatiGenerazione.indexOf(posizioneCorrente) == 0) {
       return true;
+    }
 
     int j;
-    for (j= illegalValuesConducenti.size()-1; j >= 0; j--) {
+    for (j = illegalValuesConducenti.size() - 1; j >= 0; j--) {
       ArrayList<Object> o = illegalValuesConducenti.get(j);
       Conducente illegalConducente = (Conducente) o.get(0);
       LocalTime illegalStartRange = (LocalTime) o.get(1);
-      LocalTime illegalEndRange   = (LocalTime) o.get(2);
+      LocalTime illegalEndRange = (LocalTime) o.get(2);
 
-      if(illegalConducente.getCodiceFiscale().equals(conducente.getCodiceFiscale())) {
+      if (illegalConducente.getCodiceFiscale().equals(conducente.getCodiceFiscale())) {
 
-        if(posizioneCorrente.getOrario().isAfter(illegalStartRange) && posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
+        if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
+            posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
           return false;
         } else {
           break;
@@ -222,37 +225,35 @@ return (datiGenerazione.getOrario().equals(orario)
     }
 
     Linea lC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
-    Linea lineaCorrente = (Linea)lC.clone();
+    Linea lineaCorrente = (Linea) lC.clone();
     if (!posizioneCorrente.isAndata()) {
       lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
     }
 
-    int currentIdx = this.listaDatiGenerazione.indexOf(posizioneCorrente);
+    int currentIdx = listaDatiGenerazione.indexOf(posizioneCorrente);
 
     // Backscrolling listaDatiGenerazione
-    for (int i = currentIdx-1; i >= 0; i--) {
-      DatiGenerazione posizionePrecedente = this.listaDatiGenerazione.get(i);
+    for (int i = currentIdx - 1; i >= 0; i--) {
+      DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
 
       if (conducente.getCodiceFiscale().equals(posizionePrecedente.getConducente())) {
         Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
-        Linea lineaPrecedente = (Linea)lP.clone();
-        if(!posizionePrecedente.isAndata()) {
+        Linea lineaPrecedente = (Linea) lP.clone();
+        if (!posizionePrecedente.isAndata()) {
           lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
         }
 
-        if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-          return true;
-        } else {
-          return false;
-        }
+        return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
     }
     return true;
   }
 
 
-  private boolean forwardConducente(Conducente conducente, ArrayList<ArrayList<Object>> illegalValuesConducenti,
-                                    DatiGenerazione posizioneCorrente, List<Conducente> conducenti) {
+  private boolean forwardConducente(Conducente conducente,
+                                    ArrayList<ArrayList<Object>> illegalValuesConducenti,
+                                    DatiGenerazione posizioneCorrente,
+                                    List<Conducente> conducenti) {
 
     Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
     LocalTime inizioRange = posizioneCorrente.getOrario();
@@ -265,114 +266,123 @@ return (datiGenerazione.getOrario().equals(orario)
     item.add(fineRange);
     illegalValuesConducenti.add(item);
 
-    int i,j;
-    for (i=this.listaDatiGenerazione.indexOf(posizioneCorrente)+1; i <= (this.listaDatiGenerazione.size()-1); i++) {
-      int count=0;
-      DatiGenerazione d = this.listaDatiGenerazione.get(i);
+    int i, j;
+    for (i = listaDatiGenerazione.indexOf(posizioneCorrente) + 1;
+         i <= listaDatiGenerazione.size() - 1; i++) {
+      int count = 0;
+      DatiGenerazione d = listaDatiGenerazione.get(i);
       if (d.getOrario().isAfter(inizioRange) && d.getOrario().isBefore(fineRange)) {
-        for (j=0; j <= illegalValuesConducenti.size()-1; j++) {
+        for (j = 0; j <= illegalValuesConducenti.size() - 1; j++) {
           ArrayList<Object> riga = illegalValuesConducenti.get(j);
-          if (d.getOrario().isAfter((LocalTime)riga.get(1)) && d.getOrario().isBefore((LocalTime)riga.get(2))) {
+          if (d.getOrario().isAfter((LocalTime) riga.get(1)) &&
+              d.getOrario().isBefore((LocalTime) riga.get(2))) {
             count++;
           }
         }
         if (count == conducenti.size()) {
           return false;
         }
-      }else break;
-    } return true;
+      } else {
+        break;
+      }
+    }
+    return true;
 
   }
-  public boolean checkMezzo(Mezzo mezzo, DatiGenerazione posizioneCorrente,
-			ArrayList<ArrayList<Object>> illegalValuesMezzi) {
 
-if (mezzo.getCapienza() < posizioneCorrente.getAttesi()) {
-return false;
-}
+  public boolean checkMezzo(Mezzo mezzo, DatiGenerazione posizioneCorrente,
+                            ArrayList<ArrayList<Object>> illegalValuesMezzi) {
+
+    if (mezzo.getCapienza() < posizioneCorrente.getAttesi()) {
+      return false;
+    }
 
 // Returns true because he/she is the first driver
-if (this.listaDatiGenerazione.indexOf(posizioneCorrente) == 0)
-return true;
+    if (listaDatiGenerazione.indexOf(posizioneCorrente) == 0) {
+      return true;
+    }
 
-int j;
-for (j= illegalValuesMezzi.size()-1; j >= 0; j--) {
-ArrayList<Object> o = illegalValuesMezzi.get(j);
-Mezzo illegalMezzo = (Mezzo) o.get(0);
-LocalTime illegalStartRange = (LocalTime) o.get(1);
-LocalTime illegalEndRange   = (LocalTime) o.get(2);
+    int j;
+    for (j = illegalValuesMezzi.size() - 1; j >= 0; j--) {
+      ArrayList<Object> o = illegalValuesMezzi.get(j);
+      Mezzo illegalMezzo = (Mezzo) o.get(0);
+      LocalTime illegalStartRange = (LocalTime) o.get(1);
+      LocalTime illegalEndRange = (LocalTime) o.get(2);
 
-if(illegalMezzo.getId().equals(mezzo.getId())) {
+      if (illegalMezzo.getId().equals(mezzo.getId())) {
 
-if(posizioneCorrente.getOrario().isAfter(illegalStartRange) && posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
-return false;
-} else {
-break;
-}
-}
-}
+        if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
+            posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
+          return false;
+        } else {
+          break;
+        }
+      }
+    }
 
-Linea lC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
-Linea lineaCorrente = (Linea)lC.clone();
-if (!posizioneCorrente.isAndata()) {
-lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
-}
+    Linea lC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
+    Linea lineaCorrente = (Linea) lC.clone();
+    if (!posizioneCorrente.isAndata()) {
+      lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
+    }
 
-int currentIdx = this.listaDatiGenerazione.indexOf(posizioneCorrente);
+    int currentIdx = listaDatiGenerazione.indexOf(posizioneCorrente);
 
 // Backscrolling listaDatiGenerazione
-for (int i = currentIdx-1; i >= 0; i--) {
-DatiGenerazione posizionePrecedente = this.listaDatiGenerazione.get(i);
+    for (int i = currentIdx - 1; i >= 0; i--) {
+      DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
 
-if (mezzo.getId().toString().equals(posizionePrecedente.getMezzo())) {
-Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
-Linea lineaPrecedente = (Linea)lP.clone();
-if(!posizionePrecedente.isAndata()) {
-lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
-}
+      if (mezzo.getId().toString().equals(posizionePrecedente.getMezzo())) {
+        Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
+        Linea lineaPrecedente = (Linea) lP.clone();
+        if (!posizionePrecedente.isAndata()) {
+          lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+        }
 
-if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-return true;
-} else {
-return false;
-}
-}
-}
-return true;
-}
+        return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
+      }
+    }
+    return true;
+  }
 
 
-private boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
-		DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
+  private boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
+                               DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
 
-Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
-LocalTime inizioRange = posizioneCorrente.getOrario();
-LocalTime fineRange = inizioRange.plusMinutes(lineaCorrente.getDurata());
+    Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
+    LocalTime inizioRange = posizioneCorrente.getOrario();
+    LocalTime fineRange = inizioRange.plusMinutes(lineaCorrente.getDurata());
 
 
-ArrayList<Object> item = new ArrayList<Object>();
-item.add(mezzo);
-item.add(inizioRange);
-item.add(fineRange);
-illegalValuesMezzi.add(item);
+    ArrayList<Object> item = new ArrayList<Object>();
+    item.add(mezzo);
+    item.add(inizioRange);
+    item.add(fineRange);
+    illegalValuesMezzi.add(item);
 
-int i,j;
-for (i=this.listaDatiGenerazione.indexOf(posizioneCorrente)+1; i <= (this.listaDatiGenerazione.size()-1); i++) {
-int count=0;
-DatiGenerazione d = this.listaDatiGenerazione.get(i);
-if (d.getOrario().isAfter(inizioRange) && d.getOrario().isBefore(fineRange)) {
-for (j=0; j <= illegalValuesMezzi.size()-1; j++) {
-ArrayList<Object> riga = illegalValuesMezzi.get(j);
-if (d.getOrario().isAfter((LocalTime)riga.get(1)) && d.getOrario().isBefore((LocalTime)riga.get(2))) {
-count++;
-}
-}
-if (count == mezzi.size()) {
-return false;
-}
-}else break;
-} return true;
+    int i, j;
+    for (i = listaDatiGenerazione.indexOf(posizioneCorrente) + 1;
+         i <= listaDatiGenerazione.size() - 1; i++) {
+      int count = 0;
+      DatiGenerazione d = listaDatiGenerazione.get(i);
+      if (d.getOrario().isAfter(inizioRange) && d.getOrario().isBefore(fineRange)) {
+        for (j = 0; j <= illegalValuesMezzi.size() - 1; j++) {
+          ArrayList<Object> riga = illegalValuesMezzi.get(j);
+          if (d.getOrario().isAfter((LocalTime) riga.get(1)) &&
+              d.getOrario().isBefore((LocalTime) riga.get(2))) {
+            count++;
+          }
+        }
+        if (count == mezzi.size()) {
+          return false;
+        }
+      } else {
+        break;
+      }
+    }
+    return true;
 
-}
+  }
 
   @Override
   public StrategyType getStrategyType() {

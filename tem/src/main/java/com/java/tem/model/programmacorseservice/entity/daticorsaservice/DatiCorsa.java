@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,7 +24,11 @@ public class DatiCorsa {
   @Size(min = 2, max = 40)
   private String lineaCorsa;
   private Time orarioCorsa;
+
+  @Min(15)
+  @Max(85)
   private int numeroPosti;
+
   private int passeggeriSaliti;
   private int passeggeriNonSaliti;
   public boolean traffico;

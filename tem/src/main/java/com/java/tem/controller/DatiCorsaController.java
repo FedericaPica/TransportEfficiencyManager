@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.DatiCorsaNotExistException;
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.model.accountservice.entity.AccountService;
@@ -36,9 +37,10 @@ public class DatiCorsaController {
   }
 
   @GetMapping("/daticorsa/edit/{id}")
-  public ModelAndView showFormDatiCorsa(@PathVariable("id") Long id, Model model) {
+  public ModelAndView showFormDatiCorsa(@PathVariable("id") Long id, Model model)
+      throws DatiCorsaNotExistException {
     DatiCorsa datiCorsa = datiCorsaService.getDatiCorsa(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid Dati Corsa Id:" + id));
+        .orElseThrow(() -> new DatiCorsaNotExistException("Invalid Dati Corsa Id:" + id));
     model.addAttribute("datiCorsa", datiCorsa);
 
     Utente utente = accountService.getLoggedUser();
@@ -70,11 +72,12 @@ public class DatiCorsaController {
   }
 
   @PostMapping("daticorsa/update/{id}")
-  public ModelAndView updateDatiCorsa(@PathVariable("id") Long id, DatiCorsa datiCorsa,
+  public ModelAndView updateDatiCorsa(@PathVariable("id") Long id,
+                                      @Valid DatiCorsa datiCorsa,
                                       BindingResult result,
                                       Model model) {
     if (result.hasErrors()) {
-      return new ModelAndView("update-daticorsa");
+      return new ModelAndView("edit-daticorsa");
     }
     Utente utente = accountService.getLoggedUser();
     datiCorsa.setAzienda(utente);

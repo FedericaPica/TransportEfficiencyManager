@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.exceptions.BoundResourceException;
+import com.java.tem.exceptions.DatiCorsaNotExistException;
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
@@ -56,6 +57,13 @@ public class ExceptionHandlingController {
       + " non è andata a buon fine")
   @ExceptionHandler(BoundResourceException.class)
   public void boundResourceError() {
+
+  }
+
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Dati corsa non presenti."
+      + " non è andata a buon fine")
+  @ExceptionHandler(DatiCorsaNotExistException.class)
+  public void datiCorsaNotExistException() {
 
   }
 
