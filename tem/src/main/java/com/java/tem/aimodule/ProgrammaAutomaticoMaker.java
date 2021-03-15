@@ -283,6 +283,96 @@ return (datiGenerazione.getOrario().equals(orario)
     } return true;
 
   }
+  public boolean checkMezzo(Mezzo mezzo, DatiGenerazione posizioneCorrente,
+			ArrayList<ArrayList<Object>> illegalValuesMezzi) {
+
+if (mezzo.getCapienza() < posizioneCorrente.getAttesi()) {
+return false;
+}
+
+// Returns true because he/she is the first driver
+if (this.listaDatiGenerazione.indexOf(posizioneCorrente) == 0)
+return true;
+
+int j;
+for (j= illegalValuesMezzi.size()-1; j >= 0; j--) {
+ArrayList<Object> o = illegalValuesMezzi.get(j);
+Mezzo illegalMezzo = (Mezzo) o.get(0);
+LocalTime illegalStartRange = (LocalTime) o.get(1);
+LocalTime illegalEndRange   = (LocalTime) o.get(2);
+
+if(illegalMezzo.getId().equals(mezzo.getId())) {
+
+if(posizioneCorrente.getOrario().isAfter(illegalStartRange) && posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
+return false;
+} else {
+break;
+}
+}
+}
+
+Linea lC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
+Linea lineaCorrente = (Linea)lC.clone();
+if (!posizioneCorrente.isAndata()) {
+lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
+}
+
+int currentIdx = this.listaDatiGenerazione.indexOf(posizioneCorrente);
+
+// Backscrolling listaDatiGenerazione
+for (int i = currentIdx-1; i >= 0; i--) {
+DatiGenerazione posizionePrecedente = this.listaDatiGenerazione.get(i);
+
+if (mezzo.getId().toString().equals(posizionePrecedente.getMezzo())) {
+Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
+Linea lineaPrecedente = (Linea)lP.clone();
+if(!posizionePrecedente.isAndata()) {
+lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+}
+
+if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
+return true;
+} else {
+return false;
+}
+}
+}
+return true;
+}
+
+
+private boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
+		DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
+
+Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
+LocalTime inizioRange = posizioneCorrente.getOrario();
+LocalTime fineRange = inizioRange.plusMinutes(lineaCorrente.getDurata());
+
+
+ArrayList<Object> item = new ArrayList<Object>();
+item.add(mezzo);
+item.add(inizioRange);
+item.add(fineRange);
+illegalValuesMezzi.add(item);
+
+int i,j;
+for (i=this.listaDatiGenerazione.indexOf(posizioneCorrente)+1; i <= (this.listaDatiGenerazione.size()-1); i++) {
+int count=0;
+DatiGenerazione d = this.listaDatiGenerazione.get(i);
+if (d.getOrario().isAfter(inizioRange) && d.getOrario().isBefore(fineRange)) {
+for (j=0; j <= illegalValuesMezzi.size()-1; j++) {
+ArrayList<Object> riga = illegalValuesMezzi.get(j);
+if (d.getOrario().isAfter((LocalTime)riga.get(1)) && d.getOrario().isBefore((LocalTime)riga.get(2))) {
+count++;
+}
+}
+if (count == mezzi.size()) {
+return false;
+}
+}else break;
+} return true;
+
+}
 
   @Override
   public StrategyType getStrategyType() {
