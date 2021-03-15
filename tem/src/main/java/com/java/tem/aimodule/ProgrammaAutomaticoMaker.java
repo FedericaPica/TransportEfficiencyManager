@@ -153,7 +153,50 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     } return false;
   }
 
+  private boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
+			ArrayList<ArrayList<Object>> illegalValuesMezzi)
+throws IOException{
+boolean isEmpty = true;
+int indice = -1;
+for (DatiGenerazione d : this.listaDatiGenerazione) {
+if (d.getMezzo() == null) {
+indice = this.listaDatiGenerazione.indexOf(d);
+isEmpty = false;
+break;
+}
+}
+if (isEmpty) {
+return true;
+}
+DatiGenerazione posizioneCorrente = this.listaDatiGenerazione.get(indice);
+for (Mezzo m : mezzi) {
 
+if (checkMezzo(m, posizioneCorrente, illegalValuesMezzi)) {
+Long id = m.getId();
+posizioneCorrente.setMezzo(id.toString());
+this.listaDatiGenerazione.set(indice, posizioneCorrente);
+if (forwardMezzo(m, illegalValuesMezzi, posizioneCorrente, mezzi)) {
+if (ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
+return true;
+} else {
+posizioneCorrente.setMezzo(null);
+illegalValuesMezzi.remove(illegalValuesMezzi.size()-1);
+}
+}
+}
+} return false;
+} 
+
+private boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
+/*
+* Given a tested Orario, if Traffico is false ("No") this method confirms its validity;
+* else this will return
+* false and Orario will be shifted by 30 mins, trying to avoid congestion
+*/
+return (datiGenerazione.getOrario().equals(orario)
+&& datiGenerazione.getTraffico().equals("No"))
+||  !datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
+}
 
   public boolean checkConducente(Conducente conducente, DatiGenerazione posizioneCorrente,
                                  ArrayList<ArrayList<Object>> illegalValuesConducenti) {
