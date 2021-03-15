@@ -2,6 +2,7 @@ package com.java.tem.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.java.tem.exceptions.BoundResourceException;
 import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
@@ -525,6 +526,51 @@ public class RisorseControllerTest {
         .andExpect(result ->
             assertEquals("La risorsa non appartiene all'azienda",
                 result.getModelAndView().getModelMap().getAttribute("error"), ""));
+  }
+
+  @Test
+  @WithMockUser
+  void deleteMezzoFailureIsBound() throws Exception {
+    Mezzo mezzo = mock(Mezzo.class);
+    Utente utente = new Utente();
+    when(risorseService.getMezzo(0L)).thenReturn(Optional.of(mezzo));
+    when(accountService.getLoggedUser()).thenReturn(Optional.of(utente).get());
+    when(risorseService.checkOwnership(mezzo, utente)).thenReturn(true);
+    when(risorseService.isBound(mezzo)).thenReturn(true);
+    mockMvc.perform(get("/risorse/delete/mezzo/{id}", Mockito.anyLong()).with(csrf()))
+        .andExpect(status().is5xxServerError())
+        .andExpect(result -> assertTrue(
+            result.getResolvedException() instanceof BoundResourceException, ""));
+  }
+
+  @Test
+  @WithMockUser
+  void deleteLineaFailureIsBound() throws Exception {
+    Linea linea = mock(Linea.class);
+    Utente utente = new Utente();
+    when(risorseService.getLinea(0L)).thenReturn(Optional.of(linea));
+    when(accountService.getLoggedUser()).thenReturn(Optional.of(utente).get());
+    when(risorseService.checkOwnership(linea, utente)).thenReturn(true);
+    when(risorseService.isBound(linea)).thenReturn(true);
+    mockMvc.perform(get("/risorse/delete/linea/{id}", Mockito.anyLong()).with(csrf()))
+        .andExpect(status().is5xxServerError())
+        .andExpect(result -> assertTrue(
+            result.getResolvedException() instanceof BoundResourceException, ""));
+  }
+
+  @Test
+  @WithMockUser
+  void deleteConducenteFailureIsBound() throws Exception {
+    Conducente conducente = mock(Conducente.class);
+    Utente utente = new Utente();
+    when(risorseService.getConducente(0L)).thenReturn(Optional.of(conducente));
+    when(accountService.getLoggedUser()).thenReturn(Optional.of(utente).get());
+    when(risorseService.checkOwnership(conducente, utente)).thenReturn(true);
+    when(risorseService.isBound(conducente)).thenReturn(true);
+    mockMvc.perform(get("/risorse/delete/conducente/{id}", Mockito.anyLong()).with(csrf()))
+        .andExpect(status().is5xxServerError())
+        .andExpect(result ->assertTrue(
+            result.getResolvedException() instanceof BoundResourceException, ""));
   }
 
   @Test

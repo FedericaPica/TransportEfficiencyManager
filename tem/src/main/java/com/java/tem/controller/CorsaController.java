@@ -84,7 +84,23 @@ public class CorsaController {
                                    @RequestParam("linea") Long lineaId,
                                    @RequestParam("conducente") List<Long> conducenti,
                                    @PathVariable("programmaCorseId")
-                                       Long programmaCorseId) {
+                                       Long programmaCorseId,
+                                   Model model) {
+
+    if (bindingResult.hasErrors()) {
+      Utente utente = accountService.getLoggedUser();
+      ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(programmaCorseId).get();
+      List<Linea> lineeAzienda = risorseService.getLineeByAzienda(utente);
+      List<Conducente> conducentiAzienda = risorseService.getConducentiByAzienda(utente);
+      List<Mezzo> mezziAzienda = risorseService.getMezziByAzienda(utente);
+
+      model.addAttribute("linee", lineeAzienda);
+      model.addAttribute("mezzi", mezziAzienda);
+      model.addAttribute("conducenti", conducentiAzienda);
+      model.addAttribute("programmaCorse", programmaCorse);
+      model.addAttribute("linea", new Linea());
+      return new ModelAndView("insert-corsa");
+    }
     Set<Conducente> conducentiToAdd = new HashSet<Conducente>();
     Set<Mezzo> mezziToAdd = new HashSet<Mezzo>();
 

@@ -70,6 +70,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                      <div style="margin-left:-90px;">
 			<div>
 					<input type="text" th:field='${corsa.orario}' style="  border-bottom: 1px solid #ff6600;" required placeholder="Inserisci orario" onclick="this.value=''"/>
+                <span th:if="${#fields.hasErrors('corsa.orario')}" th:errors="*{corsa.orario}" class="text-danger"></span>
 				</div>
 		
 
@@ -80,7 +81,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 						                th:value="${linea.id}"
 						                th:text="${linea.nome}"></option>
 					</select>
-				
+                <span th:if="${#fields.hasErrors('linea')}" th:errors="*{linea}" class="text-danger"></span>
 			</div>
 
 			<div>
@@ -89,7 +90,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                         <option class="opzioni" th:each="conducente : ${conducenti}"
                                 th:value="${conducente.id}"
                                 th:text="${conducente.cognome}"></option>
-					</select>
+					</select><span th:if="${#fields.hasErrors('conducenti')}" th:errors="*{conducenti}" class="text-danger"></span>
 			</div>
 			
 			<div>
@@ -98,7 +99,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 						        <option  class="opzioni" th:each="mezzo : ${mezzi}"
 						                th:value="${mezzo.id}"
 						                th:text="${mezzo.tipo}"></option>
-					</select>
+					</select><span th:if="${#fields.hasErrors('mezzi')}" th:errors="*{mezzi}" class="text-danger"></span>
 					</input>
 			</div>
 			<div class="traffico"> <label for="traffico-select"></label><select id="traffico-select" th:field="${corsa.andata}">

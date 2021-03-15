@@ -1,5 +1,6 @@
 package com.java.tem.controller;
 
+import com.java.tem.exceptions.BoundResourceException;
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
 import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
@@ -48,6 +49,13 @@ public class ExceptionHandlingController {
       + " non è andata a buon fine")
   @ExceptionHandler(GenerationFailedException.class)
   public void autogenerationError() {
+
+  }
+
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "La risorsa è collegata ad una corsa."
+      + " non è andata a buon fine")
+  @ExceptionHandler(BoundResourceException.class)
+  public void boundResourceError() {
 
   }
 

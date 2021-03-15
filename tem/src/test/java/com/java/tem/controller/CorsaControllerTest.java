@@ -2,11 +2,17 @@ package com.java.tem.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import com.java.tem.model.accountservice.entity.AccountService;
+import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
 import com.java.tem.model.programmacorseservice.entity.CorsaService;
+import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
 import com.java.tem.model.programmacorseservice.entity.ProgrammaCorseService;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
@@ -16,8 +22,12 @@ import com.java.tem.model.programmacorseservice.repository.ProgrammaManualeMaker
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +40,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -56,68 +67,100 @@ public class CorsaControllerTest {
   @MockBean
   private ProgrammaManualeMaker programmaManualeMaker;
 
+  private List<Long> mezzi;
+  private List<Long> conducenti;
+  private List<Linea> lineeAzienda;
+  private List<Conducente> conducentiAzienda;
+  private List<Mezzo> mezziAzienda;
+  private Linea linea;
   /*
    * Insert  Corsa Tests
    */
+  @BeforeEach
+  void setUp() {
+    mezzi = new ArrayList<>();
+    conducenti = new ArrayList<>();
+    mezzi.add(1L);
+    conducenti.add(1L);
+    Utente utente = mock(Utente.class);
+    linea = mock(Linea.class);
+    risorseService.getLineeByAzienda(utente);
+    risorseService.getConducentiByAzienda(utente);
+    risorseService.getMezziByAzienda(utente);
+  }
+
   @Test
   @WithMockUser
   void lineaNotSelected() throws Exception {
     String url = "/corsa/submit/1/";
-    MvcResult result = mockMvc.perform(post(url).with(csrf())
-    		    .param("corsa", "09:00:00")
-    	        .param("mezzo", "PullmanS")
-    	        .param("linea", "")
-    	        .param("conducente", "Paolo Neri")
+
+    mockMvc
+        .perform(post("/corsa/submit/{programmaCorseId}", "1").with(csrf())
+    		    .param("orario", "09:00:00")
+    	        .param("mezzo", "1,2,3")
+                .param("linea", "")
+    	        .param("conducente", "1,2,3")
     	        .param("programmaCorseId", "1")
-    	        .param("andata", "true")).andReturn();
-    String sizeErrorString = "Nessuna linea selezionata";
-    Object bindingResObject = result.getModelAndView().getModelMap()
-        .getAttribute("org.springframework.validation.BindingResult.corsa");
-    BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("linea").toString().contains(sizeErrorString), "");
+    	        .param("andata", "true"))
+        .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException, ""));
   }
 
   @Test
   @WithMockUser
   void orarioBadFormat() throws Exception {
-	String url = "/corsa/submit/1";
-	List<Long> mezzi = new ArrayList<>();
-	List<Long> conducenti = new ArrayList<>();
-	mezzi.add(1L);
-	conducenti.add(1L);
-    MvcResult result = mockMvc.perform(post(url, "1").with(csrf())
+    Conducente conducente = mock(Conducente.class);
+    ProgrammaCorse programmaCorse = mock(ProgrammaCorse.class);
+
+    Mezzo mezzo = mock(Mezzo.class);
+    when(risorseService.getConducente(Mockito.anyLong())).thenReturn(
+        Optional.ofNullable(conducente));
+	when(risorseService.getMezzo(Mockito.anyLong())).thenReturn(Optional.of(mezzo));
+
+	when(programmaCorseService.getProgrammaCorseById(Mockito.anyLong()))
+        .thenReturn(Optional.of(programmaCorse));
+    MvcResult result = mockMvc.perform(post("/corsa/submit/{id}", "1").with(csrf())
         .flashAttr("corsa", new Corsa())
         .param("orario", "9")
-        .param("mezzo", mezzi.toString())
-        .param("linea", "1L")
-        .param("conducente", conducenti.toString())
+        .param("mezzo", "1,2,3")
+        .param("linea", "1")
+        .param("conducente", "1,2,3")
         .param("programmaCorseId", "1L")
         .param("andata", "true")).andReturn();
-        //.andExpect(result -> assertTrue(result.getResolvedException() instanceof IllegalArgumentException, " "));
-    Object bindingResObject = result.getModelAndView();
-    System.out.println(bindingResObject);
+    String sizeErrorString = "typeMismatch";
+    Object bindingResObject = result.getModelAndView().getModelMap()
+        .getAttribute("org.springframework.validation.BindingResult.corsa");
     BindingResult bindingResult = (BindingResult) bindingResObject;
+    assertTrue(bindingResult.getFieldError("orario").toString().contains(sizeErrorString),
+        "");
 
   }
 
   @Test
   @WithMockUser
   void mezzoNotSelected() throws Exception {
-	String url = "/corsa/submit//1/";
-    MvcResult result =
-        ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(post(url).with(csrf())))
-        		.param("corsa", "09:00:00")
-                .param("mezzo", "")
-                .param("linea", "NA08")
-                .param("conducente", "Paolo Neri")
-                .param("programmaCorseId", "1")
-                .param("andata", "true")).andReturn();
-    String sizeErrorString = "Il campo mezzo corsa non rispetta la lunghezza minima";
-    Object bindingResObject = result.getModelAndView().getModelMap()
-        .getAttribute("org.springframework.validation.BindingResult.datiCorsa");
-    BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("mezzo").toString().contains(sizeErrorString), "");
+    String url = "/corsa/submit/1/";
+    Conducente conducente = mock(Conducente.class);
+    ProgrammaCorse programmaCorse = mock(ProgrammaCorse.class);
+
+    Mezzo mezzo = mock(Mezzo.class);
+    when(risorseService.getConducente(Mockito.anyLong())).thenReturn(
+        Optional.ofNullable(conducente));
+    when(risorseService.getMezzo(Mockito.anyLong())).thenReturn(Optional.of(mezzo));
+    when(risorseService.getLinea(Mockito.anyLong())).thenReturn(Optional.of(linea));
+
+    when(programmaCorseService.getProgrammaCorseById(Mockito.anyLong()))
+        .thenReturn(Optional.of(programmaCorse));
+    mockMvc
+        .perform(post("/corsa/submit/{programmaCorseId}", "1").with(csrf())
+            .param("orario", "09:00:00")
+            .param("mezzo", "")
+            .param("linea", "1")
+            .param("conducente", "1,2,3")
+            .param("programmaCorseId", "1")
+            .param("andata", "true")).andDo(print());
+      //  .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException, ""));
   }
+
 
   @Test
   @WithMockUser
