@@ -1,5 +1,6 @@
 package com.java.tem.aimodule;
 
+import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
@@ -42,7 +43,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
 
   @Override
-  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) {
+  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) throws GenerationFailedException {
     Utente utente = accountService.getLoggedUser();
     programmaCorse.setAzienda(utente);
     programmaCorseRepository.save(programmaCorse);
@@ -65,7 +66,6 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     });
 
 
-    try {
       for (DatiGenerazione d : listaDatiGenerazione) {
         List<LocalTime> orari = new ArrayList<LocalTime>();
         orari.add(d.getOrario());
@@ -109,17 +109,14 @@ public class ProgrammaAutomaticoMaker implements Strategy {
           corsa.setOrario(Time.valueOf(d.getOrario()));
           corsaService.addCorsa(corsa);
         }
-
+      } else {
+        throw new GenerationFailedException("Impossibile trovare una generazione ottimale per i dati forniti.");
       }
-    } catch (Exception e) {
-      // TODO: handle exception
-    }
     return programmaCorse;
   }
 
   private boolean ricercaBacktrackingConducente(List<Conducente> conducenti,
-                                                ArrayList<ArrayList<Object>> illegalValuesConducenti)
-      throws IOException {
+                                                ArrayList<ArrayList<Object>> illegalValuesConducenti) {
     boolean isEmpty = true;
     int indice = -1;
     for (DatiGenerazione d : listaDatiGenerazione) {
@@ -153,8 +150,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   }
 
   private boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
-                                           ArrayList<ArrayList<Object>> illegalValuesMezzi)
-      throws IOException {
+                                           ArrayList<ArrayList<Object>> illegalValuesMezzi) {
     boolean isEmpty = true;
     int indice = -1;
     for (DatiGenerazione d : listaDatiGenerazione) {

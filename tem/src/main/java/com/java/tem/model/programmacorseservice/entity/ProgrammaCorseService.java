@@ -1,5 +1,6 @@
 package com.java.tem.model.programmacorseservice.entity;
 
+import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
@@ -21,7 +22,8 @@ public class ProgrammaCorseService {
   public ProgrammaCorseService() {
   }
 
-  public ProgrammaCorse generaProgrammaCorse(String genType, ProgrammaCorse programmaCorse) {
+  public ProgrammaCorse generaProgrammaCorse(String genType, ProgrammaCorse programmaCorse)
+          throws GenerationFailedException {
     Strategy strategy;
 
     switch (genType) {

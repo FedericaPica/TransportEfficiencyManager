@@ -1,6 +1,7 @@
 package com.java.tem.controller;
 
 import com.java.tem.exceptions.DoesNotBelongToAziendaException;
+import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.exceptions.GenerationTypeNotFoundException;
 import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
@@ -94,7 +95,7 @@ public class ProgrammaCorseController {
 
   @PostMapping("/programmacorse/automatico/submit")
   public ModelAndView insertProgrammaAutomatico(@ModelAttribute("programmaCorse")
-                                                    ProgrammaCorse programmaCorse) {
+                                                    ProgrammaCorse programmaCorse) throws GenerationFailedException {
 
     programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
 
@@ -120,7 +121,7 @@ public class ProgrammaCorseController {
 
   @PostMapping("/programmacorse/manuale/submit")
   public ModelAndView processProgrammaManuale(
-      @ModelAttribute("programmaCorse") ProgrammaCorse programmaCorse) {
+      @ModelAttribute("programmaCorse") ProgrammaCorse programmaCorse) throws GenerationFailedException {
     programmaCorseService.generaProgrammaCorse("manuale", programmaCorse);
 
     return new ModelAndView("redirect:/corsa/insert/" + programmaCorse.getId());

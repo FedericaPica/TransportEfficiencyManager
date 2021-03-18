@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.java.tem.exceptions.GenerationFailedException;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
@@ -48,7 +49,7 @@ class ProgrammaCorseServiceTest {
   }
 
   @Test
-  void generaProgrammaCorseManuale() {
+  void generaProgrammaCorseManuale() throws GenerationFailedException {
     String generationType = "manuale";
     when(programmaCorseFactory.findStrategy(StrategyType.Manuale)).thenReturn(strategy);
     when(strategy.doOperation(programmaCorse)).thenReturn(programmaCorse);
@@ -57,7 +58,7 @@ class ProgrammaCorseServiceTest {
   }
 
   @Test
-  void generaProgrammaCorseAutomatico() {
+  void generaProgrammaCorseAutomatico() throws GenerationFailedException {
     String generationType = "automatico";
     when(programmaCorseFactory.findStrategy(StrategyType.Automatico)).thenReturn(strategy);
     when(strategy.doOperation(programmaCorse)).thenReturn(programmaCorse);
@@ -66,7 +67,7 @@ class ProgrammaCorseServiceTest {
   }
 
   @Test
-  void generaProgrammaCorseDefault() {
+  void generaProgrammaCorseDefault() throws GenerationFailedException {
     String generationType = "";
     when(programmaCorseFactory.findStrategy(StrategyType.Manuale)).thenReturn(strategy);
     when(strategy.doOperation(programmaCorse)).thenReturn(programmaCorse);
@@ -75,7 +76,7 @@ class ProgrammaCorseServiceTest {
   }
 
   @Test
-  void addProgrammaCorse() {
+  void addProgrammaCorse() throws GenerationFailedException {
     ProgrammaCorse programmaCorse = new ProgrammaCorse();
     programmaCorseService.addProgrammaCorse(programmaCorse);
     verify(programmaCorseRepository, times(1)).save(programmaCorse);
