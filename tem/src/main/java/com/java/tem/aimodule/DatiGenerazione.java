@@ -108,7 +108,7 @@ public class DatiGenerazione {
   public String toString() {
 
     return "[ " + lineaCorsa + " " + traffico + " " + attesi + " " + orario
-        + " " + conducente + " " + mezzo + " ]";
+        + " " + conducente + " " + mezzo + " " + andata + " ]";
 
   }
 }

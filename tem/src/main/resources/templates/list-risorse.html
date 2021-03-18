@@ -151,6 +151,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 	      <th>Nome</th>
 	      <th>Partenza</th>
 	      <th>Destinazione</th>
+	      <th>Durata indicativa</th>
 	       <th>     </th>
 	      <th>     </th>
 	    </tr>
@@ -158,6 +159,7 @@ th{font-weight:bold; color:#c2c2c2; background-color: #01010e;}
 						<td th:text="${linea.nome}">Nome</td>
 						<td th:text="${linea.partenza}">Partenza</td>
 						<td th:text="${linea.destinazione}">Destinazione</td>
+						<td th:text="${linea.durata} + '  ' + minuti">Durata indicativa</td>
                        <td th:if="${not adminCheck}"> <button style="border: none" href="#" th:onclick="|popEdit(${linea.id}, 'linea')|"><img src"img/pen.png" th:src="@{/img/pen.png}" alt="change" style="width:15px;height:15px;"/></button></td>
                        <td th:if="${not adminCheck}"><button style="border: none" class="delete_risorsa" th:value="${linea.id}" id="linea"><img th:src="@{/img/trash.png}" alt="delete" style="width:15px;height:15px;"/></button></td>
 						
