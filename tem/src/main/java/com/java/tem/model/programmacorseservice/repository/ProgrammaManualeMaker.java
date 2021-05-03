@@ -34,8 +34,7 @@ public class ProgrammaManualeMaker implements Strategy {
 
     programmaCorse.setAzienda(utente);
 
-    programmaCorseService.addProgrammaCorse(programmaCorse);
-    return programmaCorse;
+    return programmaCorseService.addProgrammaCorse(programmaCorse);
   }
 
   public void creaCorsa(Corsa corsa, Linea linea, Set<Mezzo> mezzi, Set<Conducente> conducenti,

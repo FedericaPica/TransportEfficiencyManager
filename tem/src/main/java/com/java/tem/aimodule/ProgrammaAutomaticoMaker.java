@@ -216,7 +216,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     return false;
   }
 
-  private boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
+  public boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
     /*
      * Given a tested Orario, if Traffico is false ("No") this method confirms its validity;
      * else this will return

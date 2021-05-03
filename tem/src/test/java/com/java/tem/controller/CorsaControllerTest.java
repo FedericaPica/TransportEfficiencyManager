@@ -1,13 +1,5 @@
 package com.java.tem.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
@@ -19,11 +11,6 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
 import com.java.tem.model.programmacorseservice.repository.ProgrammaManualeMaker;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,13 +23,21 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -148,36 +143,43 @@ public class CorsaControllerTest {
     when(risorseService.getMezzo(Mockito.anyLong())).thenReturn(Optional.of(mezzo));
     when(risorseService.getLinea(Mockito.anyLong())).thenReturn(Optional.of(linea));
 
-    when(programmaCorseService.getProgrammaCorseById(Mockito.anyLong()))
-        .thenReturn(Optional.of(programmaCorse));
-    mockMvc
-        .perform(post("/corsa/submit/{programmaCorseId}", "1").with(csrf())
-            .param("orario", "09:00:00")
-            .param("mezzo", "")
-            .param("linea", "1")
-            .param("conducente", "1,2,3")
-            .param("programmaCorseId", "1")
-            .param("andata", "true")).andDo(print());
-      //  .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException, ""));
+      when(programmaCorseService.getProgrammaCorseById(Mockito.anyLong()))
+              .thenReturn(Optional.of(programmaCorse));
+      mockMvc
+              .perform(post("/corsa/submit/{programmaCorseId}", "1").with(csrf())
+                      .param("orario", "09:00:00")
+                      .param("linea", "1")
+                      .param("conducente", "1,2,3")
+                      .param("programmaCorseId", "1")
+                      .param("andata", "true")).andDo(print())
+              .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException, ""));
   }
 
 
   @Test
   @WithMockUser
   void success() throws Exception {
-    String url = "/corsa/submit//1/";
-    MvcResult result = ((ResultActions) ((MockHttpServletRequestBuilder) mockMvc.perform(post(url).with(csrf())))
-        		.param("corsa", "09:00:00")
-                .param("mezzo", "PullmanS")
-                .param("linea", "NA08")
-                .param("conducente", "Paolo Neri")
-                .param("programmaCorseId", "1")
-                .param("andata", "true")).andReturn();
-    String sizeErrorString = "";
-    Object bindingResObject = result.getModelAndView().getModelMap()
-        .getAttribute("org.springframework.validation.BindingResult.Corsa");
-    BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("mezzo").toString().contains(sizeErrorString), "");
+      String url = "/corsa/submit/1/";
+      Conducente conducente = mock(Conducente.class);
+      ProgrammaCorse programmaCorse = mock(ProgrammaCorse.class);
+
+      Mezzo mezzo = mock(Mezzo.class);
+      when(risorseService.getConducente(Mockito.anyLong())).thenReturn(
+              Optional.ofNullable(conducente));
+      when(risorseService.getMezzo(Mockito.anyLong())).thenReturn(Optional.of(mezzo));
+      when(risorseService.getLinea(Mockito.anyLong())).thenReturn(Optional.of(linea));
+
+      when(programmaCorseService.getProgrammaCorseById(Mockito.anyLong()))
+              .thenReturn(Optional.of(programmaCorse));
+      mockMvc
+              .perform(post("/corsa/submit/{programmaCorseId}", "1").with(csrf())
+                      .param("orario", "09:00:00")
+                      .param("mezzo", "1")
+                      .param("linea", "1")
+                      .param("conducente", "1,2,3")
+                      .param("programmaCorseId", "1")
+                      .param("andata", "true")).andDo(print())
+              .andExpect(status().is3xxRedirection());
   }
   
   /* End of Corsa insert tests */

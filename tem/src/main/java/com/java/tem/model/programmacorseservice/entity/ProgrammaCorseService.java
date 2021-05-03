@@ -45,8 +45,9 @@ public class ProgrammaCorseService {
   }
 
 
-  public void addProgrammaCorse(ProgrammaCorse programmaCorse) {
+  public ProgrammaCorse addProgrammaCorse(ProgrammaCorse programmaCorse) {
     programmaCorseRepository.save(programmaCorse);
+    return programmaCorse;
   }
 
   public Optional<ProgrammaCorse> getProgrammaCorseById(Long id) {
