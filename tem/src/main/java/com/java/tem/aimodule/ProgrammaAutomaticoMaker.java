@@ -42,7 +42,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
 
-  @Override
+
+@Override
   public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) throws GenerationFailedException {
     Utente utente = accountService.getLoggedUser();
     programmaCorse.setAzienda(utente);
@@ -250,15 +251,14 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       return true;
     }
 
-    int j;
-    for (j = illegalValuesConducenti.size() - 1; j >= 0; j--) {
+    for (int j = illegalValuesConducenti.size() - 1; j >= 0; j--) {
       ArrayList<Object> o = illegalValuesConducenti.get(j);
       Conducente illegalConducente = (Conducente) o.get(0);
       LocalTime illegalStartRange = (LocalTime) o.get(1);
       LocalTime illegalEndRange = (LocalTime) o.get(2);
 
       if (illegalConducente.getCodiceFiscale().equals(conducente.getCodiceFiscale())) {
-    	  //System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
+    	  System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
         if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
             posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
         	//System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
@@ -463,4 +463,52 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   public StrategyType getStrategyType() {
     return StrategyType.Automatico;
   }
+
+public AccountService getAccountService() {
+	return accountService;
+}
+
+public void setAccountService(AccountService accountService) {
+	this.accountService = accountService;
+}
+
+public DatiGenerazioneRepository getDatiGenerazioneRepository() {
+	return datiGenerazioneRepository;
+}
+
+public void setDatiGenerazioneRepository(DatiGenerazioneRepository datiGenerazioneRepository) {
+	this.datiGenerazioneRepository = datiGenerazioneRepository;
+}
+
+public RisorseService getRisorseService() {
+	return risorseService;
+}
+
+public void setRisorseService(RisorseService risorseService) {
+	this.risorseService = risorseService;
+}
+
+public ProgrammaCorseRepository getProgrammaCorseRepository() {
+	return programmaCorseRepository;
+}
+
+public void setProgrammaCorseRepository(ProgrammaCorseRepository programmaCorseRepository) {
+	this.programmaCorseRepository = programmaCorseRepository;
+}
+
+public CorsaService getCorsaService() {
+	return corsaService;
+}
+
+public void setCorsaService(CorsaService corsaService) {
+	this.corsaService = corsaService;
+}
+
+public List<DatiGenerazione> getListaDatiGenerazione() {
+	return listaDatiGenerazione;
+}
+
+public void setListaDatiGenerazione(List<DatiGenerazione> listaDatiGenerazione) {
+	this.listaDatiGenerazione = listaDatiGenerazione;
+}
 }
