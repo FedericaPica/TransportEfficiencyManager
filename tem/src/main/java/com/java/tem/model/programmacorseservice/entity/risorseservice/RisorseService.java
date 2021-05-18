@@ -25,6 +25,10 @@ public class RisorseService {
 
   }
 
+  public void setLineaRepository(LineaRepository lineaRepository) {
+    this.lineaRepository = lineaRepository;
+  }
+
   public void addMezzo(Mezzo mezzo) {
     mezzoRepository.save(mezzo);
   }

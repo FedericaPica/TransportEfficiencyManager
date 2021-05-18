@@ -13,17 +13,12 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseSer
 import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
 import com.java.tem.model.programmacorseservice.repository.StrategyType;
-import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Time;
+import java.time.LocalTime;
+import java.util.*;
 
 @Repository
 public class ProgrammaAutomaticoMaker implements Strategy {
@@ -258,7 +253,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       LocalTime illegalEndRange = (LocalTime) o.get(2);
 
       if (illegalConducente.getCodiceFiscale().equals(conducente.getCodiceFiscale())) {
-    	  System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
+    	  //System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
         if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
             posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
         	//System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
@@ -281,32 +276,30 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
     // Backscrolling listaDatiGenerazione
     for (int i = currentIdx - 1; i >= 0; i--) {
-      DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
+        DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
+        if (conducente.getCodiceFiscale().equals(posizionePrecedente.getConducente())) {
+          //System.out.println(conducente.getCognome() + " ha già effettuato una corsa");
+          Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
+          Linea lineaPrecedente = (Linea) lP.clone();
+          if (!posizionePrecedente.isAndata()) {
+            lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+          }
+          //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
 
-      if (conducente.getCodiceFiscale().equals(posizionePrecedente.getConducente())) {
-    	  //System.out.println(conducente.getCognome() + " ha già effettuato una corsa");
-        Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
-        Linea lineaPrecedente = (Linea) lP.clone();
-        if (!posizionePrecedente.isAndata()) {
-          lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+          /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
+          	System.out.println("OK: il luogo della sua precedente destinazione è uguale a quello dell'attuale partenza");
+          }
+          if (!lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
+          	System.out.println("NOT OK: il luogo della sua precedente destinazione è diverso da quello dell'attuale partenza");
+          }*/
+          return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
         }
-        //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
-        
-        /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-        	System.out.println("OK: il luogo della sua precedente destinazione è uguale a quello dell'attuale partenza");
-        }
-        if (!lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-        	System.out.println("NOT OK: il luogo della sua precedente destinazione è diverso da quello dell'attuale partenza");
-        }*/
-        return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
-    }
     //System.out.println("OK: " + conducente.getCognome() + " non ha ancora effettuato nessuna corsa, quindi è disponibile");
     return true;
   }
-
-
-  private boolean forwardConducente(Conducente conducente,
+  
+  public boolean forwardConducente(Conducente conducente,
                                     ArrayList<ArrayList<Object>> illegalValuesConducenti,
                                     DatiGenerazione posizioneCorrente,
                                     List<Conducente> conducenti) {
