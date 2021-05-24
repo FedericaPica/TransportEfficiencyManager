@@ -411,7 +411,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   }
 
 
-  private boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
+  public boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
                                DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
 
     Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();

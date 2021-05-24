@@ -43,8 +43,8 @@ import static org.mockito.Mockito.*;
 
 @AutoConfigureMockMvc
 @WebAppConfiguration
-class ProgrammaAutomaticoMakerTest {
-
+class ProgrammaAutomaticoMakerConducenteTest {
+	
     @InjectMocks
     private AccountService accountService;
     @InjectMocks
@@ -111,55 +111,10 @@ class ProgrammaAutomaticoMakerTest {
 
     }
 
-    @Test
-    void doOperation() {
-    }
-
-    /* START CHECK ORARIO TESTS*/
-    @Test
-    void checkOrarioTrue() {
-        programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
-        LocalTime orario = LocalTime.of(9, 31, 0, 0);
-        assertTrue(programmaAutomaticoMaker.checkOrario(testDatiGen, orario));
-    }
-    
-    @Test
-    void checkOrarioFalse() {
-        programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
-        LocalTime orario = LocalTime.of(10, 35, 0, 0);
-        assertFalse(programmaAutomaticoMaker.checkOrario(testDatiGen, orario));
-    }
-    
-    @Test
-    void checkOrarioEqualsNoTraffico() {
-        programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
-        LocalTime orario = LocalTime.of(9, 31, 0, 0);
-        testDatiGen.setTraffico("Si");
-        assertFalse(programmaAutomaticoMaker.checkOrario(testDatiGen, orario));
-    }
-
-    @Test
-    void checkOrarioNotEqualsTraffico() {
-        programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
-        LocalTime orario = LocalTime.of(9, 35, 0, 0);
-        testDatiGen.setTraffico("Si");
-        assertTrue(programmaAutomaticoMaker.checkOrario(testDatiGen, orario));
-    }
-    
-    @Test
-    void checkOrarioNotEqualsNoTraffico() {
-        LocalTime orario = LocalTime.of(9, 35, 0, 0);
-        testDatiGen.setTraffico("No");
-        assertFalse(programmaAutomaticoMaker.checkOrario(testDatiGen, orario));
-    }
-    
-    /* END CHECK ORARIO TESTS */
-    
-    
     /* START CHECK CONDUCENTE TESTS*/
     
     @Test
-    void checkConducenteFirstPosition() {
+    void checkConducente1() {
     	illegalValuesConducenti = new ArrayList<ArrayList<Object>>();
     	listaDatiGenerazione = mock(List.class);
     	programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
@@ -168,7 +123,7 @@ class ProgrammaAutomaticoMakerTest {
     }
 
     @Test
-    void checkConducenteXPositionFalse() {
+    void checkConducente2() {
     	listaDatiGenerazione = mock(List.class);
     	String codiceFiscale = "TestCF";
         item.add(conducente);
@@ -187,7 +142,7 @@ class ProgrammaAutomaticoMakerTest {
 
 
     @Test
-    void checkConducenteSecond() {
+    void checkConducente3() {
         listaDatiGenerazione = mock(List.class);
         String codiceFiscale = "TestCF";
         when(mock(ArrayList.class).get(anyInt())).thenReturn(testDatiGen);
@@ -201,7 +156,7 @@ class ProgrammaAutomaticoMakerTest {
     
     
     @Test
-    void checkConducenteSecondIsAndataFalse() {
+    void checkConducente4() {
         listaDatiGenerazione = mock(List.class);
         String codiceFiscale = "TestCF";
         when(mock(ArrayList.class).get(anyInt())).thenReturn(testDatiGen);
@@ -214,7 +169,7 @@ class ProgrammaAutomaticoMakerTest {
     }
     
    @Test
-    void checkConducenteXPosition2() {
+    void checkConducente5() {
         listaDatiGenerazione = mock(List.class);
         String codiceFiscale = "TestsF";
         item.add(conducente);
@@ -235,7 +190,7 @@ class ProgrammaAutomaticoMakerTest {
     }
    
    @Test
-   void checkConducenteXPosition3() {
+   void checkConducente6() {
        listaDatiGenerazione = mock(List.class);
        String codiceFiscale = "TestCF";
        item.add(conducente);
@@ -264,7 +219,7 @@ class ProgrammaAutomaticoMakerTest {
    }
    
    @Test
-   void checkConducenteXPosition4() {
+   void checkConducente7() {
        listaDatiGenerazione = mock(List.class);
        String codiceFiscale = "TestCF";
        item.add(conducente);
@@ -295,7 +250,7 @@ class ProgrammaAutomaticoMakerTest {
 
    
    @Test
-   void checkConducenteXPosition5() {
+   void checkConducente8() {
        listaDatiGenerazione = mock(List.class);
        item.add(conducente);
        item.add(LocalTime.of(9, 30, 30));
@@ -323,7 +278,7 @@ class ProgrammaAutomaticoMakerTest {
    }
    
    @Test
-   void checkConducenteXPosition6() {
+   void checkConducente9() {
        listaDatiGenerazione = mock(List.class);
        Conducente conducente2 = new Conducente();
        conducente2.setCodiceFiscale("TestCF2");
@@ -354,18 +309,7 @@ class ProgrammaAutomaticoMakerTest {
        when(listaDatiGenerazione.get(anyInt())).thenReturn(testDatiGen2);
        assertTrue(programmaAutomaticoMaker.checkConducente(conducente, testDatiGen, illegalValuesConducenti));
    }
-   
-   @Test
-   void checkConducenteSecond2() {
-       listaDatiGenerazione = mock(List.class);
-       String codiceFiscale = "TestsF";
-       item.add(conducente);
-       item.add(LocalTime.of(9, 30, 30));
-       item.add(LocalTime.of(10, 30, 30));
-       illegalValuesConducenti.add(item);
-
-       
-   }
+  
 
    /* END CHECK CONDUCENTE TESTS */ 
 
@@ -443,10 +387,6 @@ class ProgrammaAutomaticoMakerTest {
        testDatiGen2.setAttesi(26);
        testDatiGen2.setLineaCorsa("TestLinea2");
        testDatiGen2.setTraffico("No");
-       Conducente conducente2 = new Conducente();
-       conducente2.setCodiceFiscale("TestCF2");
-       conducente2.setCognome("Cognome");
-       conducente2.setNome("Nome");
        programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
 	   when(risorseService.getLineaByName(any(String.class))).thenReturn(optLinea);
 	   when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(0);
