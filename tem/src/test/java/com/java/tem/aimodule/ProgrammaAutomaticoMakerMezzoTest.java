@@ -526,6 +526,126 @@ public class ProgrammaAutomaticoMakerMezzoTest {
 	   
 	   /* END FORWARD MEZZO TESTS */
 	    
+	   /* START RICERCABACKTRACKING MEZZO TESTS*/
 
+	    @Test
+	    void ricercaBacktrackingMezzo1() {
+	        listaDatiGenerazione.add(testDatiGen);
+	        assertTrue(programmaAutomaticoMaker.ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi));
+	    }
+
+	    @Test
+	    void ricercaBacktrackingMezzo2() {
+	        testDatiGen.setMezzo(null);
+	        Mezzo mezzo2 = new Mezzo();
+	        mezzo2.setId(1L);
+	        mezzo2.setTarga("AA123AA2");
+	        mezzo2.setCapienza(352);
+	        mezzo2.setTipo("TestMezzo2");
+	        listaDatiGenerazione.add(testDatiGen);
+
+	        when(risorseService.getLineaByName(any(String.class))).thenReturn(Optional.of(linea));
+	        programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
+
+	        assertTrue(programmaAutomaticoMaker.ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi));
+	    }
+
+	    @Test
+	    void ricercaBacktrackingMezzo3() {
+	        Mezzo mezzo2 = new Mezzo();
+	        DatiGenerazione testDatiGen2 = new DatiGenerazione();
+	        testDatiGen2.setConducente("Conducente");
+	        testDatiGen2.setMezzo(null);
+	        testDatiGen2.setOrario(LocalTime.of(9, 21, 0, 0));
+	        testDatiGen2.setAndata(false);
+	        testDatiGen2.setAziendaId(1L);
+	        testDatiGen2.setAttesi(26);
+	        testDatiGen2.setLineaCorsa("TestLinea");
+	        testDatiGen2.setTraffico("No");
+	        mezzo2.setId(1L);
+	        mezzo2.setTarga("AA123AA2");
+	        mezzo2.setCapienza(352);
+	        mezzo2.setTipo("TestMezzo2");
+	        mezzi.add(mezzo2);
+	        item.add(mezzo);
+	        item.add(LocalTime.of(9, 15, 30));
+	        item.add(LocalTime.of(10, 30, 30));
+	        illegalValuesMezzi.add(item);
+	        listaDatiGenerazione.add(testDatiGen);
+	        listaDatiGenerazione.add(testDatiGen2);
+
+	        when(risorseService.getLineaByName(any(String.class))).thenReturn(Optional.of(linea));
+	        programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
+
+	        assertFalse(programmaAutomaticoMaker.ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi));
+	    }
+	    
+	    @Test
+	    void ricercaBacktrackingMezzo4() {
+	        testDatiGen.setMezzo(null);
+	        Mezzo mezzo2 = new Mezzo();
+	        DatiGenerazione testDatiGen2 = new DatiGenerazione();
+	        testDatiGen2.setConducente("TestCF2");
+	        testDatiGen2.setMezzo("TestMezzo");
+	        testDatiGen2.setOrario(LocalTime.of(9, 33, 0, 0));
+	        testDatiGen2.setAndata(false);
+	        testDatiGen2.setAziendaId(1L);
+	        testDatiGen2.setAttesi(26);
+	        testDatiGen2.setLineaCorsa("TestLinea");
+	        testDatiGen2.setTraffico("No");
+	        mezzo2.setId(1L);
+	        mezzo2.setTarga("AA123AA2");
+	        mezzo2.setCapienza(352);
+	        mezzo2.setTipo("TestMezzo2");
+	        mezzi.add(mezzo2);
+	        mezzi.remove(0);
+	        mezzi.add(mezzo);
+	        item.add(mezzo);
+	        item.add(LocalTime.of(9, 15, 30));
+	        item.add(LocalTime.of(10, 30, 30));
+	        illegalValuesMezzi.add(item);
+	        listaDatiGenerazione.add(testDatiGen);
+	        listaDatiGenerazione.add(testDatiGen2);
+
+	        when(risorseService.getLineaByName(any(String.class))).thenReturn(Optional.of(linea));
+	        programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
+
+	        assertTrue(programmaAutomaticoMaker.ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi));
+	    }
+	    
+	    @Test
+	    void ricercaBacktrackingMezzo5() {
+	        testDatiGen.setMezzo(null);
+	        Mezzo mezzo2 = new Mezzo();
+	        DatiGenerazione testDatiGen2 = new DatiGenerazione();
+	        testDatiGen2.setConducente("TestCF2");
+	        testDatiGen2.setMezzo("TestMezzo");
+	        testDatiGen2.setOrario(LocalTime.of(9, 33, 0, 0));
+	        testDatiGen2.setAndata(false);
+	        testDatiGen2.setAziendaId(1L);
+	        testDatiGen2.setAttesi(26);
+	        testDatiGen2.setLineaCorsa("TestLinea");
+	        testDatiGen2.setTraffico("No");
+	        mezzo2.setId(1L);
+	        mezzo2.setTarga("AA123AA2");
+	        mezzo2.setCapienza(352);
+	        mezzo2.setTipo("TestMezzo2");
+	        mezzi.add(mezzo2);
+	        mezzi.remove(0);
+	        mezzi.add(mezzo);
+	        item.add(mezzo);
+	        item.add(LocalTime.of(9, 15, 30));
+	        item.add(LocalTime.of(10, 30, 30));
+	        illegalValuesMezzi.add(item);
+	        listaDatiGenerazione.add(testDatiGen);
+	        listaDatiGenerazione.add(testDatiGen2);
+
+	        when(risorseService.getLineaByName(any(String.class))).thenReturn(Optional.of(linea));
+	        programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
+
+	        assertTrue(programmaAutomaticoMaker.ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi));
+	    }
+
+	    /* END RICERCABACKTRACKING MEZZO TESTS*/
 
 }

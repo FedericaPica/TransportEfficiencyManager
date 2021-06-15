@@ -486,7 +486,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
 
     @Test
     void ricercaBacktrackingConducente3() {
-        //testDatiGen.setConducente(null);
         Conducente conducente2 = new Conducente();
         DatiGenerazione testDatiGen2 = new DatiGenerazione();
         testDatiGen2.setConducente(null);
@@ -578,5 +577,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
         assertTrue(programmaAutomaticoMaker.ricercaBacktrackingConducente(conducenti, illegalValuesConducenti));
     }
 
+    /* END RICERCABACKTRACKING CONDUCENTE TESTS*/
     
 }

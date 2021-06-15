@@ -164,7 +164,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     return false;
   }
 
-  private boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
+  public boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
                                            ArrayList<ArrayList<Object>> illegalValuesMezzi) {
 	//System.out.println("iterazione");
     boolean isEmpty = true;
