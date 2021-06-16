@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /** DAO Class.
  *
  */
+@SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails {
   private final Utente user;
   private final Profilo profilo;

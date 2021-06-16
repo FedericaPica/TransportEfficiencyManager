@@ -2,7 +2,6 @@ package com.java.tem.aimodule;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.programmacorseservice.entity.CorsaService;
@@ -10,11 +9,9 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
-import com.java.tem.model.programmacorseservice.repository.LineaRepository;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,10 +37,6 @@ public class ProgrammaAutomaticoMakerOtherTest {
   @InjectMocks
   private ProgrammaAutomaticoMaker programmaAutomaticoMaker;
 
-  private static Logger logger = Logger.getLogger("mainLogger");
-
-  private ArrayList<Object> item = new ArrayList<Object>();
-
   @MockBean
   private static Conducente conducente;
   @MockBean
@@ -53,15 +46,10 @@ public class ProgrammaAutomaticoMakerOtherTest {
   @MockBean
   private static DatiGenerazione testDatiGen;
 
-  private java.util.Optional<Linea> optLinea;
-  private List<Conducente> conducenti = new ArrayList<Conducente>();
-
-
   @BeforeEach
   void setUp() {
     programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
     illegalValuesConducenti = new ArrayList<ArrayList<Object>>();
-    LineaRepository lineaRepository = mock(LineaRepository.class);
     risorseService = new RisorseService();
     testDatiGen = new DatiGenerazione();
     testDatiGen.setConducente("TestConducente");

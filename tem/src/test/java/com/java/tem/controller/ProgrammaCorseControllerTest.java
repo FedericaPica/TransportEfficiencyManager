@@ -35,15 +35,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
-import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @WebAppConfiguration
+@SuppressWarnings("unchecked")
 public class ProgrammaCorseControllerTest {
 
-  @Autowired
-  private WebApplicationContext wac;
   @Autowired
   private MockMvc mockMvc;
   @MockBean
@@ -64,7 +62,7 @@ public class ProgrammaCorseControllerTest {
 
   @Test
   @WithMockUser
-  void DataInizioBadFormat() throws Exception {
+  void dataInizioBadFormat() throws Exception {
     String url = "/programmacorse/manuale/submit";
     mockMvc.perform(post(url).with(csrf())
         .param("inizioValidita", "2021-02-dd")
@@ -75,13 +73,13 @@ public class ProgrammaCorseControllerTest {
 
   @Test
   @WithMockUser
-  void ProgrammaCorseAllCorrect() throws Exception {
-    String url = "/programmacorse/manuale/submit";
+  void programmaCorseAllCorrect() throws Exception {
     Utente utente = new Utente();
     utente.setId(1L);
     when(accountService.getUserByUsername(Mockito.anyString())).thenReturn(utente);
     when(userRepository.findByEmail(Mockito.anyString())).thenReturn(utente);
-    MvcResult result = mockMvc.perform(post(url).with(csrf())
+    String url = "/programmacorse/manuale/submit";
+    mockMvc.perform(post(url).with(csrf())
         .param("inizioValidita", "2021-02-09")
         .param("fineValidita", "2021-09-12")).andReturn();
   }
@@ -102,8 +100,8 @@ public class ProgrammaCorseControllerTest {
   @WithMockUser
   void programmaCorseManualeInsertNoResources() throws Exception {
     String url = "/programmacorse/insert";
-    String errorValue = "Una o più risorse mancanti. Per generare un programma " +
-        "è necessario disporre di almeno una risorsa per tipo.";
+    String errorValue = "Una o più risorse mancanti. Per generare un programma " 
+        + "è necessario disporre di almeno una risorsa per tipo.";
     String type = "manuale";
     MvcResult response = mockMvc.perform(get(url)
         .param("type", type))
@@ -114,10 +112,10 @@ public class ProgrammaCorseControllerTest {
 
   @Test
   @WithMockUser
-  void programmaCorseInsertConducentiGTZero() throws Exception {
+  void programmaCorseInsertConducentiGtZero() throws Exception {
     String url = "/programmacorse/insert";
-    String errorValue = "Una o più risorse mancanti. Per generare un programma " +
-        "è necessario disporre di almeno una risorsa per tipo.";
+    String errorValue = "Una o più risorse mancanti. Per generare un programma " 
+        + "è necessario disporre di almeno una risorsa per tipo.";
     String type = "manuale";
     Utente utente = mock(Utente.class);
     //ConducenteRepository conducenteRepository = mock(ConducenteRepository.class);
@@ -133,11 +131,7 @@ public class ProgrammaCorseControllerTest {
 
   @Test
   @WithMockUser
-  void programmaCorseInsertConducentiMezziGTZero() throws Exception {
-    String url = "/programmacorse/insert";
-    String errorValue = "Una o più risorse mancanti. Per generare un programma " +
-        "è necessario disporre di almeno una risorsa per tipo.";
-    String type = "manuale";
+  void programmaCorseInsertConducentiMezziGtZero() throws Exception {
     Utente utente = mock(Utente.class);
     //ConducenteRepository conducenteRepository = mock(ConducenteRepository.class);
     List<Conducente> conducentiList = new ArrayList<Conducente>();
@@ -146,19 +140,20 @@ public class ProgrammaCorseControllerTest {
     mezziList.add(mock(Mezzo.class));
     when(risorseService.getConducentiByAzienda(utente)).thenReturn(conducentiList);
     when(risorseService.getMezziByAzienda(utente)).thenReturn(mezziList);
+    String url = "/programmacorse/insert";
+    String type = "manuale";
     MvcResult response = mockMvc.perform(get(url)
         .param("type", type))
         .andReturn();
     ModelMap mev = response.getModelAndView().getModelMap();
+    String errorValue = "Una o più risorse mancanti. Per generare un programma " 
+           + "è necessario disporre di almeno una risorsa per tipo.";
     assertTrue(errorValue.equals(mev.getAttribute("error")), "");
   }
 
   @Test
   @WithMockUser
-  void programmaCorseInsertAllGTZero() throws Exception {
-    String url = "/programmacorse/insert";
-    String errorValue = "Una o più risorse mancanti. Per generare un programma " +
-        "è necessario disporre di almeno una risorsa per tipo.";
+  void programmaCorseInsertAllGtZero() throws Exception {
     String type = "manuale";
     Utente utente = mock(Utente.class);
     List<Conducente> conducentiList = mock(List.class);
@@ -176,7 +171,7 @@ public class ProgrammaCorseControllerTest {
 
     when(risorseService.getLineeByAzienda(utente)).thenReturn(lineeList);
 
-    System.out.println(conducentiList.size());
+    String url = "/programmacorse/insert";
     MvcResult response = (MvcResult) mockMvc.perform(get(url)
         .param("type", type))
         .andReturn();

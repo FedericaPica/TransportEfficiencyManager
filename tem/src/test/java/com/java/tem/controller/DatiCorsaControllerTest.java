@@ -29,7 +29,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,8 +36,6 @@ import org.springframework.web.context.WebApplicationContext;
 //@RunWith(SpringJUnit4ClassRunner.class)
 public class DatiCorsaControllerTest {
 
-  @Autowired
-  private WebApplicationContext wac;
   @Autowired
   private MockMvc mockMvc;
   @MockBean
@@ -150,7 +147,6 @@ public class DatiCorsaControllerTest {
   @Test
   @WithMockUser
   void showUpdateFormDatiCorsaNotExist() throws Exception {
-    DatiCorsa datiCorsa = mock(DatiCorsa.class);
     mockMvc.perform(get("/daticorsa/edit/{id}", Mockito.anyLong()).with(csrf()))
         .andExpect(result ->
             assertTrue(result.getResolvedException() instanceof DatiCorsaNotExistException, "")

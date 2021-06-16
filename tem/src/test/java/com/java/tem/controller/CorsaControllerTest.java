@@ -36,7 +36,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,15 +44,13 @@ import org.springframework.web.context.WebApplicationContext;
 public class CorsaControllerTest {
 
   @Autowired
-  private WebApplicationContext wac;
-  @Autowired
   private MockMvc mockMvc;
   @MockBean
   private RisorseService risorseService;
   @MockBean
   private AccountService accountService;
   @InjectMocks
-  private CorsaController CorsaController;
+  private CorsaController corsaController;
   @MockBean
   private ProgrammaCorseService programmaCorseService;
   @InjectMocks
@@ -63,9 +60,6 @@ public class CorsaControllerTest {
 
   private List<Long> mezzi;
   private List<Long> conducenti;
-  private List<Linea> lineeAzienda;
-  private List<Conducente> conducentiAzienda;
-  private List<Mezzo> mezziAzienda;
   private Linea linea;
 
   /*
@@ -87,7 +81,6 @@ public class CorsaControllerTest {
   @Test
   @WithMockUser
   void lineaNotSelected() throws Exception {
-    String url = "/corsa/submit/1/";
 
     mockMvc
         .perform(post("/corsa/submit/{programmaCorseId}", "1").with(csrf())
@@ -134,7 +127,6 @@ public class CorsaControllerTest {
   @Test
   @WithMockUser
   void mezzoNotSelected() throws Exception {
-    String url = "/corsa/submit/1/";
     Conducente conducente = mock(Conducente.class);
     ProgrammaCorse programmaCorse = mock(ProgrammaCorse.class);
 
@@ -161,7 +153,6 @@ public class CorsaControllerTest {
   @Test
   @WithMockUser
   void success() throws Exception {
-    String url = "/corsa/submit/1/";
     Conducente conducente = mock(Conducente.class);
     ProgrammaCorse programmaCorse = mock(ProgrammaCorse.class);
 

@@ -31,7 +31,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,8 +38,6 @@ import org.springframework.web.context.WebApplicationContext;
 //@RunWith(SpringJUnit4ClassRunner.class)
 public class RisorseControllerTest {
 
-  @Autowired
-  private WebApplicationContext wac;
   @Autowired
   private MockMvc mockMvc;
   @MockBean
@@ -198,8 +195,6 @@ public class RisorseControllerTest {
   @Test
   @WithMockUser
   void showUpdateFormMezzoNotExists() throws Exception {
-    Mezzo mezzo = mock(Mezzo.class);
-    //when(risorseService.getMezzo(0L)).thenReturn(Optional.empty());
     mockMvc.perform(get("/risorse/mezzo/edit/{id}", Mockito.anyLong()).with(csrf()))
         .andExpect(result ->
             assertTrue(result.getResolvedException() instanceof ResourcesDoesNotExistException, "")
@@ -209,7 +204,6 @@ public class RisorseControllerTest {
   @Test
   @WithMockUser
   void showUpdateFormLineaNotExists() throws Exception {
-    Mezzo mezzo = mock(Mezzo.class);
     mockMvc.perform(get("/risorse/linea/edit/{id}", Mockito.anyLong()).with(csrf()))
         .andExpect(result ->
             assertTrue(result.getResolvedException() instanceof ResourcesDoesNotExistException, "")
@@ -219,7 +213,6 @@ public class RisorseControllerTest {
   @Test
   @WithMockUser
   void showUpdateFormConducenteNotExists() throws Exception {
-    Mezzo mezzo = mock(Mezzo.class);
     mockMvc.perform(get("/risorse/conducente/edit/{id}", Mockito.anyLong()).with(csrf()))
         .andExpect(result ->
             assertTrue(result.getResolvedException() instanceof ResourcesDoesNotExistException, "")
@@ -399,11 +392,6 @@ public class RisorseControllerTest {
         .param("partenza", "Napoli")
         .param("durata", "35")
         .param("destinazione", "Avellino")).andDo(print());
-    String sizeErrorString = "[nome],50,2";
-    /*Object bindingResObject = result.getModelAndView().getModelMap()
-        .getAttribute("org.springframework.validation.BindingResult.linea");
-    BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("nome").toString().contains(sizeErrorString), "");*/
   }
 
   @Test
@@ -423,7 +411,6 @@ public class RisorseControllerTest {
   @Test
   @WithMockUser
   void updateLineaDestinazioneFailure() throws Exception {
-    String url = "/risorse/submit/linea";
     MvcResult result = mockMvc.perform(post("/risorse/update/linea/{id}", "1").with(csrf())
         .param("nome", "NA08")
         .param("partenza", "Napoli")

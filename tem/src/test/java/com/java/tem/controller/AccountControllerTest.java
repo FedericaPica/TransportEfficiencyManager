@@ -28,10 +28,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.context.WebApplicationContext;
 
 
-@SuppressWarnings("JUnitTestMethodWithNoAssertions")
 @SpringBootTest
 @AutoConfigureMockMvc
 @WebAppConfiguration
@@ -39,9 +37,6 @@ class AccountControllerTest {
 
   @InjectMocks
   private AccountController accountController;
-
-  @Autowired
-  private WebApplicationContext wac;
 
   @Autowired
   private MockMvc mockMvc;
@@ -61,9 +56,6 @@ class AccountControllerTest {
 
   @Test
   void getIndexTest() throws Exception {
-    Utente utente = new Utente();
-    //mockMvc.perform(post("/process_register")
-    //   .param("rawPassword", "Lel")).andExpect(status().is5xxServerError());
     mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
   }
 
@@ -285,7 +277,6 @@ class AccountControllerTest {
 
   @Test
   void processRegisterOk() throws Exception {
-    String url = "/process_register";
     when(accountService.checkUserExistanceByEmail(ArgumentMatchers.anyString()))
         .thenReturn(Boolean.FALSE);
 
@@ -295,7 +286,7 @@ class AccountControllerTest {
     utente.setEmail("azienda@gmail.com");
 
     when(accountService.registerUser(utente, dettaglioUtente)).thenReturn(utente);
-
+    String url = "/process_register";
     mockMvc.perform(post(url).with(csrf())
         .param("email", "azienda@gmail.com")
         .param("password", "password")

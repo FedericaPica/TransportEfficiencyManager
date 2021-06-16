@@ -39,7 +39,6 @@ public class ProgrammaCorseService {
     switch (genType) {
       case "manuale":
         strategy = programmaCorseFactory.findStrategy(StrategyType.Manuale);
-        ProgrammaCorse returnProgrammaCorse = strategy.doOperation(programmaCorse);
         break;
       case "automatico":
         strategy = programmaCorseFactory.findStrategy(StrategyType.Automatico);

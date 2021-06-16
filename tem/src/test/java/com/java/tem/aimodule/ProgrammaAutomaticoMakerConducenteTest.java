@@ -18,7 +18,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,6 +29,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @AutoConfigureMockMvc
 @WebAppConfiguration
+@SuppressWarnings("unchecked")
 class ProgrammaAutomaticoMakerConducenteTest {
 
   @InjectMocks
@@ -45,7 +45,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @InjectMocks
   private ProgrammaAutomaticoMaker programmaAutomaticoMaker;
 
-  private static Logger logger = Logger.getLogger("mainLogger");
 
   private ArrayList<Object> item = new ArrayList<Object>();
 
@@ -65,7 +64,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   void setUp() {
     programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
     illegalValuesConducenti = new ArrayList<ArrayList<Object>>();
-    LineaRepository lineaRepository = mock(LineaRepository.class);
     risorseService = new RisorseService();
     testDatiGen = new DatiGenerazione();
     testDatiGen.setConducente("TestConducente");
@@ -76,6 +74,7 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen.setAttesi(26);
     testDatiGen.setLineaCorsa("TestLinea");
     testDatiGen.setTraffico("No");
+    LineaRepository lineaRepository = mock(LineaRepository.class);
     risorseService.setLineaRepository(lineaRepository);
     programmaAutomaticoMaker.setAccountService(accountService);
     programmaAutomaticoMaker.setCorsaService(corsaService);
@@ -113,14 +112,14 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @Test
   void checkConducente2() {
     listaDatiGenerazione = mock(List.class);
-    String codiceFiscale = "TestCF";
     item.add(conducente);
     item.add(LocalTime.of(9, 30, 30));
     item.add(LocalTime.of(10, 30, 30));
     illegalValuesConducenti.add(item);
 
-    LocalTime testTime = LocalTime.of(9, 31, 30);
+    String codiceFiscale = "TestCF";
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
+    LocalTime testTime = LocalTime.of(9, 31, 30);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(1);
     Mockito.when(mock(Conducente.class).getCodiceFiscale()).thenReturn(codiceFiscale);
     Mockito.when(mock(DatiGenerazione.class).getOrario()).thenReturn(testTime);
@@ -162,17 +161,14 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @Test
   void checkConducente5() {
     listaDatiGenerazione = mock(List.class);
-    String codiceFiscale = "TestsF";
     item.add(conducente);
     item.add(LocalTime.of(9, 30, 30));
     item.add(LocalTime.of(10, 30, 30));
     illegalValuesConducenti.add(item);
 
-    LocalTime testTime = LocalTime.of(11, 31, 30);
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(5);
-    //Mockito.when(mock(LocalTime.class).isAfter(testTime)).thenReturn(false);
-
+    String codiceFiscale = "TestsF";
     when(mock(ArrayList.class).get(anyInt())).thenReturn(testDatiGen);
     when(risorseService.getLineaByName(any(String.class))).thenReturn(Optional.of(linea));
     when(mock(Conducente.class).getCodiceFiscale()).thenReturn(codiceFiscale);
@@ -184,7 +180,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @Test
   void checkConducente6() {
     listaDatiGenerazione = mock(List.class);
-    String codiceFiscale = "TestCF";
     item.add(conducente);
     item.add(LocalTime.of(9, 30, 30));
     item.add(LocalTime.of(10, 30, 30));
@@ -193,8 +188,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen.setOrario(LocalTime.of(11, 30, 00));
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(1);
-    //Mockito.when(mock(LocalTime.class).isAfter(testTime)).thenReturn(false);
-    //System.out.println(testDatiGen);
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
@@ -214,7 +207,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @Test
   void checkConducente7() {
     listaDatiGenerazione = mock(List.class);
-    String codiceFiscale = "TestCF";
     item.add(conducente);
     item.add(LocalTime.of(9, 30, 30));
     item.add(LocalTime.of(10, 30, 30));
@@ -223,8 +215,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen.setOrario(LocalTime.of(11, 30, 00));
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(1);
-    //Mockito.when(mock(LocalTime.class).isAfter(testTime)).thenReturn(false);
-    //System.out.println(testDatiGen);
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF2");
     testDatiGen2.setMezzo("TestMezzo2");
@@ -254,8 +244,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen.setOrario(LocalTime.of(7, 30, 00));
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(1);
-    //Mockito.when(mock(LocalTime.class).isAfter(testTime)).thenReturn(false);
-    //System.out.println(testDatiGen);
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
@@ -288,7 +276,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen.setOrario(LocalTime.of(7, 30, 00));
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(1);
-    //Mockito.when(mock(LocalTime.class).isAfter(testTime)).thenReturn(false);
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
@@ -398,7 +385,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   void forwardConducente5() {
 
     listaDatiGenerazione = mock(List.class);
-    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     Conducente conducente2 = new Conducente();
     conducente2.setCodiceFiscale("TestCF2");
     conducente2.setCognome("Cognome2");
@@ -407,6 +393,7 @@ class ProgrammaAutomaticoMakerConducenteTest {
     item.add(LocalTime.of(11, 30, 30));
     item.add(LocalTime.of(13, 30, 30));
     illegalValuesConducenti.add(item);
+    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
     testDatiGen2.setOrario(LocalTime.of(10, 00, 0, 0));
@@ -430,7 +417,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   void forwardConducente6() {
 
     listaDatiGenerazione = mock(List.class);
-    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     Conducente conducente2 = new Conducente();
     conducente2.setCodiceFiscale("TestCF2");
     conducente2.setCognome("Cognome2");
@@ -440,6 +426,7 @@ class ProgrammaAutomaticoMakerConducenteTest {
     item.add(LocalTime.of(7, 30, 30));
     item.add(LocalTime.of(8, 30, 30));
     illegalValuesConducenti.add(item);
+    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
     testDatiGen2.setOrario(LocalTime.of(10, 00, 0, 0));
@@ -490,7 +477,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
 
   @Test
   void ricercaBacktrackingConducente3() {
-    Conducente conducente2 = new Conducente();
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente(null);
     testDatiGen2.setMezzo("TestMezzo");
@@ -500,6 +486,7 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen2.setAttesi(26);
     testDatiGen2.setLineaCorsa("TestLinea");
     testDatiGen2.setTraffico("No");
+    Conducente conducente2 = new Conducente();
     conducente2.setCodiceFiscale("TestCF2");
     conducente2.setCognome("Cognome2");
     conducente2.setNome("Nome2");
@@ -521,7 +508,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @Test
   void ricercaBacktrackingConducente4() {
     testDatiGen.setConducente(null);
-    Conducente conducente2 = new Conducente();
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF2");
     testDatiGen2.setMezzo("TestMezzo");
@@ -531,6 +517,7 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen2.setAttesi(26);
     testDatiGen2.setLineaCorsa("TestLinea");
     testDatiGen2.setTraffico("No");
+    Conducente conducente2 = new Conducente();
     conducente2.setCodiceFiscale("TestCF2");
     conducente2.setCognome("Cognome2");
     conducente2.setNome("Nome2");
@@ -554,7 +541,6 @@ class ProgrammaAutomaticoMakerConducenteTest {
   @Test
   void ricercaBacktrackingConducente5() {
     testDatiGen.setConducente(null);
-    Conducente conducente2 = new Conducente();
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF2");
     testDatiGen2.setMezzo("TestMezzo");
@@ -564,6 +550,7 @@ class ProgrammaAutomaticoMakerConducenteTest {
     testDatiGen2.setAttesi(26);
     testDatiGen2.setLineaCorsa("TestLinea");
     testDatiGen2.setTraffico("No");
+    Conducente conducente2 = new Conducente();
     conducente2.setCodiceFiscale("TestCF2");
     conducente2.setCognome("Cognome2");
     conducente2.setNome("Nome2");

@@ -29,7 +29,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @AutoConfigureMockMvc
 @WebAppConfiguration
-
+@SuppressWarnings("unchecked")
 public class ProgrammaAutomaticoMakerMezzoTest {
 
   @InjectMocks
@@ -38,7 +38,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   private RisorseService risorseService;
   @InjectMocks
   private CorsaService corsaService;
-  @InjectMocks
+  @Mock
   private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
   @Mock
   private ArrayList<ArrayList<Object>> illegalValuesMezzi;
@@ -63,7 +63,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   void setUp() {
     programmaAutomaticoMaker = new ProgrammaAutomaticoMaker();
     illegalValuesMezzi = new ArrayList<ArrayList<Object>>();
-    LineaRepository lineaRepository = mock(LineaRepository.class);
     risorseService = new RisorseService();
     testDatiGen = new DatiGenerazione();
     testDatiGen.setConducente("TestConducente");
@@ -74,6 +73,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     testDatiGen.setAttesi(26);
     testDatiGen.setLineaCorsa("TestLinea");
     testDatiGen.setTraffico("No");
+    LineaRepository lineaRepository = mock(LineaRepository.class);
     risorseService.setLineaRepository(lineaRepository);
     programmaAutomaticoMaker.setAccountService(accountService);
     programmaAutomaticoMaker.setCorsaService(corsaService);
@@ -101,7 +101,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   @Test
   void checkMezzo0() {
     illegalValuesMezzi = new ArrayList<ArrayList<Object>>();
-    listaDatiGenerazione = mock(List.class);
     testDatiGen.setAttesi(50);
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     assertFalse(programmaAutomaticoMaker.checkMezzo(mezzo, testDatiGen, illegalValuesMezzi));
@@ -173,7 +172,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     item.add(LocalTime.of(10, 30, 30));
     illegalValuesMezzi.add(item);
 
-    LocalTime testTime = LocalTime.of(11, 31, 30);
     programmaAutomaticoMaker.setListaDatiGenerazione(listaDatiGenerazione);
     Mockito.when(listaDatiGenerazione.indexOf(testDatiGen)).thenReturn(5);
 
@@ -420,7 +418,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   void forwardMezzo5() {
 
     listaDatiGenerazione = mock(List.class);
-    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     Mezzo mezzo2 = new Mezzo();
     mezzo2.setTipo("TestTipo2");
     mezzo2.setTarga("BB321BB");
@@ -430,6 +427,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     item.add(LocalTime.of(7, 30, 30));
     item.add(LocalTime.of(8, 30, 30));
     illegalValuesMezzi.add(item);
+    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
     testDatiGen2.setOrario(LocalTime.of(10, 00, 0, 0));
@@ -453,7 +451,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   void forwardMezzo6() {
 
     listaDatiGenerazione = mock(List.class);
-    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     Mezzo mezzo2 = new Mezzo();
     mezzo2.setTipo("TestTipo2");
     mezzo2.setTarga("BB321BB");
@@ -463,6 +460,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     item.add(LocalTime.of(7, 30, 30));
     item.add(LocalTime.of(8, 30, 30));
     illegalValuesMezzi.add(item);
+    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
     testDatiGen2.setOrario(LocalTime.of(10, 00, 0, 0));
@@ -486,7 +484,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   void forwardMezzo7() {
 
     listaDatiGenerazione = mock(List.class);
-    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     Mezzo mezzo2 = new Mezzo();
     mezzo2.setTipo("TestTipo2");
     mezzo2.setTarga("BB321BB");
@@ -496,6 +493,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     item.add(LocalTime.of(8, 30, 30));
     item.add(LocalTime.of(11, 30, 30));
     illegalValuesMezzi.add(item);
+    DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF");
     testDatiGen2.setMezzo("TestMezzo2");
     testDatiGen2.setOrario(LocalTime.of(8, 00, 0, 0));
@@ -544,7 +542,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
 
   @Test
   void ricercaBacktrackingMezzo3() {
-    Mezzo mezzo2 = new Mezzo();
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("Conducente");
     testDatiGen2.setMezzo(null);
@@ -554,6 +551,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     testDatiGen2.setAttesi(26);
     testDatiGen2.setLineaCorsa("TestLinea");
     testDatiGen2.setTraffico("No");
+    Mezzo mezzo2 = new Mezzo();
     mezzo2.setId(1L);
     mezzo2.setTarga("AA123AA2");
     mezzo2.setCapienza(352);
@@ -575,7 +573,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   @Test
   void ricercaBacktrackingMezzo4() {
     testDatiGen.setMezzo(null);
-    Mezzo mezzo2 = new Mezzo();
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF2");
     testDatiGen2.setMezzo("TestMezzo");
@@ -585,6 +582,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     testDatiGen2.setAttesi(26);
     testDatiGen2.setLineaCorsa("TestLinea");
     testDatiGen2.setTraffico("No");
+    Mezzo mezzo2 = new Mezzo();
     mezzo2.setId(1L);
     mezzo2.setTarga("AA123AA2");
     mezzo2.setCapienza(352);
@@ -608,7 +606,6 @@ public class ProgrammaAutomaticoMakerMezzoTest {
   @Test
   void ricercaBacktrackingMezzo5() {
     testDatiGen.setMezzo(null);
-    Mezzo mezzo2 = new Mezzo();
     DatiGenerazione testDatiGen2 = new DatiGenerazione();
     testDatiGen2.setConducente("TestCF2");
     testDatiGen2.setMezzo("TestMezzo");
@@ -618,6 +615,7 @@ public class ProgrammaAutomaticoMakerMezzoTest {
     testDatiGen2.setAttesi(26);
     testDatiGen2.setLineaCorsa("TestLinea");
     testDatiGen2.setTraffico("No");
+    Mezzo mezzo2 = new Mezzo();
     mezzo2.setId(1L);
     mezzo2.setTarga("AA123AA2");
     mezzo2.setCapienza(352);

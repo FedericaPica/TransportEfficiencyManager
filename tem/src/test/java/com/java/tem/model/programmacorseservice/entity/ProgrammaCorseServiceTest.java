@@ -52,7 +52,6 @@ class ProgrammaCorseServiceTest {
   void generaProgrammaCorseManuale() throws GenerationFailedException {
     String generationType = "manuale";
     when(programmaCorseFactory.findStrategy(StrategyType.Manuale)).thenReturn(strategy);
-    when(strategy.doOperation(programmaCorse)).thenReturn(programmaCorse);
     assertEquals(programmaCorse,
         programmaCorseService.generaProgrammaCorse(generationType, programmaCorse));
   }
@@ -123,10 +122,6 @@ class ProgrammaCorseServiceTest {
   void checkOwnership() {
     Utente azienda = new Utente();
     programmaCorse.setAzienda(azienda);
-
-   /* when(mock(ProgrammaCorse.class).getAzienda()).thenReturn(azienda);
-    when(azienda.equals(Mockito.any(Utente.class))).thenReturn(true);
-    assertEquals(azienda, programmaCorseService.checkOwnership(programmaCorse, azienda));*/
     assertTrue(programmaCorseService.checkOwnership(programmaCorse, azienda));
   }
 }

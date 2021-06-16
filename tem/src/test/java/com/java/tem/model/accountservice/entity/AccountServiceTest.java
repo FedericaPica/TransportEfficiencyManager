@@ -92,7 +92,6 @@ class AccountServiceTest {
 
   @Test
   void registerUser() {
-    Utente utente = new Utente();
     Profilo profilo = new Profilo();
     profilo.setId(1L);
     profilo.setNomeProfilo("Azienda");
@@ -105,7 +104,7 @@ class AccountServiceTest {
     dettaglioUtente.setTelefono("085444444");
     dettaglioUtente.setIndirizzo("Indirizzo esistente");
     dettaglioUtente.setPartitaIVA("12345678999");
-
+    Utente utente = new Utente();
     utente.setEmail("test@tem.com");
     utente.setPassword("passwordsicurissima");
     utente.setProfilo(profilo);

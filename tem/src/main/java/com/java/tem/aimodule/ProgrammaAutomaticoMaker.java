@@ -65,9 +65,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     }*/
 
     ;
-    ArrayList<ArrayList<Object>> illegalValuesConducenti = new ArrayList<ArrayList<Object>>();
-    ArrayList<ArrayList<Object>> illegalValuesMezzi = new ArrayList<ArrayList<Object>>();
-    List<Conducente> conducenti = risorseService.getConducentiByAzienda(utente);
+  
     List<Mezzo> mezzi = risorseService.getMezziByAzienda(utente);
     Collections.sort(mezzi, new Comparator<Mezzo>() {
       @Override
@@ -82,7 +80,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       orari.add(d.getOrario());
       orari.add(d.getOrario().plusMinutes(30));
         
-        /*System.out.println(listaDatiGenerazione.indexOf(d) + " iterazione:");
+      /*System.out.println(listaDatiGenerazione.indexOf(d) + " iterazione:");
         System.out.println("Dominio: " + orari.toString());*/
       for (LocalTime t : orari) {
         if (checkOrario(d, t)) {
@@ -97,7 +95,9 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         return o1.getOrario().compareTo(o2.getOrario());
       }
     });
-
+    ArrayList<ArrayList<Object>> illegalValuesMezzi = new ArrayList<ArrayList<Object>>();
+    List<Conducente> conducenti = risorseService.getConducentiByAzienda(utente);
+    ArrayList<ArrayList<Object>> illegalValuesConducenti = new ArrayList<ArrayList<Object>>();
     if (ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)
         && ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
 
@@ -107,14 +107,12 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         Corsa corsa = new Corsa();
         corsa.setProgramma(programmaCorse);
 
-        Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
         Conducente conducenteB =
             risorseService.getConducenteByCodiceFiscale(d.getConducente()).get();
         Mezzo mezzoB = risorseService.getMezzo(Long.parseLong(d.getMezzo())).get();
-
         conducentiCorsa.add(conducenteB);
         mezziCorsa.add(mezzoB);
-
+        Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
         corsa.setConducenti(conducentiCorsa);
         corsa.setMezzi(mezziCorsa);
         corsa.setLinea(lineaB);
@@ -130,7 +128,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   }
 
   /**
-   * Method checking Conducente.
+   * Method that, if possible, assigns drivers to rides.
    *
    * @param conducenti              List of conducenti
    * @param illegalValuesConducenti list of illegal Conducente
@@ -146,8 +144,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       if (d.getConducente() == null) {
         indice = listaDatiGenerazione.indexOf(d);
         isEmpty = false;
-        /*System.out.println("la prima corsa trovata senza valore alla variabile Conducente è la numero "
-        		+ indice + ":" + d.toString());*/
+        /*System.out.println("la prima corsa trovata senza valore alla variabile Conducente 
+         * è la numero "+ indice + ":" + d.toString());*/
         break;
       }
     }
@@ -160,32 +158,42 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       //System.out.println(c.getNome() + c.getCognome());
       //System.out.println("CHECK");
       if (checkConducente(c, posizioneCorrente, illegalValuesConducenti)) {
-        String cF = c.getCodiceFiscale();
-        posizioneCorrente.setConducente(cF);
+        String codiceF = c.getCodiceFiscale();
+        posizioneCorrente.setConducente(codiceF);
         listaDatiGenerazione.set(indice, posizioneCorrente);
-        //System.out.println("il valore scelto viene assegnato alla variabile: " + posizioneCorrente.toString());
+        //System.out.println("il valore scelto viene assegnato alla variabile: "
+        //+ posizioneCorrente.toString());
 
         //System.out.println("FORWARD");
         if (forwardConducente(c, illegalValuesConducenti, posizioneCorrente, conducenti)) {
           //System.out.println("Lista degli illegali aggiornata: ");
-        	/*for (ArrayList<Object> i: illegalValuesConducenti) {
-        		System.out.println(i.toString());
-        	}*/
+          /*for (ArrayList<Object> i: illegalValuesConducenti) {
+            System.out.println(i.toString());
+          }*/
           if (ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)) {
             return true;
           } else {
             posizioneCorrente.setConducente(null);
             illegalValuesConducenti.remove(illegalValuesConducenti.size() - 1);
             //System.out.println("L'assegnamento non è andato a buon fine :(");
-            //System.out.println("viene rimosso il conducente assegnato" + posizioneCorrente.toString());
-            //System.out.println("viene rimosso il range illegale" + illegalValuesConducenti.toString());
+            //System.out.println("viene rimosso il conducente assegnato"
+            //+ posizioneCorrente.toString());
+            //System.out.println("viene rimosso il range illegale"
+            //+ illegalValuesConducenti.toString());
           }
         }
       }
     }
     return false;
   }
-
+  
+  /**
+   * Method that, if possible, assigns pullmans to rides.
+   *
+   * @param mezzi              List of mezzi
+   * @param illegalValuesMezzi List of illegal Mezzo
+   * @return bool
+   */
   public boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
                                            ArrayList<ArrayList<Object>> illegalValuesMezzi) {
     //System.out.println("iterazione");
@@ -196,7 +204,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         indice = listaDatiGenerazione.indexOf(d);
         isEmpty = false;
         /*System.out.println("la prima corsa trovata senza valore alla variabile Mezzo è la numero "
-		+ indice + ":" + d.toString());*/
+        + indice + ":" + d.toString());*/
         break;
       }
     }
@@ -212,19 +220,20 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         Long id = m.getId();
         posizioneCorrente.setMezzo(id.toString());
         listaDatiGenerazione.set(indice, posizioneCorrente);
-        //System.out.println("il valore scelto viene assegnato alla variabile: " + posizioneCorrente.toString());
+        //System.out.println("il valore scelto viene assegnato alla variabile: "
+        //+ posizioneCorrente.toString());
 
         //System.out.println("FORWARD");
         if (forwardMezzo(m, illegalValuesMezzi, posizioneCorrente, mezzi)) {
-        	/*System.out.println("Lista degli illegali aggiornata: ");
-        	for (ArrayList<Object> i: illegalValuesMezzi) {
-        		System.out.println(i.toString());}*/
+          /*System.out.println("Lista degli illegali aggiornata: ");
+          for (ArrayList<Object> i: illegalValuesMezzi) {
+          System.out.println(i.toString());}*/
           if (ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
             return true;
           } else {
             posizioneCorrente.setMezzo(null);
             illegalValuesMezzi.remove(illegalValuesMezzi.size() - 1);
-          /*System.out.println("L'assegnamento non è andato a buon fine :(");
+            /*System.out.println("L'assegnamento non è andato a buon fine :(");
           System.out.println("viene rimosso il mezzo assegnato" + posizioneCorrente.toString());
           System.out.println("viene rimosso il range illegale" + illegalValuesMezzi.toString());*/
           }
@@ -234,32 +243,47 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     return false;
   }
 
+  /**
+   * Method checking Orario.
+   *
+   * @param datiGenerazione    DatiGenerazione
+   * @param orario             LocalTime
+   * @return bool
+   */
   public boolean checkOrario(DatiGenerazione datiGenerazione, LocalTime orario) {
     /*
      * Given a tested Orario, if Traffico is false ("No") this method confirms its validity;
      * else this will return
      * false and Orario will be shifted by 30 mins, trying to avoid congestion
      */
-	  /*if (datiGenerazione.getOrario().equals(orario)
-		        && datiGenerazione.getTraffico().equals("No")) {
-		  System.out.println("Non c'è traffico, quindi " + orario + " è valido");
-	  }
-	  if (!datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si")) {
-		  System.out.println("C'è traffico, quindi " + orario + " è valido");
-	  }
-	  if (datiGenerazione.getOrario().equals(orario)
-		        && datiGenerazione.getTraffico().equals("Si")) {
-		  System.out.println("C'è traffico, quindi " + orario + " non è valido"); 
-	  }
-	  if (!datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("No")) {
-		  System.out.println("Non c'è traffico, quindi " + orario + " non è valido");
-	  }*/
+    /*if (datiGenerazione.getOrario().equals(orario)
+    && datiGenerazione.getTraffico().equals("No")) {
+    System.out.println("Non c'è traffico, quindi " + orario + " è valido");
+    }
+    if (!datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si")) {
+    System.out.println("C'è traffico, quindi " + orario + " è valido");
+    }
+    if (datiGenerazione.getOrario().equals(orario)
+    && datiGenerazione.getTraffico().equals("Si")) {
+    System.out.println("C'è traffico, quindi " + orario + " non è valido"); 
+    }
+    if (!datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("No")) {
+    System.out.println("Non c'è traffico, quindi " + orario + " non è valido");
+    }*/
     return datiGenerazione.getOrario().equals(orario)
         && datiGenerazione.getTraffico().equals("No")
         ||
         !datiGenerazione.getOrario().equals(orario) && datiGenerazione.getTraffico().equals("Si");
   }
 
+  /**
+   * Method checking Conducente.
+   *
+   * @param conducente              Conducente
+   * @param posizioneCorrente       DatiGenerazione
+   * @param illegalValuesConducenti List of illegal Conducente
+   * @return bool
+   */
   public boolean checkConducente(Conducente conducente, DatiGenerazione posizioneCorrente,
                                  ArrayList<ArrayList<Object>> illegalValuesConducenti) {
     // Returns true because he/she is the first driver
@@ -275,10 +299,12 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       LocalTime illegalEndRange = (LocalTime) o.get(2);
 
       if (illegalConducente.getCodiceFiscale().equals(conducente.getCodiceFiscale())) {
-        //System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
-        if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
-            posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
-          //System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
+        //System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: "
+        //+ illegalValuesConducenti.get(j).toString());
+        if (posizioneCorrente.getOrario().isAfter(illegalStartRange)
+            && posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
+          //System.out.println("NOT OK: alle " + posizioneCorrente.getOrario()
+          //+ " è ancora in viaggio");
           return false;
         } else {
           //System.out.println("ma non è più in viaggio");
@@ -287,8 +313,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       }
     }
 
-    Linea lC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
-    Linea lineaCorrente = (Linea) lC.clone();
+    Linea lineaC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
+    Linea lineaCorrente = (Linea) lineaC.clone();
     if (!posizioneCorrente.isAndata()) {
       lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
     }
@@ -301,26 +327,39 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
       if (conducente.getCodiceFiscale().equals(posizionePrecedente.getConducente())) {
         //System.out.println(conducente.getCognome() + " ha già effettuato una corsa");
-        Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
-        Linea lineaPrecedente = (Linea) lP.clone();
+        Linea lineaP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
+        Linea lineaPrecedente = (Linea) lineaP.clone();
         if (!posizionePrecedente.isAndata()) {
           lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
         }
         //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
 
-          /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-          	System.out.println("OK: il luogo della sua precedente destinazione è uguale a quello dell'attuale partenza");
+        /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
+        System.out.println("OK: il luogo della sua precedente destinazione è uguale
+        //a quello dell'attuale partenza");
           }
           if (!lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-          	System.out.println("NOT OK: il luogo della sua precedente destinazione è diverso da quello dell'attuale partenza");
+         System.out.println("NOT OK: il luogo della sua precedente destinazione è diverso
+         // da quello dell'attuale partenza");
           }*/
         return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
     }
-    //System.out.println("OK: " + conducente.getCognome() + " non ha ancora effettuato nessuna corsa, quindi è disponibile");
+    //System.out.println("OK: " + conducente.getCognome() + 
+    //" non ha ancora effettuato nessuna corsa, quindi è disponibile");
     return true;
   }
 
+  /**
+   * Method that determines the range in which the input driver is at
+   *  work and checks if at least one driver is available for the next races.
+   *
+   * @param conducente               Conducente
+   * @param conducenti               List of Conducente
+   * @param posizioneCorrente        DatiGenerazione
+   * @param illegalValuesConducenti  List of illegal Conducente
+   * @return bool
+   */
   public boolean forwardConducente(Conducente conducente,
                                    ArrayList<ArrayList<Object>> illegalValuesConducenti,
                                    DatiGenerazione posizioneCorrente,
@@ -336,9 +375,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     item.add(inizioRange);
     item.add(fineRange);
     illegalValuesConducenti.add(item);
-    //System.out.println ("il conducente " + conducente.getCognome() + " non sarà disponibile dalle " + inizioRange + " alle " + fineRange);
+    //System.out.println ("il conducente " + conducente.getCognome()
+    //+ " non sarà disponibile dalle " + inizioRange + " alle " + fineRange);
 
-    int i, j;
+    int i;
+    int j;
     for (i = listaDatiGenerazione.indexOf(posizioneCorrente) + 1;
          i <= listaDatiGenerazione.size() - 1; i++) {
       int count = 0;
@@ -346,13 +387,14 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       if (d.getOrario().isAfter(inizioRange) && d.getOrario().isBefore(fineRange)) {
         for (j = 0; j <= illegalValuesConducenti.size() - 1; j++) {
           ArrayList<Object> riga = illegalValuesConducenti.get(j);
-          if (d.getOrario().isAfter((LocalTime) riga.get(1)) &&
-              d.getOrario().isBefore((LocalTime) riga.get(2))) {
+          if (d.getOrario().isAfter((LocalTime) riga.get(1))
+              && d.getOrario().isBefore((LocalTime) riga.get(2))) {
             count++;
           }
         }
         if (count == conducenti.size()) {
-          //System.out.println("NOT OK: per la corsa " + d.toString() + "non c'è alcun conducente disponibile");
+          //System.out.println("NOT OK: per la corsa " + d.toString()
+          //+ "non c'è alcun conducente disponibile");
           return false;
         }
       } else {
@@ -365,11 +407,20 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
   }
 
+  /**
+   * Method checking Mezzo.
+   *
+   * @param mezzo               Mezzo
+   * @param posizioneCorrente   DatiGenerazione
+   * @param illegalValuesMezzi  List of illegal Mezzo
+   * @return bool
+   */
   public boolean checkMezzo(Mezzo mezzo, DatiGenerazione posizioneCorrente,
                             ArrayList<ArrayList<Object>> illegalValuesMezzi) {
 
     if (mezzo.getCapienza() < posizioneCorrente.getAttesi()) {
-      // System.out.println("NOT OK: la capienza " + mezzo.getCapienza() + " è minore dei " + posizioneCorrente.getAttesi() + " passeggeri attesi");
+      // System.out.println("NOT OK: la capienza " + mezzo.getCapienza()
+      //+ " è minore dei " + posizioneCorrente.getAttesi() + " passeggeri attesi");
       return false;
     }
 
@@ -386,10 +437,12 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       LocalTime illegalEndRange = (LocalTime) o.get(2);
 
       if (illegalMezzo.getId().equals(mezzo.getId())) {
-        //System.out.println(mezzo.getCapienza() + " è presente nella lista degli illegali: " + illegalValuesMezzi.get(j).toString());
-        if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
-            posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
-          //System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
+        //System.out.println(mezzo.getCapienza() + " è presente nella lista degli illegali: "
+        //+ illegalValuesMezzi.get(j).toString());
+        if (posizioneCorrente.getOrario().isAfter(illegalStartRange)
+            && posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
+          //System.out.println("NOT OK: alle " + posizioneCorrente.getOrario()
+          //+ " è ancora in viaggio");
           return false;
         } else {
           break;
@@ -397,8 +450,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       }
     }
 
-    Linea lC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
-    Linea lineaCorrente = (Linea) lC.clone();
+    Linea lineaC = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
+    Linea lineaCorrente = (Linea) lineaC.clone();
     if (!posizioneCorrente.isAndata()) {
       lineaCorrente.setPartenza(lineaCorrente.getDestinazione());
     }
@@ -406,33 +459,45 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
     int currentIdx = listaDatiGenerazione.indexOf(posizioneCorrente);
 
-// Backscrolling listaDatiGenerazione
+    // Backscrolling listaDatiGenerazione
     for (int i = currentIdx - 1; i >= 0; i--) {
       DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
 
       if (mezzo.getId().toString().equals(posizionePrecedente.getMezzo())) {
         //System.out.println(mezzo.getTipo() + " ha già effettuato una corsa");
-        Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
-        Linea lineaPrecedente = (Linea) lP.clone();
+        Linea lineaP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
+        Linea lineaPrecedente = (Linea) lineaP.clone();
         if (!posizionePrecedente.isAndata()) {
           lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
         }
         //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
         
         /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-        	System.out.println("OK: il luogo della sua precedente destinazione è uguale a quello dell'attuale partenza");
+        System.out.println("OK: il luogo della sua precedente destinazione è uguale
+         a quello dell'attuale partenza");
         }
         if (!lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
-        	System.out.println("NOT OK: il luogo della sua precedente destinazione è diverso da quello dell'attuale partenza");
+        System.out.println("NOT OK: il luogo della sua precedente destinazione è
+         diverso da quello dell'attuale partenza");
         }*/
         return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
     }
-    //System.out.println("OK: " + mezzo.getTipo() + " non ha ancora effettuato nessuna corsa, quindi è disponibile");
+    //System.out.println("OK: " + mezzo.getTipo() + " non ha ancora effettuato 
+    //nessuna corsa, quindi è disponibile");
     return true;
   }
 
-
+  /**
+   * Method that determines the range in which the input pullman is at
+   *  work and checks if at least one pullman is available for the next races.
+   *
+   * @param mezzo               Mezzo
+   * @param mezzi               List of Mezzo
+   * @param posizioneCorrente   DatiGenerazione
+   * @param illegalValuesMezzi  List of illegal Mezzo
+   * @return bool
+   */
   public boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
                               DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
 
@@ -446,7 +511,8 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     item.add(inizioRange);
     item.add(fineRange);
     illegalValuesMezzi.add(item);
-    //System.out.println ("il mezzo " + mezzo.getTipo() + " non sarà disponibile dalle " + inizioRange + " alle " + fineRange);
+    //System.out.println ("il mezzo " + mezzo.getTipo() + " non sarà disponibile dalle " 
+    //+ inizioRange + " alle " + fineRange);
 
     int i;
     int j;
@@ -457,13 +523,14 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       if (d.getOrario().isAfter(inizioRange) && d.getOrario().isBefore(fineRange)) {
         for (j = 0; j <= illegalValuesMezzi.size() - 1; j++) {
           ArrayList<Object> riga = illegalValuesMezzi.get(j);
-          if (d.getOrario().isAfter((LocalTime) riga.get(1)) &&
-              d.getOrario().isBefore((LocalTime) riga.get(2))) {
+          if (d.getOrario().isAfter((LocalTime) riga.get(1)) 
+              && d.getOrario().isBefore((LocalTime) riga.get(2))) {
             count++;
           }
         }
         if (count == mezzi.size()) {
-          //System.out.println("NOT OK: per la corsa " + d.toString() + "non c'è alcun mezzo disponibile");
+          //System.out.println("NOT OK: per la corsa " + d.toString() 
+          //+ "non c'è alcun mezzo disponibile");
           return false;
         }
       } else {
