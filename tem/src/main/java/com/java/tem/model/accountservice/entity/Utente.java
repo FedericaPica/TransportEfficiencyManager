@@ -20,6 +20,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * Utente Entity.
+ */
 @Entity
 @Table(name = "utente")
 public class Utente {
@@ -29,7 +32,7 @@ public class Utente {
   private Long id;
 
   @Size(min = 6, max = 45)
-  @Pattern(regexp="^[a-zA-Z0-9_.@a-zA-Z]*$",message="Caratteri non ammessi")
+  @Pattern(regexp = "^[a-zA-Z0-9_.@a-zA-Z]*$", message = "Caratteri non ammessi")
   @Column(nullable = false, unique = true, length = 45)
   private String email;
 

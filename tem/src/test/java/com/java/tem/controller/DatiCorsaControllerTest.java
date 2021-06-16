@@ -3,7 +3,6 @@ package com.java.tem.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,16 +12,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.java.tem.exceptions.DatiCorsaNotExistException;
-import com.java.tem.exceptions.DoesNotBelongToAziendaException;
-import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsa;
 import com.java.tem.model.programmacorseservice.entity.daticorsaservice.DatiCorsaService;
-import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +25,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -121,18 +113,19 @@ public class DatiCorsaControllerTest {
   void salitiWrongFormat() throws Exception {
     String url = "/daticorsa/submit";
     MvcResult result = mockMvc.perform(post(url).with(csrf())
-            .param("lineaCorsa", "NA08")
-            .param("orarioCorsa", "09:00:00")
-            .param("numeroPosti", "50")
-            .param("passeggeriSaliti", "--")
-            .param("passeggeriNonSaliti", "13")
-            .param("traffico", "true")
-            .param("andata", "true")).andDo(print()).andReturn();
+        .param("lineaCorsa", "NA08")
+        .param("orarioCorsa", "09:00:00")
+        .param("numeroPosti", "50")
+        .param("passeggeriSaliti", "--")
+        .param("passeggeriNonSaliti", "13")
+        .param("traffico", "true")
+        .param("andata", "true")).andDo(print()).andReturn();
     String sizeErrorString = "typeMismatch.passeggeriSaliti";
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.datiCorsa");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("passeggeriSaliti").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("passeggeriSaliti").toString().contains(sizeErrorString),
+        "");
   }
 
   @Test
@@ -141,13 +134,13 @@ public class DatiCorsaControllerTest {
     String url = "/daticorsa/submit";
 
     mockMvc.perform(post(url).with(csrf())
-            .param("lineaCorsa", "NA08")
-            .param("orarioCorsa", "09:00:00")
-            .param("numeroPosti", "50")
-            .param("passeggeriSaliti", "50")
-            .param("passeggeriNonSaliti", "13")
-            .param("traffico", "true")
-            .param("andata", "true")).andDo(print()).andExpect(status().isOk())
+        .param("lineaCorsa", "NA08")
+        .param("orarioCorsa", "09:00:00")
+        .param("numeroPosti", "50")
+        .param("passeggeriSaliti", "50")
+        .param("passeggeriNonSaliti", "13")
+        .param("traffico", "true")
+        .param("andata", "true")).andDo(print()).andExpect(status().isOk())
         .andExpect(view().name("dati-corsa-success"));
   }
   /* End of Dati Corsa insert tests */

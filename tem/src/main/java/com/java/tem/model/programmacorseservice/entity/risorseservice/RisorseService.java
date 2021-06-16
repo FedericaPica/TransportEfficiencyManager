@@ -1,8 +1,6 @@
 package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
-import com.java.tem.model.programmacorseservice.entity.ProgrammaCorse;
-import com.java.tem.model.programmacorseservice.entity.ProgrammaCorseService;
 import com.java.tem.model.programmacorseservice.repository.ConducenteRepository;
 import com.java.tem.model.programmacorseservice.repository.LineaRepository;
 import com.java.tem.model.programmacorseservice.repository.MezzoRepository;
@@ -12,6 +10,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/** RisorseService.
+ */
 @Component
 public class RisorseService {
   @Autowired
@@ -52,6 +52,11 @@ public class RisorseService {
     return conducenti;
   }
 
+  /** Given the Utente, it returns a List of Conducente of that Utente.
+   *
+   * @param utente Utente from which query will take a list of Conducente.
+   * @return List of Conducente.
+   */
   public List<Conducente> getConducentiByAzienda(Utente utente) {
     List<Conducente> conducenti = new ArrayList<Conducente>();
     conducenti = conducenteRepository.findByAzienda(utente);
@@ -77,6 +82,11 @@ public class RisorseService {
     return linee;
   }
 
+  /** Give Utente, returns a List of Linea.
+   *
+   * @param utente Utente
+   * @return List of Linea
+   */
   public List<Linea> getLineeByAzienda(Utente utente) {
     List<Linea> linee = new ArrayList<Linea>();
     linee = lineaRepository.findByAzienda(utente);
@@ -98,6 +108,11 @@ public class RisorseService {
     return mezzi;
   }
 
+  /** Given Utente, return a list of his/her Mezzo.
+   *
+   * @param utente Utente
+   * @return List of Mezzo
+   */
   public List<Mezzo> getMezziByAzienda(Utente utente) {
     List<Mezzo> mezzi = new ArrayList<Mezzo>();
     mezzi = mezzoRepository.findByAzienda(utente);
@@ -136,6 +151,12 @@ public class RisorseService {
     conducenteRepository.delete(conducente);
   }
 
+  /** It checks if a Utente owns a Risorsa.
+   *
+   * @param risorsa Mezzo/Linea/Conducente
+   * @param utente Utente to check
+   * @return boolean
+   */
   public boolean checkOwnership(Risorsa risorsa, Utente utente) {
     if (risorsa instanceof Mezzo) {
       Mezzo mezzo = (Mezzo) risorsa;
@@ -150,6 +171,11 @@ public class RisorseService {
     return false;
   }
 
+  /** It checks if a Risorsa is used in a Corsa.
+   *
+   * @param risorsa Conducente/Linea/Mezzo.
+   * @return boolean.
+   */
   public boolean isBound(Risorsa risorsa) {
     if (risorsa instanceof Mezzo) {
       Mezzo resourceToCheck = (Mezzo) risorsa;

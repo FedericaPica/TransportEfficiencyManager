@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/** Exception Handling Controller.
+ *
+ */
 @ControllerAdvice
 public class ExceptionHandlingController {
 
@@ -53,8 +56,8 @@ public class ExceptionHandlingController {
 
   }
 
-  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "La risorsa è collegata ad una corsa."
-      + " non è andata a buon fine")
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "La risorsa è collegata ad "
+      + "una corsa." + " non è andata a buon fine")
   @ExceptionHandler(BoundResourceException.class)
   public void boundResourceError() {
 

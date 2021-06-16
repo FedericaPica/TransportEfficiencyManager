@@ -5,8 +5,12 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-
+/** Linea Repository.
+ *
+ */
+@Repository
 public interface LineaRepository extends JpaRepository<Linea, Long> {
   List<Linea> findByAzienda(Utente azienda);
 

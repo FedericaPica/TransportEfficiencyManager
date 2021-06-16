@@ -4,13 +4,21 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+/** DAO Class.
+ *
+ */
 public class CustomUserDetails implements UserDetails {
   private final Utente user;
   private final Profilo profilo;
   private final DettaglioUtente dettaglioUtente;
 
 
+  /** Given the data, it binds CustomUserDetails to this data.
+   *
+   * @param user Utente
+   * @param profilo Profilo
+   * @param dettaglioUtente DettaglioUtente
+   */
   public CustomUserDetails(Utente user, Profilo profilo, DettaglioUtente dettaglioUtente) {
     this.user = user;
     this.profilo = profilo;

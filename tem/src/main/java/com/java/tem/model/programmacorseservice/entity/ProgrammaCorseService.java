@@ -10,6 +10,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
+/** ProgrammaCorse Service.
+ */
 @Component
 public class ProgrammaCorseService {
 
@@ -22,6 +25,13 @@ public class ProgrammaCorseService {
   public ProgrammaCorseService() {
   }
 
+  /** Generates an instance of ProgrammaCorse.
+   *
+   * @param genType String
+   * @param programmaCorse ProgrammaCorse input
+   * @return generated ProgrammaCorse
+   * @throws GenerationFailedException if the user passes a non existent genType
+   */
   public ProgrammaCorse generaProgrammaCorse(String genType, ProgrammaCorse programmaCorse)
           throws GenerationFailedException {
     Strategy strategy;

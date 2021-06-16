@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/** Profilo Entity.
+ *
+ */
 @Entity
 @Table(name = "Profilo")
 public class Profilo {

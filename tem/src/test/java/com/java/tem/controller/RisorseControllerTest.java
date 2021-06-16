@@ -1,17 +1,6 @@
 package com.java.tem.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.java.tem.exceptions.BoundResourceException;
-import com.java.tem.exceptions.ResourcesDoesNotExistException;
-import com.java.tem.model.accountservice.entity.Utente;
-import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
-import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
-import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
-import java.util.Optional;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,10 +11,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.java.tem.exceptions.BoundResourceException;
+import com.java.tem.exceptions.ResourcesDoesNotExistException;
 import com.java.tem.model.accountservice.entity.AccountService;
+import com.java.tem.model.accountservice.entity.Utente;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Conducente;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Linea;
+import com.java.tem.model.programmacorseservice.entity.risorseservice.Mezzo;
 import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseService;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,8 +30,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -100,9 +93,10 @@ public class RisorseControllerTest {
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.conducente");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("codiceFiscale").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("codiceFiscale").toString().contains(sizeErrorString),
+        "");
   }
- 
+
   @Test
   @WithMockUser
   void conducenteCorrect() throws Exception {
@@ -114,7 +108,7 @@ public class RisorseControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("insert-success-conducente"));
   }
-  
+
   @Test
   @WithMockUser
   void nomeLineaTooShort() throws Exception {
@@ -129,7 +123,7 @@ public class RisorseControllerTest {
     BindingResult bindingResult = (BindingResult) bindingResObject;
     assertTrue(bindingResult.getFieldError("nome").toString().contains(sizeErrorString), "");
   }
-  
+
   @Test
   @WithMockUser
   void destinazioneTooShort() throws Exception {
@@ -142,9 +136,10 @@ public class RisorseControllerTest {
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.linea");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("destinazione").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("destinazione").toString().contains(sizeErrorString),
+        "");
   }
-  
+
   @Test
   @WithMockUser
   void insertLineaSuccess() throws Exception {
@@ -153,9 +148,9 @@ public class RisorseControllerTest {
         .param("nome", "NA08")
         .param("partenza", "Napoli")
         .param("destinazione", "Avellino")).andExpect(status().isOk())
-    .andExpect(view().name("insert-success-linea"));
+        .andExpect(view().name("insert-success-linea"));
   }
-  
+
   @Test
   @WithMockUser
   void targaTooShort() throws Exception {
@@ -170,7 +165,7 @@ public class RisorseControllerTest {
     BindingResult bindingResult = (BindingResult) bindingResObject;
     assertTrue(bindingResult.getFieldError("targa").toString().contains(sizeErrorString), "");
   }
-  
+
   @Test
   @WithMockUser
   void tipoTooShort() throws Exception {
@@ -185,7 +180,7 @@ public class RisorseControllerTest {
     BindingResult bindingResult = (BindingResult) bindingResObject;
     assertTrue(bindingResult.getFieldError("tipo").toString().contains(sizeErrorString), "");
   }
-  
+
   @Test
   @WithMockUser
   void inserimentoMezzoSuccess() throws Exception {
@@ -194,7 +189,7 @@ public class RisorseControllerTest {
         .param("capienza", "50")
         .param("targa", "PL090SC")
         .param("tipo", "PullmanS")).andExpect(status().isOk())
-            .andExpect(view().name("insert-success"));
+        .andExpect(view().name("insert-success"));
   }
   /* End of Risorsa insert tests */
 
@@ -210,6 +205,7 @@ public class RisorseControllerTest {
             assertTrue(result.getResolvedException() instanceof ResourcesDoesNotExistException, "")
         );
   }
+
   @Test
   @WithMockUser
   void showUpdateFormLineaNotExists() throws Exception {
@@ -349,7 +345,8 @@ public class RisorseControllerTest {
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.conducente");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("codiceFiscale").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("codiceFiscale").toString().contains(sizeErrorString),
+        "");
   }
 
   @Test
@@ -408,7 +405,7 @@ public class RisorseControllerTest {
     BindingResult bindingResult = (BindingResult) bindingResObject;
     assertTrue(bindingResult.getFieldError("nome").toString().contains(sizeErrorString), "");*/
   }
-  
+
   @Test
   @WithMockUser
   void updateLineaPartenzaFailure() throws Exception {
@@ -435,7 +432,8 @@ public class RisorseControllerTest {
     Object bindingResObject = result.getModelAndView().getModelMap()
         .getAttribute("org.springframework.validation.BindingResult.linea");
     BindingResult bindingResult = (BindingResult) bindingResObject;
-    assertTrue(bindingResult.getFieldError("destinazione").toString().contains(sizeErrorString), "");
+    assertTrue(bindingResult.getFieldError("destinazione").toString().contains(sizeErrorString),
+        "");
   }
 
   /* End Linea updates */
@@ -569,7 +567,7 @@ public class RisorseControllerTest {
     when(risorseService.isBound(conducente)).thenReturn(true);
     mockMvc.perform(get("/risorse/delete/conducente/{id}", Mockito.anyLong()).with(csrf()))
         .andExpect(status().is5xxServerError())
-        .andExpect(result ->assertTrue(
+        .andExpect(result -> assertTrue(
             result.getResolvedException() instanceof BoundResourceException, ""));
   }
 

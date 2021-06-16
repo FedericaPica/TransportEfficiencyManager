@@ -12,6 +12,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/** DatiCorsa Service.
+ *
+ */
 @Component
 public class DatiCorsaService {
   @Autowired
@@ -34,15 +37,20 @@ public class DatiCorsaService {
     datiCorsaRepository.findAll().forEach(datiCorse::add);
     return datiCorse;
   }
+  
+  public Optional<DatiCorsa> getDatiCorsa(Long id) {
+    return datiCorsaRepository.findById(id);
+  }
 
+  /** Simply returns DatiCorsa by given Utente.
+   *
+   * @param utente Utente.
+   * @return List of DatiCorsa.
+   */
   public List<DatiCorsa> getDatiCorsaByAzienda(Utente utente) {
     List<DatiCorsa> datiCorse = new ArrayList<DatiCorsa>();
     datiCorse = datiCorsaRepository.findByAzienda(utente);
     return datiCorse;
-  }
-
-  public Optional<DatiCorsa> getDatiCorsa(Long id) {
-    return datiCorsaRepository.findById(id);
   }
 
   public void updateDatiCorsa(DatiCorsa datiCorsa) {

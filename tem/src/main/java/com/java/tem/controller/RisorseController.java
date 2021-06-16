@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/** RisorseController.
+ *
+ */
 @Controller
 public class RisorseController {
 
@@ -39,6 +42,9 @@ public class RisorseController {
     return "risorse-index";
   }
 
+  /** Add Conducente Page.
+   *
+   */
   @GetMapping("/risorse/add/conducente")
   public String addConducente(Model model) {
     model.addAttribute("conducente", new Conducente());
@@ -47,18 +53,27 @@ public class RisorseController {
     return "insert-conducente";
   }
 
+  /** Add Mezzo Page.
+   *
+   */
   @GetMapping("/risorse/add/mezzo")
   public String addMezzo(Model model) {
     model.addAttribute("mezzo", new Mezzo());
     return "insert-mezzo";
   }
 
+  /** Add Linea Page.
+   *
+   */
   @GetMapping("/risorse/add/linea")
   public String addLinea(Model model) {
     model.addAttribute("linea", new Linea());
     return "insert-linea";
   }
 
+  /** Risorse List Page.
+   *
+   */
   @GetMapping("/risorse/list")
   public String listRisorse(Model model) {
     Utente utente = accountService.getLoggedUser();
@@ -74,6 +89,9 @@ public class RisorseController {
     return "list-risorse";
   }
 
+  /** Risorse List by Utente ID Page.
+   *
+   */
   @GetMapping("/risorse/list/{aziendaId}")
   public String listRisorseByAzienda(@PathVariable("aziendaId") Long aziendaId, Model model) {
     Utente azienda = accountService.getUserById(aziendaId);
@@ -90,7 +108,9 @@ public class RisorseController {
     return "list-risorse";
   }
 
-
+  /** Submit Conducente Page.
+   * method POST
+   */
   @PostMapping("/risorse/submit/conducente")
   public String processRisorsa(@ModelAttribute("conducente") @Valid Conducente conducente,
                                BindingResult bindingResult, Model model) {
@@ -104,6 +124,9 @@ public class RisorseController {
     return "insert-success-conducente";
   }
 
+  /** Submit Linea Page.
+   * method POST
+   */
   @PostMapping("/risorse/submit/linea")
   public String processRisorsa(@ModelAttribute("linea") @Valid Linea linea,
                                BindingResult bindingResult, Model model) {
@@ -118,6 +141,9 @@ public class RisorseController {
     return "insert-success-linea";
   }
 
+  /** Submit Mezzo Page.
+   * method POST
+   */
   @PostMapping("/risorse/submit/mezzo")
   public String processRisorsa(@ModelAttribute("mezzo") @Valid Mezzo mezzo,
                                BindingResult bindingResult) {
@@ -131,6 +157,9 @@ public class RisorseController {
     return "insert-success";
   }
 
+  /** Edit Conducente Page.
+   *
+   */
   @GetMapping("/risorse/conducente/edit/{id}")
   public ModelAndView showUpdateFormConducente(@PathVariable("id") Long id, Model model)
       throws ResourcesDoesNotExistException {
@@ -151,6 +180,9 @@ public class RisorseController {
     }
   }
 
+  /** Edit Linea Page.
+   *
+   */
   @GetMapping("/risorse/linea/edit/{id}")
   public ModelAndView showUpdateFormLinea(@PathVariable("id") Long id, Model model)
       throws ResourcesDoesNotExistException {
@@ -170,6 +202,9 @@ public class RisorseController {
     }
   }
 
+  /** Edit Mezzo Page.
+   *
+   */
   @GetMapping("/risorse/mezzo/edit/{id}")
   public ModelAndView showUpdateFormMezzo(@PathVariable("id") Long id, Model model)
       throws Throwable {
@@ -189,6 +224,9 @@ public class RisorseController {
     }
   }
 
+  /** Update Conducente Page.
+   * method POST
+   */
   @PostMapping("risorse/update/conducente/{id}")
   public String updateConducente(@PathVariable("id") Long id,
                                  @ModelAttribute("conducente") @Valid Conducente conducente,
@@ -204,6 +242,9 @@ public class RisorseController {
     return "update-success";
   }
 
+  /** Update Linea Page.
+   * method POST
+   */
   @PostMapping("risorse/update/linea/{id}")
   public String updateLinea(@PathVariable("id") Long id,
                             @ModelAttribute("linea") @Valid Linea linea,
@@ -219,6 +260,9 @@ public class RisorseController {
     return "update-success";
   }
 
+  /** Update Mezzo Page.
+   * method POST
+   */
   @PostMapping("risorse/update/mezzo/{id}")
   public String updateMezzo(@PathVariable("id") Long id,
                             @ModelAttribute("mezzo") @Valid Mezzo mezzo,
@@ -234,6 +278,9 @@ public class RisorseController {
     return "update-success";
   }
 
+  /** Delete Mezzo Page.
+   *
+   */
   @GetMapping("risorse/delete/mezzo/{id}")
   public ModelAndView deleteMezzo(@PathVariable("id") Long id, Model model)
       throws ResourcesDoesNotExistException, BoundResourceException {
@@ -258,6 +305,9 @@ public class RisorseController {
 
   }
 
+  /** Delete Conducente Page.
+   *
+   */
   @GetMapping("risorse/delete/conducente/{id}")
   public ModelAndView deleteConducente(@PathVariable("id") Long id, Model model)
       throws ResourcesDoesNotExistException, BoundResourceException {
@@ -281,6 +331,9 @@ public class RisorseController {
     return new ModelAndView("redirect:/home", (ModelMap) model);
   }
 
+  /** Delete Linea Page.
+   *
+   */
   @GetMapping("risorse/delete/linea/{id}")
   public ModelAndView deleteLinea(@PathVariable("id") Long id, Model model)
       throws ResourcesDoesNotExistException, BoundResourceException {

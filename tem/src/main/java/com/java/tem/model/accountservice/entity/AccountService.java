@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/** AccountService.
+ */
 @Component
 public class AccountService implements UserDetailsService {
 
@@ -43,11 +45,21 @@ public class AccountService implements UserDetailsService {
     return utente.getProfilo().getNomeProfilo().equals("Admin");
   }
 
+  /** Check if logged Utente is an Administrator.
+   *
+   * @return boolean.
+   */
   public boolean isAdmin() {
     Utente utente = getLoggedUser();
     return utente.getProfilo().getNomeProfilo().equals("Admin");
   }
 
+  /** It registers an user into the system and crypts his password.
+   *
+   * @param utente Utente to register.
+   * @param dettaglioUtente DettaglioUtente related to Utente.
+   * @return Utente.
+   */
   public Utente registerUser(Utente utente, DettaglioUtente dettaglioUtente) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     Profilo profilo = profiloRepository.findByRuolo("azienda");
@@ -59,6 +71,10 @@ public class AccountService implements UserDetailsService {
     return userRepo.save(utente);
   }
 
+  /** Return the logged Utente instance.
+   *
+   * @return instance of logged Utente.
+   */
   public Utente getLoggedUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserName = authentication.getName();
@@ -74,6 +90,11 @@ public class AccountService implements UserDetailsService {
     return userRepo.checkUserExistanceByEmail(email);
   }
 
+  /** Returns instance of Utente by given Id.
+   *
+   * @param id Long
+   * @return Utente
+   */
   public Utente getUserById(Long id) {
     if (userRepo.findById(id).isPresent()) {
       return userRepo.findById(id).get();

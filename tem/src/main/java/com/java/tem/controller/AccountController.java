@@ -22,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
+/** AccountController.
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class AccountController implements WebMvcConfigurer {
@@ -29,6 +32,9 @@ public class AccountController implements WebMvcConfigurer {
   @Autowired
   private AccountService accountService;
 
+  /** Home Page.
+   *
+   */
   @GetMapping("/")
   public String viewHomePage(Model model) {
     Utente utente = accountService.getLoggedUser();
@@ -36,6 +42,9 @@ public class AccountController implements WebMvcConfigurer {
     return "index";
   }
 
+  /** Register Page.
+   *
+   */
   @GetMapping("/register")
   public String showRegistrationForm(Model model, @RequestParam(required = false) String error) {
     model.addAttribute("user", new Utente());
@@ -45,6 +54,9 @@ public class AccountController implements WebMvcConfigurer {
     return "signup_form";
   }
 
+  /** Register Page.
+   * method POST.
+   */
   @PostMapping("/process_register")
   public ModelAndView processRegister(@ModelAttribute("user") @Valid Utente user,
                                       BindingResult bindingResult,
@@ -71,6 +83,9 @@ public class AccountController implements WebMvcConfigurer {
 
   }
 
+  /** Users list Page.
+   *
+   */
   @GetMapping("/users")
   public String listUsers(Model model) throws NotAuthorizedException {
     if (accountService.isAdmin()) {
@@ -93,6 +108,9 @@ public class AccountController implements WebMvcConfigurer {
     return "login";
   }
 
+  /** Home Page.
+   *
+   */
   @GetMapping("/home")
   public ModelAndView home(@RequestParam(required = false) String error, Model model) {
     if (accountService.isAdmin()) {

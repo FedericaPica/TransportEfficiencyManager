@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+/** User Repository.
+ *
+ */
 @Repository
 public interface UserRepository extends JpaRepository<Utente, Long> {
   @Query("SELECT u FROM Utente u WHERE u.email = ?1")

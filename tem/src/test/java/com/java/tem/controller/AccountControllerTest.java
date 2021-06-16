@@ -1,11 +1,9 @@
 package com.java.tem.controller;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -16,15 +14,11 @@ import com.java.tem.exceptions.NotAuthorizedException;
 import com.java.tem.model.accountservice.entity.AccountService;
 import com.java.tem.model.accountservice.entity.DettaglioUtente;
 import com.java.tem.model.accountservice.entity.Utente;
-
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +27,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -60,11 +53,11 @@ class AccountControllerTest {
   @Test
   @WithMockUser
   void homeTestIsAdmin() throws Exception {
-	  when(accountService.isAdmin()).thenReturn(true);
-	  mockMvc.perform(get("/home")).andExpect(status().is3xxRedirection())
-	  .andExpect(view().name("redirect:/users"));
+    when(accountService.isAdmin()).thenReturn(true);
+    mockMvc.perform(get("/home")).andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/users"));
   }
-  
+
 
   @Test
   void getIndexTest() throws Exception {
@@ -220,6 +213,7 @@ class AccountControllerTest {
         "");
 
   }
+
   @Test
   void processRegisterFaxTooShort() throws Exception {
     String url = "/process_register";

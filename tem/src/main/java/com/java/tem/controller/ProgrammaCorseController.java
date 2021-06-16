@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+/** ProgrammaCorseController.
+ *
+ */
 @Controller
 public class ProgrammaCorseController {
 
@@ -44,6 +47,9 @@ public class ProgrammaCorseController {
     return "home-programma-corse";
   }
 
+  /** List Page.
+   *
+   */
   @GetMapping("/programmacorse/list")
   public String listProgrammaCorse(Model model) {
     Utente utente = accountService.getLoggedUser();
@@ -56,6 +62,9 @@ public class ProgrammaCorseController {
     return "list-programmacorse";
   }
 
+  /** List by ID Page.
+   *
+   */
   @GetMapping("/programmacorse/list/{aziendaId}")
   public String listProgrammaCorseByAzienda(@PathVariable("aziendaId") Long id, Model model) {
     Utente azienda = accountService.getUserById(id);
@@ -68,6 +77,9 @@ public class ProgrammaCorseController {
     return "list-programmacorse";
   }
 
+  /** Insert Page.
+   *
+   */
   @GetMapping("/programmacorse/insert")
   public ModelAndView insertProgramma(@RequestParam(name = "type") String type, Model model) throws
       GenerationTypeNotFoundException {
@@ -76,12 +88,12 @@ public class ProgrammaCorseController {
     }
     Utente utente = accountService.getLoggedUser();
     try {
-      if (risorseService.getConducentiByAzienda(utente).size() == 0 ||
-          risorseService.getMezziByAzienda(utente).size() == 0 ||
-          risorseService.getLineeByAzienda(utente).size() == 0) {
+      if (risorseService.getConducentiByAzienda(utente).size() == 0
+          || risorseService.getMezziByAzienda(utente).size() == 0
+          || risorseService.getLineeByAzienda(utente).size() == 0) {
         throw new ResourcesDoesNotExistException(
-            "Una o più risorse mancanti. Per generare un programma è necessario disporre di " +
-                "almeno una risorsa per tipo.");
+            "Una o più risorse mancanti. Per generare un programma è necessario disporre di "
+                + "almeno una risorsa per tipo.");
       }
     } catch (ResourcesDoesNotExistException exc) {
       model.addAttribute("error", exc.getMessage());
@@ -93,15 +105,22 @@ public class ProgrammaCorseController {
     return new ModelAndView("insert-programmacorse");
   }
 
+  /** Submit Page.
+   * method POST
+   */
   @PostMapping("/programmacorse/automatico/submit")
   public ModelAndView insertProgrammaAutomatico(@ModelAttribute("programmaCorse")
-                                                    ProgrammaCorse programmaCorse) throws GenerationFailedException {
+                                                    ProgrammaCorse programmaCorse)
+      throws GenerationFailedException {
 
     programmaCorseService.generaProgrammaCorse("automatico", programmaCorse);
 
     return new ModelAndView("redirect:/programmacorse/dettaglio/" + programmaCorse.getId());
   }
 
+  /** Delete by ID Page.
+   *
+   */
   @GetMapping("/programmacorse/delete/{id}")
   public ModelAndView deleteProgrammaCorse(@PathVariable("id") Long id, Model model) {
     ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
@@ -119,14 +138,21 @@ public class ProgrammaCorseController {
     return new ModelAndView("redirect:/home", (ModelMap) model);
   }
 
+  /** Process ProgrammaManuale Page.
+   * method POST
+   */
   @PostMapping("/programmacorse/manuale/submit")
   public ModelAndView processProgrammaManuale(
-      @ModelAttribute("programmaCorse") ProgrammaCorse programmaCorse) throws GenerationFailedException {
+      @ModelAttribute("programmaCorse") ProgrammaCorse programmaCorse)
+      throws GenerationFailedException {
     programmaCorseService.generaProgrammaCorse("manuale", programmaCorse);
 
     return new ModelAndView("redirect:/corsa/insert/" + programmaCorse.getId());
   }
 
+  /** Dettaglio Page by ID.
+   *
+   */
   @GetMapping("/programmacorse/dettaglio/{id}")
   public String detailProgrammaCorse(@PathVariable("id") Long id, Model model) {
     ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
@@ -138,6 +164,9 @@ public class ProgrammaCorseController {
     return "detail-programmacorse";
   }
 
+  /** Dettaglio by ID and Utente ID Page.
+   *
+   */
   @GetMapping("/programmacorse/{aziendaId}/dettaglio/{id}")
   public String detailProgrammaCorseByAzienda(@PathVariable("aziendaId") Long aziendaId,
                                               @PathVariable("id") Long id,

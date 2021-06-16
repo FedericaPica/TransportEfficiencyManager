@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/** DatiCorsaController.
+ *
+ */
 @Controller
 public class DatiCorsaController {
 
@@ -29,6 +32,9 @@ public class DatiCorsaController {
   @Autowired
   AccountService accountService;
 
+  /** Add DatiCorsa Page.
+   *
+   */
   @GetMapping("/daticorsa/add")
   public String addDatiCorsa(Model model) {
     model.addAttribute("datiCorsa", new DatiCorsa());
@@ -36,6 +42,9 @@ public class DatiCorsaController {
     return "insert-daticorsa";
   }
 
+  /** Edit DatiCorsa Page.
+   *
+   */
   @GetMapping("/daticorsa/edit/{id}")
   public ModelAndView showFormDatiCorsa(@PathVariable("id") Long id, Model model)
       throws DatiCorsaNotExistException {
@@ -55,6 +64,9 @@ public class DatiCorsaController {
     }
   }
 
+  /** Submit DatiCorsa Page.
+   * method POST
+   */
   @PostMapping("/daticorsa/submit")
   public ModelAndView processDatiCorsa(@ModelAttribute("datiCorsa") @Valid DatiCorsa datiCorsa,
                                        BindingResult bindingResult,
@@ -71,6 +83,9 @@ public class DatiCorsaController {
 
   }
 
+  /** Delete Page.
+   * method POST
+   */
   @PostMapping("daticorsa/update/{id}")
   public ModelAndView updateDatiCorsa(@PathVariable("id") Long id,
                                       @Valid DatiCorsa datiCorsa,
@@ -85,6 +100,9 @@ public class DatiCorsaController {
     return new ModelAndView("update-success");
   }
 
+  /** Delete Page.
+   * method GET
+   */
   @GetMapping("daticorsa/delete/{id}")
   public ModelAndView deleteDatiCorsa(@PathVariable("id") Long id, Model model)
       throws IllegalArgumentException {
@@ -103,6 +121,9 @@ public class DatiCorsaController {
     return new ModelAndView("redirect:/home", (ModelMap) model);
   }
 
+  /** List DatiCorsa Page.
+   *
+   */
   @GetMapping("/daticorsa/list")
   public String listDatiCorsa(Model model) {
     Utente utente = accountService.getLoggedUser();
@@ -113,6 +134,9 @@ public class DatiCorsaController {
     return "list-daticorsa";
   }
 
+  /** List DatiCorsa by Utente ID Page.
+   *
+   */
   @GetMapping("/daticorsa/list/{aziendaId}")
   public String listDatiCorsaByAzienda(@PathVariable("aziendaId") Long id, Model model) {
     Utente azienda = accountService.getUserById(id);

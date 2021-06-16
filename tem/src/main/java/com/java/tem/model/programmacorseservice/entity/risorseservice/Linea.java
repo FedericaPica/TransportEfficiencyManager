@@ -2,7 +2,6 @@ package com.java.tem.model.programmacorseservice.entity.risorseservice;
 
 import com.java.tem.model.accountservice.entity.Utente;
 import com.java.tem.model.programmacorseservice.entity.Corsa;
-
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
 import org.hibernate.annotations.DynamicUpdate;
 
+/** Linea entity.
+ */
 @Entity
 @Table(name = "Linea")
 @DynamicUpdate
@@ -99,11 +99,15 @@ public class Linea extends Risorsa implements Cloneable {
     return nome;
   }
 
+  /** Just clones the object.
+   *
+   * @return Object type
+   */
   public Object clone() {
     try {
       Object linea = super.clone();
       return linea;
-    } catch(CloneNotSupportedException e) {
+    } catch (CloneNotSupportedException e) {
       return null;
     }
   }

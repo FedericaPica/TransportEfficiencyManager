@@ -13,6 +13,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+
+/** DatiCorsa Entity.
+ */
 @Entity
 @Table(name = "DatiCorsa")
 public class DatiCorsa {

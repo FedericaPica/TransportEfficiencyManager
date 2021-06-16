@@ -16,6 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
+/** Corsa Entity.
+ */
 @Entity
 @Table(name = "Corsa")
 public class Corsa {
@@ -25,10 +28,12 @@ public class Corsa {
   private Long id;
   private Time orario;
   @ManyToMany
-  @JoinTable(name = "Conducente_Corsa", joinColumns = @JoinColumn(name = "corsa_id"), inverseJoinColumns = @JoinColumn(name = "conducente_id"))
+  @JoinTable(name = "Conducente_Corsa", joinColumns = @JoinColumn(name = "corsa_id"),
+      inverseJoinColumns = @JoinColumn(name = "conducente_id"))
   private Set<Conducente> conducenti = new HashSet<>();
   @ManyToMany
-  @JoinTable(name = "Mezzo_Corsa", joinColumns = @JoinColumn(name = "corsa_id"), inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
+  @JoinTable(name = "Mezzo_Corsa", joinColumns = @JoinColumn(name = "corsa_id"),
+      inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
   private Set<Mezzo> mezzi = new HashSet<>();
 
   @ManyToOne

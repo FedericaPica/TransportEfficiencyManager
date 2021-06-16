@@ -13,13 +13,20 @@ import com.java.tem.model.programmacorseservice.entity.risorseservice.RisorseSer
 import com.java.tem.model.programmacorseservice.repository.ProgrammaCorseRepository;
 import com.java.tem.model.programmacorseservice.repository.Strategy;
 import com.java.tem.model.programmacorseservice.repository.StrategyType;
+import java.sql.Time;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Time;
-import java.time.LocalTime;
-import java.util.*;
-
+/** ProgrammaAutomaticoMaker logic.
+ *
+ */
 @Repository
 public class ProgrammaAutomaticoMaker implements Strategy {
 
@@ -37,9 +44,15 @@ public class ProgrammaAutomaticoMaker implements Strategy {
   private List<DatiGenerazione> listaDatiGenerazione = new ArrayList<DatiGenerazione>();
 
 
-
-@Override
-  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse) throws GenerationFailedException {
+  /** Generate an automated ProgrammaCorse, using DatiCorsa available.
+   *
+   * @param programmaCorse ProgrammaCorse
+   * @return generated ProgrammaCorse
+   * @throws GenerationFailedException if fails
+   */
+  @Override
+  public ProgrammaCorse doOperation(ProgrammaCorse programmaCorse)
+      throws GenerationFailedException {
     Utente utente = accountService.getLoggedUser();
     programmaCorse.setAzienda(utente);
     programmaCorseRepository.save(programmaCorse);
@@ -50,11 +63,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     /*for (DatiGenerazione d: listaDatiGenerazione) {
       System.out.println(d.toString());
     }*/
+
+    ;
     ArrayList<ArrayList<Object>> illegalValuesConducenti = new ArrayList<ArrayList<Object>>();
     ArrayList<ArrayList<Object>> illegalValuesMezzi = new ArrayList<ArrayList<Object>>();
-
     List<Conducente> conducenti = risorseService.getConducentiByAzienda(utente);
-
     List<Mezzo> mezzi = risorseService.getMezziByAzienda(utente);
     Collections.sort(mezzi, new Comparator<Mezzo>() {
       @Override
@@ -64,60 +77,69 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     });
 
 
-      for (DatiGenerazione d : listaDatiGenerazione) {
-        List<LocalTime> orari = new ArrayList<LocalTime>();
-        orari.add(d.getOrario());
-        orari.add(d.getOrario().plusMinutes(30));
+    for (DatiGenerazione d : listaDatiGenerazione) {
+      List<LocalTime> orari = new ArrayList<LocalTime>();
+      orari.add(d.getOrario());
+      orari.add(d.getOrario().plusMinutes(30));
         
         /*System.out.println(listaDatiGenerazione.indexOf(d) + " iterazione:");
         System.out.println("Dominio: " + orari.toString());*/
-        for (LocalTime t : orari) {
-          if (checkOrario(d, t)) {
-            d.setOrario(t);
-          }
+      for (LocalTime t : orari) {
+        if (checkOrario(d, t)) {
+          d.setOrario(t);
         }
       }
+    }
 
-      Collections.sort(listaDatiGenerazione, new Comparator<DatiGenerazione>() {
-        @Override
-        public int compare(DatiGenerazione o1, DatiGenerazione o2) {
-          return o1.getOrario().compareTo(o2.getOrario());
-        }
-      });
-
-      if (ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)
-          && ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
-
-        for (DatiGenerazione d : listaDatiGenerazione) {
-          Set<Conducente> conducentiCorsa = new HashSet<Conducente>();
-          Set<Mezzo> mezziCorsa = new HashSet<Mezzo>();
-          Corsa corsa = new Corsa();
-          corsa.setProgramma(programmaCorse);
-
-          Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
-          Conducente conducenteB =
-              risorseService.getConducenteByCodiceFiscale(d.getConducente()).get();
-          Mezzo mezzoB = risorseService.getMezzo(Long.parseLong(d.getMezzo())).get();
-
-          conducentiCorsa.add(conducenteB);
-          mezziCorsa.add(mezzoB);
-
-          corsa.setConducenti(conducentiCorsa);
-          corsa.setMezzi(mezziCorsa);
-          corsa.setLinea(lineaB);
-          corsa.setAndata(d.isAndata());
-          corsa.setOrario(Time.valueOf(d.getOrario()));
-          corsaService.addCorsa(corsa);
-        }
-      } else {
-        throw new GenerationFailedException("Impossibile trovare una generazione ottimale per i dati forniti.");
+    Collections.sort(listaDatiGenerazione, new Comparator<DatiGenerazione>() {
+      @Override
+      public int compare(DatiGenerazione o1, DatiGenerazione o2) {
+        return o1.getOrario().compareTo(o2.getOrario());
       }
+    });
+
+    if (ricercaBacktrackingConducente(conducenti, illegalValuesConducenti)
+        && ricercaBacktrackingMezzo(mezzi, illegalValuesMezzi)) {
+
+      for (DatiGenerazione d : listaDatiGenerazione) {
+        Set<Conducente> conducentiCorsa = new HashSet<Conducente>();
+        Set<Mezzo> mezziCorsa = new HashSet<Mezzo>();
+        Corsa corsa = new Corsa();
+        corsa.setProgramma(programmaCorse);
+
+        Linea lineaB = risorseService.getLineaByName(d.getLineaCorsa()).get();
+        Conducente conducenteB =
+            risorseService.getConducenteByCodiceFiscale(d.getConducente()).get();
+        Mezzo mezzoB = risorseService.getMezzo(Long.parseLong(d.getMezzo())).get();
+
+        conducentiCorsa.add(conducenteB);
+        mezziCorsa.add(mezzoB);
+
+        corsa.setConducenti(conducentiCorsa);
+        corsa.setMezzi(mezziCorsa);
+        corsa.setLinea(lineaB);
+        corsa.setAndata(d.isAndata());
+        corsa.setOrario(Time.valueOf(d.getOrario()));
+        corsaService.addCorsa(corsa);
+      }
+    } else {
+      throw new GenerationFailedException(
+          "Impossibile trovare una generazione ottimale per i dati forniti.");
+    }
     return programmaCorse;
   }
 
+  /**
+   * Method checking Conducente.
+   *
+   * @param conducenti              List of conducenti
+   * @param illegalValuesConducenti list of illegal Conducente
+   * @return bool
+   */
   public boolean ricercaBacktrackingConducente(List<Conducente> conducenti,
-                                                ArrayList<ArrayList<Object>> illegalValuesConducenti) {
-	  //System.out.println("iterazione");
+                                               ArrayList<ArrayList<Object>>
+                                                   illegalValuesConducenti) {
+    //System.out.println("iterazione");
     boolean isEmpty = true;
     int indice = -1;
     for (DatiGenerazione d : listaDatiGenerazione) {
@@ -135,17 +157,17 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     }
     DatiGenerazione posizioneCorrente = listaDatiGenerazione.get(indice);
     for (Conducente c : conducenti) {
-       //System.out.println(c.getNome() + c.getCognome());
-       //System.out.println("CHECK");
+      //System.out.println(c.getNome() + c.getCognome());
+      //System.out.println("CHECK");
       if (checkConducente(c, posizioneCorrente, illegalValuesConducenti)) {
         String cF = c.getCodiceFiscale();
         posizioneCorrente.setConducente(cF);
         listaDatiGenerazione.set(indice, posizioneCorrente);
         //System.out.println("il valore scelto viene assegnato alla variabile: " + posizioneCorrente.toString());
-  
+
         //System.out.println("FORWARD");
         if (forwardConducente(c, illegalValuesConducenti, posizioneCorrente, conducenti)) {
-        	//System.out.println("Lista degli illegali aggiornata: ");
+          //System.out.println("Lista degli illegali aggiornata: ");
         	/*for (ArrayList<Object> i: illegalValuesConducenti) {
         		System.out.println(i.toString());
         	}*/
@@ -166,7 +188,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
   public boolean ricercaBacktrackingMezzo(List<Mezzo> mezzi,
                                            ArrayList<ArrayList<Object>> illegalValuesMezzi) {
-	//System.out.println("iterazione");
+    //System.out.println("iterazione");
     boolean isEmpty = true;
     int indice = -1;
     for (DatiGenerazione d : listaDatiGenerazione) {
@@ -190,9 +212,9 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         Long id = m.getId();
         posizioneCorrente.setMezzo(id.toString());
         listaDatiGenerazione.set(indice, posizioneCorrente);
-      //System.out.println("il valore scelto viene assegnato alla variabile: " + posizioneCorrente.toString());
-        
-      //System.out.println("FORWARD");
+        //System.out.println("il valore scelto viene assegnato alla variabile: " + posizioneCorrente.toString());
+
+        //System.out.println("FORWARD");
         if (forwardMezzo(m, illegalValuesMezzi, posizioneCorrente, mezzi)) {
         	/*System.out.println("Lista degli illegali aggiornata: ");
         	for (ArrayList<Object> i: illegalValuesMezzi) {
@@ -242,7 +264,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
                                  ArrayList<ArrayList<Object>> illegalValuesConducenti) {
     // Returns true because he/she is the first driver
     if (listaDatiGenerazione.indexOf(posizioneCorrente) == 0) {
-    	//System.out.println("OK: è la prima corsa, non c'è bisogno di ulteriori controlli");
+      //System.out.println("OK: è la prima corsa, non c'è bisogno di ulteriori controlli");
       return true;
     }
 
@@ -253,13 +275,13 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       LocalTime illegalEndRange = (LocalTime) o.get(2);
 
       if (illegalConducente.getCodiceFiscale().equals(conducente.getCodiceFiscale())) {
-    	  //System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
+        //System.out.println(conducente.getCognome() + " è presente nella lista degli illegali: " + illegalValuesConducenti.get(j).toString());
         if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
             posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
-        	//System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
+          //System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
           return false;
         } else {
-        	//System.out.println("ma non è più in viaggio");
+          //System.out.println("ma non è più in viaggio");
           break;
         }
       }
@@ -276,15 +298,15 @@ public class ProgrammaAutomaticoMaker implements Strategy {
 
     // Backscrolling listaDatiGenerazione
     for (int i = currentIdx - 1; i >= 0; i--) {
-        DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
-        if (conducente.getCodiceFiscale().equals(posizionePrecedente.getConducente())) {
-          //System.out.println(conducente.getCognome() + " ha già effettuato una corsa");
-          Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
-          Linea lineaPrecedente = (Linea) lP.clone();
-          if (!posizionePrecedente.isAndata()) {
-            lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
-          }
-          //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
+      DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
+      if (conducente.getCodiceFiscale().equals(posizionePrecedente.getConducente())) {
+        //System.out.println(conducente.getCognome() + " ha già effettuato una corsa");
+        Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
+        Linea lineaPrecedente = (Linea) lP.clone();
+        if (!posizionePrecedente.isAndata()) {
+          lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
+        }
+        //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
 
           /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
           	System.out.println("OK: il luogo della sua precedente destinazione è uguale a quello dell'attuale partenza");
@@ -292,17 +314,17 @@ public class ProgrammaAutomaticoMaker implements Strategy {
           if (!lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
           	System.out.println("NOT OK: il luogo della sua precedente destinazione è diverso da quello dell'attuale partenza");
           }*/
-          return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
-        }
+        return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
+    }
     //System.out.println("OK: " + conducente.getCognome() + " non ha ancora effettuato nessuna corsa, quindi è disponibile");
     return true;
   }
-  
+
   public boolean forwardConducente(Conducente conducente,
-                                    ArrayList<ArrayList<Object>> illegalValuesConducenti,
-                                    DatiGenerazione posizioneCorrente,
-                                    List<Conducente> conducenti) {
+                                   ArrayList<ArrayList<Object>> illegalValuesConducenti,
+                                   DatiGenerazione posizioneCorrente,
+                                   List<Conducente> conducenti) {
 
     Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
     LocalTime inizioRange = posizioneCorrente.getOrario();
@@ -330,11 +352,11 @@ public class ProgrammaAutomaticoMaker implements Strategy {
           }
         }
         if (count == conducenti.size()) {
-        	//System.out.println("NOT OK: per la corsa " + d.toString() + "non c'è alcun conducente disponibile");
+          //System.out.println("NOT OK: per la corsa " + d.toString() + "non c'è alcun conducente disponibile");
           return false;
         }
       } else {
-    	//System.out.println("ma non è più in viaggio");
+        //System.out.println("ma non è più in viaggio");
         break;
       }
     }
@@ -347,7 +369,7 @@ public class ProgrammaAutomaticoMaker implements Strategy {
                             ArrayList<ArrayList<Object>> illegalValuesMezzi) {
 
     if (mezzo.getCapienza() < posizioneCorrente.getAttesi()) {
-     // System.out.println("NOT OK: la capienza " + mezzo.getCapienza() + " è minore dei " + posizioneCorrente.getAttesi() + " passeggeri attesi");
+      // System.out.println("NOT OK: la capienza " + mezzo.getCapienza() + " è minore dei " + posizioneCorrente.getAttesi() + " passeggeri attesi");
       return false;
     }
 
@@ -364,10 +386,10 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       LocalTime illegalEndRange = (LocalTime) o.get(2);
 
       if (illegalMezzo.getId().equals(mezzo.getId())) {
-    	//System.out.println(mezzo.getCapienza() + " è presente nella lista degli illegali: " + illegalValuesMezzi.get(j).toString());
+        //System.out.println(mezzo.getCapienza() + " è presente nella lista degli illegali: " + illegalValuesMezzi.get(j).toString());
         if (posizioneCorrente.getOrario().isAfter(illegalStartRange) &&
             posizioneCorrente.getOrario().isBefore(illegalEndRange)) {
-        	//System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
+          //System.out.println("NOT OK: alle " + posizioneCorrente.getOrario() + " è ancora in viaggio");
           return false;
         } else {
           break;
@@ -389,13 +411,13 @@ public class ProgrammaAutomaticoMaker implements Strategy {
       DatiGenerazione posizionePrecedente = listaDatiGenerazione.get(i);
 
       if (mezzo.getId().toString().equals(posizionePrecedente.getMezzo())) {
-    	//System.out.println(mezzo.getTipo() + " ha già effettuato una corsa");
+        //System.out.println(mezzo.getTipo() + " ha già effettuato una corsa");
         Linea lP = risorseService.getLineaByName(posizionePrecedente.getLineaCorsa()).get();
         Linea lineaPrecedente = (Linea) lP.clone();
         if (!posizionePrecedente.isAndata()) {
           lineaPrecedente.setDestinazione(lineaPrecedente.getPartenza());
         }
-       //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
+        //System.out.println("e si trova a: " + lineaPrecedente.getDestinazione());
         
         /*if (lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione())) {
         	System.out.println("OK: il luogo della sua precedente destinazione è uguale a quello dell'attuale partenza");
@@ -406,13 +428,13 @@ public class ProgrammaAutomaticoMaker implements Strategy {
         return lineaCorrente.getPartenza().equals(lineaPrecedente.getDestinazione());
       }
     }
-  //System.out.println("OK: " + mezzo.getTipo() + " non ha ancora effettuato nessuna corsa, quindi è disponibile");
+    //System.out.println("OK: " + mezzo.getTipo() + " non ha ancora effettuato nessuna corsa, quindi è disponibile");
     return true;
   }
 
 
   public boolean forwardMezzo(Mezzo mezzo, ArrayList<ArrayList<Object>> illegalValuesMezzi,
-                               DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
+                              DatiGenerazione posizioneCorrente, List<Mezzo> mezzi) {
 
     Linea lineaCorrente = risorseService.getLineaByName(posizioneCorrente.getLineaCorsa()).get();
     LocalTime inizioRange = posizioneCorrente.getOrario();
@@ -425,8 +447,9 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     item.add(fineRange);
     illegalValuesMezzi.add(item);
     //System.out.println ("il mezzo " + mezzo.getTipo() + " non sarà disponibile dalle " + inizioRange + " alle " + fineRange);
-    
-    int i, j;
+
+    int i;
+    int j;
     for (i = listaDatiGenerazione.indexOf(posizioneCorrente) + 1;
          i <= listaDatiGenerazione.size() - 1; i++) {
       int count = 0;
@@ -457,51 +480,51 @@ public class ProgrammaAutomaticoMaker implements Strategy {
     return StrategyType.Automatico;
   }
 
-public AccountService getAccountService() {
-	return accountService;
-}
+  public AccountService getAccountService() {
+    return accountService;
+  }
 
-public void setAccountService(AccountService accountService) {
-	this.accountService = accountService;
-}
+  public void setAccountService(AccountService accountService) {
+    this.accountService = accountService;
+  }
 
-public DatiGenerazioneRepository getDatiGenerazioneRepository() {
-	return datiGenerazioneRepository;
-}
+  public DatiGenerazioneRepository getDatiGenerazioneRepository() {
+    return datiGenerazioneRepository;
+  }
 
-public void setDatiGenerazioneRepository(DatiGenerazioneRepository datiGenerazioneRepository) {
-	this.datiGenerazioneRepository = datiGenerazioneRepository;
-}
+  public void setDatiGenerazioneRepository(DatiGenerazioneRepository datiGenerazioneRepository) {
+    this.datiGenerazioneRepository = datiGenerazioneRepository;
+  }
 
-public RisorseService getRisorseService() {
-	return risorseService;
-}
+  public RisorseService getRisorseService() {
+    return risorseService;
+  }
 
-public void setRisorseService(RisorseService risorseService) {
-	this.risorseService = risorseService;
-}
+  public void setRisorseService(RisorseService risorseService) {
+    this.risorseService = risorseService;
+  }
 
-public ProgrammaCorseRepository getProgrammaCorseRepository() {
-	return programmaCorseRepository;
-}
+  public ProgrammaCorseRepository getProgrammaCorseRepository() {
+    return programmaCorseRepository;
+  }
 
-public void setProgrammaCorseRepository(ProgrammaCorseRepository programmaCorseRepository) {
-	this.programmaCorseRepository = programmaCorseRepository;
-}
+  public void setProgrammaCorseRepository(ProgrammaCorseRepository programmaCorseRepository) {
+    this.programmaCorseRepository = programmaCorseRepository;
+  }
 
-public CorsaService getCorsaService() {
-	return corsaService;
-}
+  public CorsaService getCorsaService() {
+    return corsaService;
+  }
 
-public void setCorsaService(CorsaService corsaService) {
-	this.corsaService = corsaService;
-}
+  public void setCorsaService(CorsaService corsaService) {
+    this.corsaService = corsaService;
+  }
 
-public List<DatiGenerazione> getListaDatiGenerazione() {
-	return listaDatiGenerazione;
-}
+  public List<DatiGenerazione> getListaDatiGenerazione() {
+    return listaDatiGenerazione;
+  }
 
-public void setListaDatiGenerazione(List<DatiGenerazione> listaDatiGenerazione) {
-	this.listaDatiGenerazione = listaDatiGenerazione;
-}
+  public void setListaDatiGenerazione(List<DatiGenerazione> listaDatiGenerazione) {
+    this.listaDatiGenerazione = listaDatiGenerazione;
+  }
 }
