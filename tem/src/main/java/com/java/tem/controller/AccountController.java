@@ -73,6 +73,7 @@ public class AccountController implements WebMvcConfigurer {
       if (accountService.checkUserExistanceByEmail(user.getEmail())) {
         throw new UserAlreadyExistsException("Utente già esistente.");
       }
+      accountService.registerUser(user, dettaglioUtente);
       return new ModelAndView("register_success");
     } catch (UserAlreadyExistsException exc) {
       model.addAttribute("error", exc.getMessage());

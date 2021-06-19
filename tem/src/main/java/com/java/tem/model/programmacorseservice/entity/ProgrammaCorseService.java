@@ -49,7 +49,7 @@ public class ProgrammaCorseService {
         strategy = programmaCorseFactory.findStrategy(StrategyType.Manuale);
         strategy.doOperation(programmaCorse);
     }
-
+    strategy.doOperation(programmaCorse);
     return programmaCorse;
   }
 
