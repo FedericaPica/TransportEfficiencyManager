@@ -37,7 +37,7 @@ INSERT INTO `dettaglio_utente` (`id`, `cap`, `citta`, `denominazione`, `fax`, `i
 --
 
 INSERT INTO `utente` (`id`, `email`, `password`, `username`, `id_dettaglio`, `id_profilo`) VALUES
-(5, 'test@fia.com', '$2a$10$Fa9gU1Pk9jHxkAbboUPS3uJk1C8VW/.Fy6sDy/PshYb7.gEFqWdOe', 'FedericaPFia', 2, 2);
+(5, 'test@fia.com', 'yeuh6oeP63DYLMAPqQMcpEKKQXQrNwgUWeofAm', 'FedericaPFia', 2, 2);
 
 
 --
