@@ -722,7 +722,6 @@ public class SystemTesting {
 
   @Test
   public void testGenerazioneProgrammaOk() throws Exception {
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     driver.get("http://localhost:8080/");
     driver.findElement(By.linkText("Accedi")).click();
     driver.findElement(By.id("username")).clear();
@@ -741,6 +740,7 @@ public class SystemTesting {
     driver.findElement(By.id("da")).sendKeys("0202-09-02");
     driver.findElement(By.id("da")).clear();
     driver.findElement(By.id("da")).sendKeys("2021-09-02");
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     jsExecutor.executeScript("document.getElementById('da').value = \"2021-09-02\";");
     driver.findElement(By.id("a")).clear();
     driver.findElement(By.id("a")).sendKeys("0002-09-02");
@@ -761,7 +761,6 @@ public class SystemTesting {
   @Test
   public void testInserimentoCorsaOrarioErrato() throws Exception {
     driver.get("http://localhost:8080/");
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     driver.findElement(By.linkText("Accedi")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("azienda@gmail.com");
@@ -774,6 +773,7 @@ public class SystemTesting {
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).clear();
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     jsExecutor.executeScript("document.getElementById('da').value = \"2021-06-24\";");
     driver.findElement(By.id("a")).click();
     driver.findElement(By.id("a")).click();
@@ -798,7 +798,6 @@ public class SystemTesting {
   @Test
   public void testInserimentoCorsaLineaErrata() throws Exception {
     driver.get("http://localhost:8080/");
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     driver.findElement(By.linkText("Accedi")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("azienda@gmail.com");
@@ -811,6 +810,7 @@ public class SystemTesting {
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).clear();
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     jsExecutor.executeScript("document.getElementById('da').value = \"2021-06-24\";");
     driver.findElement(By.id("a")).click();
     driver.findElement(By.id("a")).click();
@@ -834,7 +834,6 @@ public class SystemTesting {
   @Test
   public void testInserimentoCorsaMezzoErrato() throws Exception {
     driver.get("http://localhost:8080/");
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     driver.findElement(By.linkText("Accedi")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("azienda@gmail.com");
@@ -847,6 +846,7 @@ public class SystemTesting {
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).clear();
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     jsExecutor.executeScript("document.getElementById('da').value = \"2021-06-24\";");
     driver.findElement(By.id("a")).click();
     driver.findElement(By.id("a")).click();
@@ -871,7 +871,6 @@ public class SystemTesting {
   @Order(33)
   public void testInserimentoCorsaOk() throws Exception {
     driver.get("http://localhost:8080/");
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     driver.findElement(By.linkText("Accedi")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("azienda@gmail.com");
@@ -884,6 +883,7 @@ public class SystemTesting {
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).click();
     driver.findElement(By.id("da")).clear();
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
     jsExecutor.executeScript("document.getElementById('da').value = \"2021-06-24\";");
     driver.findElement(By.id("a")).click();
     driver.findElement(By.id("a")).click();
