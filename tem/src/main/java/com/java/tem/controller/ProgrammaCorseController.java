@@ -124,7 +124,6 @@ public class ProgrammaCorseController {
   @GetMapping("/programmacorse/delete/{id}")
   public ModelAndView deleteProgrammaCorse(@PathVariable("id") Long id, Model model) {
     ProgrammaCorse programmaCorse = programmaCorseService.getProgrammaCorseById(id).get();
-    programmaCorseService.deleteProgrammaCorse(programmaCorse);
     Utente utente = accountService.getLoggedUser();
     try {
       if (!programmaCorseService.checkOwnership(programmaCorse, utente)) {

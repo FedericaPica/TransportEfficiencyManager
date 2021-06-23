@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 @SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails {
   private final Utente user;
+  @SuppressWarnings("unused")
   private final Profilo profilo;
+  @SuppressWarnings("unused")
   private final DettaglioUtente dettaglioUtente;
 
 
